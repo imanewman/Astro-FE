@@ -1,7 +1,7 @@
 import React from "react";
 import { Box as MuiBox } from "@material-ui/core";
 
-import { FullBoxProps } from "@types";
+import { FullBoxProps } from "@typedefs";
 import { useBoxStyles } from "@styles";
 
 /**

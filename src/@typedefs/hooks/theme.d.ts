@@ -1,9 +1,9 @@
-import { Theme } from "@material-ui/core";
+import { ThemeOptions } from "@material-ui/core";
 
 /**
  * All possible theme modes. In "auto" the mode is chosen by the time of day.
  */
-declare type ThemeMode
+export type ThemeMode
   = "light"
   | "dark"
   | "auto";
@@ -15,7 +15,7 @@ export interface ThemeHook {
   /**
    * The current theme variables.
    * */
-  theme: Theme;
+  theme: ThemeOptions;
 
   /**
    * The current theme mode.

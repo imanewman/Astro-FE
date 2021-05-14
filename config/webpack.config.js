@@ -336,8 +336,11 @@ module.exports = function (webpackEnv) {
         ...(modules.webpackAliases || {}),
 
         "@styles": path.resolve(__dirname, "../src/@styles/"),
-        "@types": path.resolve(__dirname, "../src/@types/"),
+        "@typedefs": path.resolve(__dirname, "../src/@typedefs/"),
         "@components": path.resolve(__dirname, "../src/components/"),
+        "@hooks": path.resolve(__dirname, "../src/hooks/"),
+        "@utils": path.resolve(__dirname, "../src/utils/"),
+        "@contexts": path.resolve(__dirname, "../src/contexts/"),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding

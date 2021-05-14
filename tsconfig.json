@@ -23,8 +23,11 @@
     "baseUrl": ".",
     "paths": {
       "@styles": ["./src/@styles"],
-      "@types": ["./src/@types"],
-      "@components": ["./src/components"]
+      "@typedefs": ["./src/@typedefs"],
+      "@components": ["./src/components"],
+      "@hooks": ["./src/hooks"],
+      "@utils": ["./src/utils"],
+      "@contexts": ["./src/contexts"]
     }
   },
   "include": [

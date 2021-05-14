@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from "@material-ui/core";
 
-import { InternalBoxProps } from "@types";
+import { InternalBoxProps } from "@typedefs";
 
 /**
  * Creates added styles for the box component.
@@ -17,7 +17,7 @@ export default function useBoxStyles(props: InternalBoxProps) {
 
   return makeStyles(() => createStyles({
     root: {
-      display: row ? "flex" : undefined,
+      display: row || alignX || alignY || spaceBetween ? "flex" : undefined,
       flexDirection: row ? "row" : "column",
       flexWrap: wrap ? "wrap" : undefined,
 
