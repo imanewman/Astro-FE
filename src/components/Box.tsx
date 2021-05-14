@@ -1,8 +1,8 @@
 import React from "react";
 import { Box as MuiBox } from "@material-ui/core";
 
-import { FullBoxProps } from "../@types";
-import { useBoxStyles } from "../@styles";
+import { FullBoxProps } from "@types";
+import { useBoxStyles } from "@styles";
 
 /**
  * Facilitates the bulk of structural formatting.

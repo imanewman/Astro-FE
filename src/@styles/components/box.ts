@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from "@material-ui/core";
 
-import { InternalBoxProps } from "../../@types";
+import { InternalBoxProps } from "@types";
 
 /**
  * Creates added styles for the box component.

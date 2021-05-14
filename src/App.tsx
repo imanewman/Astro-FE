@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { Box } from "./components";
+import { Box } from "@components";
 
 function App() {
   return (
