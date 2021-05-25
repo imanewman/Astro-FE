@@ -4,33 +4,18 @@ import { ThemeMode } from "@typedefs";
 
 export const defaultBorderRadius = 4;
 
-export const textPrimary = "#0e2626";
-export const textSecondary = "#4d5b5b";
-export const lightGreen = "#4EC600";
-export const green = "#007A06";
-export const darkGreen = "#143F01";
-export const grey = "#726E6D";
-export const offWhite = "#F0F4EF";
-export const yellow = "#E8EF80";
-export const pink = "#F4D3C9";
-export const terraCotta = "#B75024";
+export const lightPurple = "#9c27b0";
+export const darkPurple = "#6a1b9a";
 export const red = "#f63d1c";
 
 export const lightTheme: ThemeOptions = {
   palette: {
     type: "light",
-    background: {
-      default: offWhite,
-      paper: "#fff",
-    },
-    text: {
-      primary: textPrimary,
-    },
     primary: {
-      main: green,
+      main: lightPurple,
     },
     secondary: {
-      main: terraCotta,
+      main: darkPurple,
     },
     error: {
       main: red,
@@ -44,18 +29,11 @@ export const lightTheme: ThemeOptions = {
 export const darkTheme: ThemeOptions = {
   palette: {
     type: "dark",
-    background: {
-      default: "#222",
-      paper: "#2A2A2A",
-    },
-    text: {
-      primary: "#eee",
-    },
     primary: {
-      main: lightGreen,
+      main: "#333",
     },
     secondary: {
-      main: yellow,
+      main: lightPurple,
     },
     error: {
       main: red,

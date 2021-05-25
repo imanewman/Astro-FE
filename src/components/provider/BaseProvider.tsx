@@ -1,5 +1,9 @@
 import React, { PropsWithChildren } from "react";
 
+// import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+
 import { useRouting, useSnackbar } from "@hooks";
 import { RouteContext, SnackbarContext } from "@contexts";
 import { SnackbarManager } from "@components";
@@ -17,13 +21,15 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
   const routeHook = useRouting();
 
   return (
-    <ThemeProvider>
-      <RouteContext.Provider value={routeHook}>
-        <SnackbarContext.Provider value={snackbarHook}>
-          <SnackbarManager />
-          {children}
-        </SnackbarContext.Provider>
-      </RouteContext.Provider>
-    </ThemeProvider>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <ThemeProvider>
+        <RouteContext.Provider value={routeHook}>
+          <SnackbarContext.Provider value={snackbarHook}>
+            <SnackbarManager />
+            {children}
+          </SnackbarContext.Provider>
+        </RouteContext.Provider>
+      </ThemeProvider>
+    </MuiPickersUtilsProvider>
   );
 }

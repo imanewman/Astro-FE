@@ -4,7 +4,7 @@ import { IconButton, Tooltip } from "@material-ui/core";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 
-import { Box } from "@components";
+import { Box, ChartPicker } from "@components";
 import { useBaseContext } from "@hooks";
 import Nav from "./Nav";
 
@@ -25,7 +25,9 @@ export default function ChartNav() {
   return (
     <Nav
       toolbar={(
-        <Box fullWidth alignX="flex-end">
+        <Box row fullWidth spaceBetween gapX={1}>
+          <ChartPicker />
+
           <Tooltip title="Toggle dark mode" enterDelay={300}>
             <IconButton
               color="inherit"
