@@ -30,7 +30,6 @@ export default function ChartNav() {
 
           <Tooltip title="Toggle dark mode" enterDelay={300}>
             <IconButton
-              color="inherit"
               aria-label="toggle dark mode"
               onClick={handleToggleDarkMode}
             >

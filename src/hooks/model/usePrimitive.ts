@@ -25,7 +25,7 @@ export default function usePrimitive<M extends JsonObject, K extends keyof M>(
     if (doSync && model[key] !== value) {
       setValue(model[key]);
     }
-  }, [model[key]]);
+  }, [model, model[key]]);
 
   return { value, setValue };
 }

@@ -4,6 +4,7 @@ import { ThemeMode } from "@typedefs";
 
 export const defaultBorderRadius = 4;
 
+export const pink = "#e040fb";
 export const lightPurple = "#9c27b0";
 export const darkPurple = "#6a1b9a";
 export const red = "#f63d1c";
@@ -30,7 +31,7 @@ export const darkTheme: ThemeOptions = {
   palette: {
     type: "dark",
     primary: {
-      main: "#333",
+      main: pink,
     },
     secondary: {
       main: lightPurple,

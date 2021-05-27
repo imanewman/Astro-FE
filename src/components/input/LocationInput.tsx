@@ -7,27 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import parse from "autosuggest-highlight/parse";
 import throttle from "lodash/throttle";
-
-function loadScript(src: string, position: HTMLElement | null, id: string) {
-  if (!position) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.setAttribute("id", id);
-  script.src = src;
-  position.appendChild(script);
-}
-
-const autocompleteService = { current: null };
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-}));
+import Geocode from "react-geocode";
 
 interface PlaceType {
   description: string;
@@ -43,10 +23,52 @@ interface PlaceType {
   };
 }
 
-export default function LocationInput() {
+/**
+ * Creates a new place with the given name, if the name is non-empty.
+ *
+ * @param description - The place description to start with.
+ */
+function createNewPlace(description: string): PlaceType | null {
+  return description ? {
+    description,
+    structured_formatting: {
+      main_text: "",
+      secondary_text: "",
+      main_text_matched_substrings: [{ offset: 0, length: 0 }],
+    },
+  } : null;
+}
+
+function loadScript(src: string, position: HTMLElement | null, id: string) {
+  if (!position) {
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.setAttribute("async", "");
+  script.setAttribute("id", id);
+  script.src = src;
+  position.appendChild(script);
+}
+
+const apiKey = "AIzaSyDEwo4G5B-nYnfoMgvz5pqTUmE0s23sXAc";
+
+Geocode.setApiKey(apiKey);
+
+const autocompleteService = { current: null };
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
+  },
+}));
+
+export default function LocationInput(props: LocationInputProps) {
+  const { locationName, setLocation } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState<PlaceType | null>(null);
-  const [inputValue, setInputValue] = React.useState("");
+  const [place, setPlace] = React.useState<PlaceType | null>(createNewPlace(locationName));
+  const [inputValue, setInputValue] = React.useState(locationName);
   const [options, setOptions] = React.useState<PlaceType[]>([]);
   const loaded = React.useRef(false);
 
@@ -54,7 +76,7 @@ export default function LocationInput() {
     if (!document.querySelector("#google-maps")) {
       loadScript(
         // eslint-disable-next-line max-len
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBwRp1e12ec1vOTtGiA4fcCt2sCUS78UYc&libraries=places",
+        `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`,
         document.querySelector("head"),
         "google-maps",
       );
@@ -73,6 +95,18 @@ export default function LocationInput() {
   React.useEffect(() => {
     let active = true;
 
+    if (active) {
+      setPlace(createNewPlace(locationName));
+    }
+
+    return () => {
+      active = false;
+    };
+  }, [locationName]);
+
+  React.useEffect(() => {
+    let active = true;
+
     if (!autocompleteService.current && (window as any).google) {
       autocompleteService.current = new (window as any).google.maps.places.AutocompleteService();
     }
@@ -81,7 +115,7 @@ export default function LocationInput() {
     }
 
     if (inputValue === "") {
-      setOptions(value ? [value] : []);
+      setOptions(place ? [place] : []);
       return undefined;
     }
 
@@ -89,8 +123,8 @@ export default function LocationInput() {
       if (active) {
         let newOptions = [] as PlaceType[];
 
-        if (value) {
-          newOptions = [value];
+        if (place) {
+          newOptions = [place];
         }
 
         if (results) {
@@ -104,21 +138,32 @@ export default function LocationInput() {
     return () => {
       active = false;
     };
-  }, [value, inputValue, fetch]);
+  }, [place, inputValue, fetch]);
 
   return (
     <Autocomplete
-      style={{ width: 300 }}
       getOptionLabel={(option) => (typeof option === "string" ? option : option.description)}
       filterOptions={(x) => x}
       options={options}
       autoComplete
       includeInputInList
       filterSelectedOptions
-      value={value}
+      value={place}
       onChange={(event: any, newValue: PlaceType | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
-        setValue(newValue);
+        setPlace(newValue);
+
+        if (newValue) {
+          Geocode.fromAddress(newValue?.description).then((response) => {
+            const { lat, lng } = response.results[0].geometry.location;
+
+            setLocation({
+              name: newValue.description,
+              latitude: lat,
+              longitude: lng,
+            });
+          });
+        }
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
