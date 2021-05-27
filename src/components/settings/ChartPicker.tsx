@@ -1,41 +1,21 @@
 import React from "react";
-import { format, parse } from "date-fns";
 import {
-  Button, Divider, Hidden, List, ListItem, ListItemText, Popover, TextField, Tooltip, Typography,
+  Button,
+  Divider,
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
+  Popover,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@material-ui/core";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
-import { Box, LocationInput } from "@components";
-import { useLocalStorage, usePrimitive } from "@hooks";
-
-const formatString = "MM/dd/yyyy hh:mm a";
-
-/**
- * Creates a new chart object.
- *
- * @return The created chart.
- */
-function createNewChart() {
-  return {
-    id: Math.random().toString(36).substr(2, 9),
-    name: "",
-    date: "",
-    location: { name: "", latitude: "", longitude: "" },
-  };
-}
-
-/**
- * Converts the given date string into a date object, or null if empty.
- *
- * @param dateString - The date string to convert.
- */
-function parseDate(dateString: string): Date | null {
-  return dateString
-    ? parse(dateString, formatString, new Date())
-    : null;
-}
+import { Box, DateTimeInput, LocationInput } from "@components";
+import { useChartList } from "@hooks";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -45,15 +25,20 @@ function parseDate(dateString: string): Date | null {
  */
 export default function ChartPicker() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [charts, setCharts] = useLocalStorage("charts", [createNewChart()]);
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const currentChart = charts[currentIndex];
-  const name = usePrimitive(currentChart, "name", true);
-  const date = usePrimitive(currentChart, "date", true);
-  const location = usePrimitive(currentChart, "location", true);
   const open = Boolean(anchorEl);
   const popoverId = open ? "chart-menu" : undefined;
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(parseDate(currentChart.date));
+
+  const {
+    charts,
+    currentChart,
+    chartName,
+    chartDate,
+    chartLocation,
+    saveCharts,
+    createChart,
+    switchChart,
+    removeCurrentChart,
+  } = useChartList();
 
   const handleOpenCharts = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -61,46 +46,7 @@ export default function ChartPicker() {
 
   const handleCloseCharts = () => {
     setAnchorEl(null);
-    setCharts([...charts]);
-  };
-
-  const handleDateChange = (newDate: Date | null) => {
-    if (newDate && !newDate.toString().includes("Invalid")) {
-      setSelectedDate(newDate);
-      date.setValue(format(newDate, formatString));
-    } else {
-      setSelectedDate(null);
-      date.setValue("");
-    }
-  };
-
-  const handleNewChart = () => {
-    const newChart = createNewChart();
-
-    setCurrentIndex(charts.length);
-    setCharts([...charts, newChart]);
-    setSelectedDate(null);
-  };
-
-  const handleChangeChart = (chart: Chart, index: number) => {
-    setCurrentIndex(index);
-    setSelectedDate(parseDate(chart.date));
-  };
-
-  const handleRemoveChart = () => {
-    const remainingCharts = charts.filter(({ id }) => currentChart.id !== id);
-
-    if (remainingCharts.length === 0) {
-      const emptyChart = createNewChart();
-
-      setCharts([emptyChart]);
-      handleChangeChart(emptyChart, 0);
-    } else {
-      const newIndex = Math.max(0, currentIndex - 1);
-
-      setCharts(remainingCharts);
-      handleChangeChart(charts[newIndex], newIndex);
-    }
+    saveCharts();
   };
 
   const chartForm = (
@@ -112,25 +58,12 @@ export default function ChartPicker() {
             fullWidth
             label="Name"
             variant="filled"
-            value={name.value}
-            onChange={(e) => name.setValue(e.target.value)}
+            value={chartName.value}
+            onChange={(e) => chartName.setValue(e.target.value)}
           />
-          <KeyboardDateTimePicker
-            inputVariant="filled"
-            format={formatString}
-            label="Date"
-            value={selectedDate}
-            style={{ display: "flex" }}
-            views={["year", "month", "date", "hours", "minutes"]}
-            openTo="year"
-            hideTabs={false}
-            onChange={handleDateChange}
-          />
-          <LocationInput
-            locationName={location.value.name}
-            setLocation={location.setValue}
-          />
-          <Button onClick={handleRemoveChart}>
+          <DateTimeInput date={chartDate} />
+          <LocationInput location={chartLocation} />
+          <Button onClick={removeCurrentChart}>
             <Typography color="error">Delete Chart</Typography>
           </Button>
         </Box>
@@ -146,7 +79,7 @@ export default function ChartPicker() {
           <ListItem
             button
             key={chart.id}
-            onClick={() => handleChangeChart(chart, index)}
+            onClick={() => switchChart(index)}
             selected={currentChart.id === chart.id}
           >
             <ListItemText
@@ -160,7 +93,7 @@ export default function ChartPicker() {
         fullWidth
         color="primary"
         variant="contained"
-        onClick={handleNewChart}
+        onClick={createChart}
       >
         Create New Chart
       </Button>
@@ -177,7 +110,7 @@ export default function ChartPicker() {
           endIcon={<KeyboardArrowDownIcon />}
           onClick={handleOpenCharts}
         >
-          {name.value || "New Chart"}
+          {chartName.value || "New Chart"}
         </Button>
       </Tooltip>
       <Popover

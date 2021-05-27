@@ -65,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LocationInput(props: LocationInputProps) {
-  const { locationName, setLocation } = props;
+  const { location } = props;
+  const locationName = location.value.name;
   const classes = useStyles();
   const [place, setPlace] = React.useState<PlaceType | null>(createNewPlace(locationName));
   const [inputValue, setInputValue] = React.useState(locationName);
@@ -157,7 +158,7 @@ export default function LocationInput(props: LocationInputProps) {
           Geocode.fromAddress(newValue?.description).then((response) => {
             const { lat, lng } = response.results[0].geometry.location;
 
-            setLocation({
+            location.setValue({
               name: newValue.description,
               latitude: lat,
               longitude: lng,

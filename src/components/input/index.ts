@@ -1,5 +1,6 @@
 import LocationInput from "./LocationInput";
+import DateTimeInput from "./DateTimeInput";
 
-export { LocationInput };
+export { LocationInput, DateTimeInput };
 
-export default { LocationInput };
+export default { LocationInput, DateTimeInput };

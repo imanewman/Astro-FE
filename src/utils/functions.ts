@@ -1,6 +1,9 @@
 /**
  * Returns true if the local time is between 6PM and 6AM
  */
+import { parse } from "date-fns";
+import { dateFormat } from "./globals";
+
 export function isNightTime(): boolean {
   const militaryHours = new Date(Date.now()).getHours();
 
@@ -33,4 +36,15 @@ export function fillRoute(
   return fullRoute;
 }
 
-export default { isNightTime, fillRoute };
+/**
+ * Converts the given date string into a date object, or null if empty.
+ *
+ * @param dateString - The date string to convert.
+ */
+export function parseDate(dateString: string): Date | null {
+  return dateString
+    ? parse(dateString, dateFormat, new Date())
+    : null;
+}
+
+export default { isNightTime, fillRoute, parseDate };

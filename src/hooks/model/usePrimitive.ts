@@ -11,7 +11,7 @@ export default function usePrimitive<M extends JsonObject, K extends keyof M>(
   model: M,
   key: K,
   doSync = false,
-): PrimitiveHook<M, K> {
+): AttributeHook<M[K]> {
   const [value, setState] = useState(model[key]);
 
   const setValue = (newValue: M[K]) => {

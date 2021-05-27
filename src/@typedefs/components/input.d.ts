@@ -3,14 +3,17 @@
  */
 declare interface LocationInputProps {
   /**
-   * The name of the current location.
+   * A hook for editing a location.
    */
-  locationName: string;
+  location: AttributeHook<ChartLocation>;
+}
 
+/**
+ * Props for rendering a date and time input field.
+ */
+declare interface DateTimeInputProps {
   /**
-   * A callback to set the geo location of the selected location once loaded.
-   *
-   * @param location - The location to update to.
+   * A hook for editing a date string.
    */
-  setLocation: (location: ChartLocation) => void;
+  date: AttributeHook<string>;
 }
