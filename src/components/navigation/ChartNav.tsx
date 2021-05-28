@@ -4,7 +4,9 @@ import { IconButton, Tooltip } from "@material-ui/core";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 
-import { Box, ChartPicker } from "@components";
+import {
+  Box, ChartPicker, ChartSettings,
+} from "@components";
 import { useBaseContext } from "@hooks";
 import Nav from "./Nav";
 
@@ -37,6 +39,9 @@ export default function ChartNav() {
             </IconButton>
           </Tooltip>
         </Box>
+      )}
+      sidebar={(
+        <ChartSettings />
       )}
     />
   );

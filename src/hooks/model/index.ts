@@ -1,5 +1,6 @@
 import usePrimitive from "./usePrimitive";
+import useDate from "./useDate";
 
-export { usePrimitive };
+export { usePrimitive, useDate };
 
-export default { usePrimitive };
+export default { usePrimitive, useDate };

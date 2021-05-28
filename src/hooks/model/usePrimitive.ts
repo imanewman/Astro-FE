@@ -10,7 +10,7 @@ import { useLayoutEffect, useState } from "react";
 export default function usePrimitive<M extends JsonObject, K extends keyof M>(
   model: M,
   key: K,
-  doSync = false,
+  doSync = true,
 ): AttributeHook<M[K]> {
   const [value, setState] = useState(model[key]);
 

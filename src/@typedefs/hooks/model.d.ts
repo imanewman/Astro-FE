@@ -14,3 +14,31 @@ declare interface AttributeHook<T> {
    */
   setValue(newValue: T): void;
 }
+
+declare type TimeIncrement = "min" | "hour" | "day" | "mth" | "year";
+declare type AmountIncrement = "oneDown" | "manyDown" | "oneUp" | "manyUp";
+
+/**
+ * A hook for tracking the state of a date within a model.
+ */
+declare interface DateHook {
+  /**
+   * The value of the attribute as a date object.
+   */
+  date: Date | null;
+
+  /**
+   * A callback to set the date of the attribute.
+   *
+   * @param newDate - The new date to set to.
+   */
+  setDate(newDate: Date | null): void;
+
+  /**
+   * Increments the current date.
+   *
+   * @param increment - The quantity to increment by.
+   * @param amount - The amount to increment.
+   */
+  incrementDate(increment: TimeIncrement, amount: AmountIncrement): void;
+}

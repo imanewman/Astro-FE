@@ -21,7 +21,7 @@ export default function Nav(props: NavProps) {
   const { toolbar, sidebar } = props;
   const classes = useNavStyles();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);

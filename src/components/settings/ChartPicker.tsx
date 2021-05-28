@@ -6,16 +6,17 @@ import {
   List,
   ListItem,
   ListItemText,
-  Popover,
-  TextField,
+  Popover, TextField,
   Tooltip,
   Typography,
 } from "@material-ui/core";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
-import { Box, DateTimeInput, LocationInput } from "@components";
-import { useChartList } from "@hooks";
+import {
+  Box, DateTimeInput, LocationInput,
+} from "@components";
+import { useBaseContext, usePrimitive } from "@hooks";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -27,18 +28,17 @@ export default function ChartPicker() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const popoverId = open ? "chart-menu" : undefined;
-
   const {
     charts,
     currentChart,
-    chartName,
-    chartDate,
-    chartLocation,
     saveCharts,
     createChart,
     switchChart,
     removeCurrentChart,
-  } = useChartList();
+  } = useBaseContext();
+  const chartName = usePrimitive(currentChart, "name");
+  const chartDate = usePrimitive(currentChart, "date");
+  const chartLocation = usePrimitive(currentChart, "location");
 
   const handleOpenCharts = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -120,7 +120,7 @@ export default function ChartPicker() {
         onClose={handleCloseCharts}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "left",
         }}
         transformOrigin={{
           vertical: "top",

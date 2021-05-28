@@ -1,5 +1,6 @@
 import ChartPicker from "./ChartPicker";
+import ChartSettings from "./ChartSettings";
 
-export { ChartPicker };
+export { ChartPicker, ChartSettings };
 
-export default { ChartPicker };
+export default { ChartPicker, ChartSettings };

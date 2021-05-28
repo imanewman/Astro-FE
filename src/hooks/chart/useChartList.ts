@@ -1,17 +1,20 @@
-import { useLocalStorage, usePrimitive } from "@hooks";
+import { useLocalStorage } from "@hooks";
 import React from "react";
 
 /**
  * Creates a new chart object.
  *
+ * @param props - Any props to create the chart with.
+ *
  * @return The created chart.
  */
-function createNewChart() {
+export function createNewChart(props?: Partial<Chart>): Chart {
   return {
     id: Math.random().toString(36).substr(2, 9),
     name: "",
     date: "",
     location: { name: "", latitude: "", longitude: "" },
+    ...props || {},
   };
 }
 
@@ -22,17 +25,11 @@ export default function useChartList(): ChartListHook {
   const [charts, setCharts] = useLocalStorage("charts", [createNewChart()]);
   const [currentChartIndex, setCurrentChartIndex] = React.useState(0);
   const currentChart = charts[currentChartIndex];
-  const chartName = usePrimitive(currentChart, "name", true);
-  const chartDate = usePrimitive(currentChart, "date", true);
-  const chartLocation = usePrimitive(currentChart, "location", true);
 
   return {
     charts,
     currentChartIndex,
     currentChart,
-    chartName,
-    chartDate,
-    chartLocation,
     saveCharts() {
       setCharts([...charts]);
     },

@@ -4,8 +4,12 @@ import React, { PropsWithChildren } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
-import { useRouting, useSnackbar } from "@hooks";
-import { RouteContext, SnackbarContext } from "@contexts";
+import {
+  useChartList, useLiveChart, useRouting, useSnackbar,
+} from "@hooks";
+import {
+  RouteContext, SnackbarContext, ChartListContext, LiveChartContext,
+} from "@contexts";
 import { SnackbarManager } from "@components";
 import ThemeProvider from "./ThemeProvider";
 
@@ -19,15 +23,21 @@ import ThemeProvider from "./ThemeProvider";
 export default function BaseProvider({ children }: PropsWithChildren<{}>) {
   const snackbarHook = useSnackbar();
   const routeHook = useRouting();
+  const chartListHook = useChartList();
+  const liveChartHook = useLiveChart(chartListHook.currentChart);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <ThemeProvider>
         <RouteContext.Provider value={routeHook}>
-          <SnackbarContext.Provider value={snackbarHook}>
-            <SnackbarManager />
-            {children}
-          </SnackbarContext.Provider>
+          <ChartListContext.Provider value={chartListHook}>
+            <LiveChartContext.Provider value={liveChartHook}>
+              <SnackbarContext.Provider value={snackbarHook}>
+                {children}
+                <SnackbarManager />
+              </SnackbarContext.Provider>
+            </LiveChartContext.Provider>
+          </ChartListContext.Provider>
         </RouteContext.Provider>
       </ThemeProvider>
     </MuiPickersUtilsProvider>

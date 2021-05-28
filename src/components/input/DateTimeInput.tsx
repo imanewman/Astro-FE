@@ -1,8 +1,9 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { dateFormat, parseDate } from "@utils";
-import { format } from "date-fns";
+import { dateFormat } from "@utils";
+import { useDate } from "@hooks";
+import { DateTimeInputProps } from "../../@typedefs/components/input";
 
 /**
  * Renders an input for date and time.
@@ -12,34 +13,22 @@ import { format } from "date-fns";
  * @visibleName Date Time Input
  */
 export default function DateTimeInput(props: DateTimeInputProps) {
-  const { date } = props;
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(parseDate(date.value));
-
-  const handleDateChange = (newDate: Date | null) => {
-    if (newDate && !newDate.toString().includes("Invalid")) {
-      setSelectedDate(newDate);
-      date.setValue(format(newDate, dateFormat));
-    } else {
-      setSelectedDate(null);
-      date.setValue("");
-    }
-  };
-
-  useLayoutEffect(() => {
-    setSelectedDate(parseDate(date.value));
-  }, [date.value]);
+  const { date, openTo = "year" } = props;
+  const attribute = useDate(date);
 
   return (
     <KeyboardDateTimePicker
+      variant="inline"
       inputVariant="filled"
+      placeholder="MM/DD/YYYY HH:mm"
       format={dateFormat}
       label="Date"
-      value={selectedDate}
+      value={attribute.date}
       style={{ display: "flex" }}
       views={["year", "month", "date", "hours", "minutes"]}
-      openTo="year"
+      openTo={openTo}
       hideTabs={false}
-      onChange={handleDateChange}
+      onChange={attribute.setDate}
     />
   );
 }

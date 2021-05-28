@@ -18,21 +18,6 @@ declare interface ChartListHook {
   currentChart: Chart;
 
   /**
-   * A hook for the current chart's name.
-   */
-  chartName: AttributeHook<Chart, "name">;
-
-  /**
-   * A hook for the current chart's date.
-   */
-  chartDate: AttributeHook<Chart, "date">;
-
-  /**
-   * A hook for the current chart's location.
-   */
-  chartLocation: AttributeHook<Chart, "location">;
-
-  /**
    * A callback to save the current charts in local storage.
    */
   saveCharts(): void;
@@ -53,4 +38,14 @@ declare interface ChartListHook {
    * A callback to delete the current chart from the list.
    */
   removeCurrentChart(): void;
+}
+
+/**
+ * A hook for managing the settings around the currently visible chart.
+ */
+interface LiveChartHook {
+  /**
+   * The currently visible chart.
+   */
+  liveChart: Chart;
 }

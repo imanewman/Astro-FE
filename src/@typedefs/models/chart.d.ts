@@ -1,7 +1,7 @@
 /**
  * Represents a stored chart location.
  */
-declare interface ChartLocation {
+declare interface ChartLocation extends JsonObject {
   /**
    * The name of the location.
    */
@@ -19,7 +19,7 @@ declare interface ChartLocation {
 /**
  * Represents a stored chart.
  */
-declare interface Chart {
+declare interface Chart extends JsonObject {
   /**
    * A unique chart id.
    */
