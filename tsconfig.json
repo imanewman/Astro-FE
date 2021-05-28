@@ -27,7 +27,8 @@
       "@components": ["./src/components"],
       "@hooks": ["./src/hooks"],
       "@utils": ["./src/utils"],
-      "@contexts": ["./src/contexts"]
+      "@contexts": ["./src/contexts"],
+      "@models": ["./src/models"]
     }
   },
   "include": [

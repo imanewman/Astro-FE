@@ -1,23 +1,6 @@
 import { useLocalStorage } from "@hooks";
 import React from "react";
-import { generateUniqueId } from "@utils";
-
-/**
- * Creates a new chart object.
- *
- * @param props - Any props to create the chart with.
- *
- * @return The created chart.
- */
-export function createNewChart(props?: Partial<Chart>): Chart {
-  return {
-    id: generateUniqueId(),
-    name: "",
-    date: "",
-    location: { name: "", latitude: "", longitude: "" },
-    ...props || {},
-  };
-}
+import { createNewChart } from "@models";
 
 /**
  * Creates a hook for managing a list of saved charts.
