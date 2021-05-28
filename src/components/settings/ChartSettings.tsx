@@ -18,7 +18,7 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
  * @visibleName Chart Settings
  */
 export default function ChartSettings() {
-  const { liveChart } = useBaseContext();
+  const { liveChart, createChart } = useBaseContext();
   const chartDate = usePrimitive(liveChart, "date");
   const chartLocation = usePrimitive(liveChart, "location");
   const [selected, setSelected] = useState(increments[1]);
@@ -26,6 +26,10 @@ export default function ChartSettings() {
 
   const handleIncrement = (size: AmountIncrement) => {
     incrementDate(selected, size);
+  };
+
+  const handleSaveChart = () => {
+    createChart(liveChart);
   };
 
   return (
@@ -66,6 +70,9 @@ export default function ChartSettings() {
             <LastPage />
           </Button>
         </ButtonGroup>
+        <Button onClick={handleSaveChart}>
+          Save As New Chart
+        </Button>
       </Box>
     </Box>
   );

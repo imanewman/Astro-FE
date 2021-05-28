@@ -47,4 +47,11 @@ export function parseDate(dateString: string): Date | null {
     : null;
 }
 
+/**
+ * Returns a generated unique ID.
+ */
+export function generateUniqueId(): string {
+  return Math.random().toString(36).substr(2, 22);
+}
+
 export default { isNightTime, fillRoute, parseDate };

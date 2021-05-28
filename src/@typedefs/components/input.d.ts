@@ -3,7 +3,7 @@ import { KeyboardDateTimePickerProps } from "@material-ui/pickers";
 /**
  * Props for rendering a location input field.
  */
-declare interface LocationInputProps {
+export interface LocationInputProps {
   /**
    * A hook for editing a location.
    */
@@ -13,7 +13,7 @@ declare interface LocationInputProps {
 /**
  * Props for rendering a date and time input field.
  */
-declare interface DateTimeInputProps {
+export interface DateTimeInputProps {
   /**
    * A hook for editing a date string.
    */

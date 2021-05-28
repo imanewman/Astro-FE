@@ -3,7 +3,7 @@ import React from "react";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { dateFormat } from "@utils";
 import { useDate } from "@hooks";
-import { DateTimeInputProps } from "../../@typedefs/components/input";
+import { DateTimeInputProps } from "@typedefs";
 
 /**
  * Renders an input for date and time.

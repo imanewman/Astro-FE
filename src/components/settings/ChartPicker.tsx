@@ -93,7 +93,7 @@ export default function ChartPicker() {
         fullWidth
         color="primary"
         variant="contained"
-        onClick={createChart}
+        onClick={() => createChart()}
       >
         Create New Chart
       </Button>

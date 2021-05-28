@@ -1,4 +1,5 @@
 import React from "react";
+import { generateUniqueId } from "@utils";
 
 /**
  * Clones the given chart.
@@ -8,6 +9,8 @@ import React from "react";
 function cloneChart(chart: Chart): Chart {
   return {
     ...chart,
+    id: generateUniqueId(),
+    name: "",
     location: { ...chart.location },
   };
 }

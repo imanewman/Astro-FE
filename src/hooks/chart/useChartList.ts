@@ -1,5 +1,6 @@
 import { useLocalStorage } from "@hooks";
 import React from "react";
+import { generateUniqueId } from "@utils";
 
 /**
  * Creates a new chart object.
@@ -10,7 +11,7 @@ import React from "react";
  */
 export function createNewChart(props?: Partial<Chart>): Chart {
   return {
-    id: Math.random().toString(36).substr(2, 9),
+    id: generateUniqueId(),
     name: "",
     date: "",
     location: { name: "", latitude: "", longitude: "" },
@@ -33,11 +34,9 @@ export default function useChartList(): ChartListHook {
     saveCharts() {
       setCharts([...charts]);
     },
-    createChart() {
-      const newChart = createNewChart();
-
+    createChart(chart?: Chart) {
       setCurrentChartIndex(charts.length);
-      setCharts([...charts, newChart]);
+      setCharts([...charts, chart || createNewChart()]);
     },
     switchChart(index) {
       setCurrentChartIndex(index);

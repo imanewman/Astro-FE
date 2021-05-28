@@ -9,6 +9,8 @@ import parse from "autosuggest-highlight/parse";
 import throttle from "lodash/throttle";
 import Geocode from "react-geocode";
 
+import { LocationInputProps } from "@typedefs";
+
 interface PlaceType {
   description: string;
   structured_formatting: {

@@ -24,8 +24,10 @@ declare interface ChartListHook {
 
   /**
    * A callback to create and select a new chart.
+   *
+   * @param chart - A chart to create and select. If none is given, an empty chart is created.
    */
-  createChart(): void;
+  createChart(chart?: Chart): void;
 
   /**
    * A callback to switch to a new chart index.
