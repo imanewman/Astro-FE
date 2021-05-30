@@ -158,6 +158,7 @@ export default function LocationInput(props: LocationInputProps) {
 
         if (newValue) {
           Geocode.fromAddress(newValue?.description).then((response) => {
+            console.log(response);
             const { lat, lng } = response.results[0].geometry.location;
 
             location.setValue({

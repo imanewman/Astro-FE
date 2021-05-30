@@ -27,5 +27,8 @@ export default function usePrimitive<M extends JsonObject, K extends keyof M>(
     }
   }, [model, model[key]]);
 
-  return { value, setValue };
+  return {
+    value,
+    setValue,
+  };
 }

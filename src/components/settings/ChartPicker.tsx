@@ -6,7 +6,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Popover, TextField,
+  Popover,
   Tooltip,
   Typography,
 } from "@material-ui/core";
@@ -14,7 +14,7 @@ import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
 import {
-  Box, DateTimeInput, LocationInput,
+  Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
 import { useBaseContext, usePrimitive } from "@hooks";
 
@@ -39,6 +39,8 @@ export default function ChartPicker() {
   const chartName = usePrimitive(currentChart, "name");
   const chartDate = usePrimitive(currentChart, "date");
   const chartLocation = usePrimitive(currentChart, "location");
+  const chartLatitude = usePrimitive(currentChart.location, "latitude");
+  const chartLongitude = usePrimitive(currentChart.location, "longitude");
 
   const handleOpenCharts = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -54,15 +56,28 @@ export default function ChartPicker() {
       <Typography variant="h6">Current Chart</Typography>
       <form noValidate autoComplete="off">
         <Box gapY={1}>
-          <TextField
+          <TextInput
             fullWidth
             label="Name"
             variant="filled"
-            value={chartName.value}
-            onChange={(e) => chartName.setValue(e.target.value)}
+            attribute={chartName}
           />
           <DateTimeInput date={chartDate} />
           <LocationInput location={chartLocation} />
+          <Box row gapX={1}>
+            <TextInput
+              label="Latitude"
+              variant="filled"
+              type="number"
+              attribute={chartLatitude}
+            />
+            <TextInput
+              label="Longitude"
+              variant="filled"
+              type="number"
+              attribute={chartLongitude}
+            />
+          </Box>
           <Button onClick={removeCurrentChart}>
             <Typography color="error">Delete Chart</Typography>
           </Button>
@@ -72,7 +87,7 @@ export default function ChartPicker() {
   );
 
   const chartList = (
-    <Box gapY={1} minWidth={100}>
+    <Box gapY={1} minWidth={100} maxWidth={500}>
       <Typography variant="h6">Saved Charts</Typography>
       <List style={{ overflowY: "auto", maxHeight: 300 }}>
         {charts.map((chart, index) => (

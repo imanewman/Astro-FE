@@ -1,4 +1,5 @@
 import { KeyboardDateTimePickerProps } from "@material-ui/pickers";
+import { TextFieldProps } from "@material-ui/core/TextField/TextField";
 
 /**
  * Props for rendering a location input field.
@@ -28,19 +29,11 @@ export interface DateTimeInputProps {
 }
 
 /**
- * Props for rendering a chart name, date, and location input set.
+ * Props for rendering a text input
  */
-declare interface ChartInputProps {
+declare type TextInputProps = TextFieldProps & {
   /**
    * A hook for editing a name.
    */
-  name?: AttributeHook<string>;
-  /**
-   * A hook for editing a date string.
-   */
-  date: AttributeHook<string>;
-  /**
-   * A hook for editing a location.
-   */
-  location: AttributeHook<ChartLocation>;
-}
+  attribute: AttributeHook<string>;
+};
