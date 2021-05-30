@@ -10,6 +10,7 @@ import throttle from "lodash/throttle";
 import Geocode from "react-geocode";
 
 import { LocationInputProps } from "@typedefs";
+import axios, { AxiosResponse } from "axios";
 
 interface PlaceType {
   description: string;
@@ -23,6 +24,44 @@ interface PlaceType {
       },
     ];
   };
+}
+
+interface Timezone {
+  status: string;
+  timeZoneId: string;
+  timeZoneName: string;
+}
+
+const autocompleteService = { current: null };
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(2),
+  },
+}));
+
+const apiKey = "AIzaSyDEwo4G5B-nYnfoMgvz5pqTUmE0s23sXAc";
+
+Geocode.setApiKey(apiKey);
+
+/**
+ * Finds the latitude, longitude, and timezone of a location.
+ *
+ * @param location - The location object to store the found values in.
+ * @param name - The name of the location.
+ */
+async function findLocation(location: AttributeHook<ChartLocation>, name: string): Promise<void> {
+  const geocode = await Geocode.fromAddress(name);
+  const { lat, lng } = geocode.results[0].geometry.location;
+
+  const timezone = await axios.get(
+    "https://maps.googleapis.com/maps/api/timezone/json?"
+    + `location=${lat},${lng}&timezone=1331161200&key=${apiKey}`,
+  ) as AxiosResponse<Timezone>;
+  console.log(timezone.data);
+
+  location.setValue({ name, latitude: String(lat), longitude: String(lng) });
 }
 
 /**
@@ -41,6 +80,13 @@ function createNewPlace(description: string): PlaceType | null {
   } : null;
 }
 
+/**
+ * Creates a script element from the given source.
+ *
+ * @param src - The script source path.
+ * @param position - The element position of the script.
+ * @param id - The id of the script.
+ */
 function loadScript(src: string, position: HTMLElement | null, id: string) {
   if (!position) {
     return;
@@ -53,19 +99,14 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
   position.appendChild(script);
 }
 
-const apiKey = "AIzaSyDEwo4G5B-nYnfoMgvz5pqTUmE0s23sXAc";
-
-Geocode.setApiKey(apiKey);
-
-const autocompleteService = { current: null };
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-}));
-
+/**
+ * Creates an input that allows looking up a location by name, and finding the
+ * latitude, longitude, and timezone.
+ *
+ * @param props - Component Props
+ * @constructor
+ * @visibleName Location Input
+ */
 export default function LocationInput(props: LocationInputProps) {
   const { location } = props;
   const locationName = location.value.name;
@@ -78,7 +119,6 @@ export default function LocationInput(props: LocationInputProps) {
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
-        // eslint-disable-next-line max-len
         `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`,
         document.querySelector("head"),
         "google-maps",
@@ -157,16 +197,7 @@ export default function LocationInput(props: LocationInputProps) {
         setPlace(newValue);
 
         if (newValue) {
-          Geocode.fromAddress(newValue?.description).then((response) => {
-            console.log(response);
-            const { lat, lng } = response.results[0].geometry.location;
-
-            location.setValue({
-              name: newValue.description,
-              latitude: lat,
-              longitude: lng,
-            });
-          });
+          findLocation(location, newValue.description).then(() => {});
         }
       }}
       onInputChange={(event, newInputValue) => {
