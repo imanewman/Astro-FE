@@ -54,4 +54,13 @@ export function generateUniqueId(): string {
   return Math.random().toString(36).substr(2, 22);
 }
 
+/**
+ * Converts a date object tot eh seconds since midnight, January 1, 1970 UTC.
+ *
+ * @param date - The date object to convert.
+ */
+export function dateToSeconds(date: Date): number {
+  return date.getTime() / 1000 + date.getTimezoneOffset() * 60;
+}
+
 export default { isNightTime, fillRoute, parseDate };

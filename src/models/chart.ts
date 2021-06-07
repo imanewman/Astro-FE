@@ -11,8 +11,13 @@ export function createNewChart(props?: Partial<Chart>): Chart {
   return {
     id: generateUniqueId(),
     name: "",
-    date: "",
-    location: { name: "", latitude: "", longitude: "" },
+    location: {
+      name: "",
+      latitude: "",
+      longitude: "",
+      localDate: "",
+      utcDate: "",
+    },
     ...props || {},
   };
 }

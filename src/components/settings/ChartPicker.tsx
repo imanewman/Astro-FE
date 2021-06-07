@@ -37,7 +37,7 @@ export default function ChartPicker() {
     removeCurrentChart,
   } = useBaseContext();
   const chartName = usePrimitive(currentChart, "name");
-  const chartDate = usePrimitive(currentChart, "date");
+  const chartDate = usePrimitive(currentChart.location, "localDate");
   const chartLocation = usePrimitive(currentChart, "location");
   const chartLatitude = usePrimitive(currentChart.location, "latitude");
   const chartLongitude = usePrimitive(currentChart.location, "longitude");
@@ -90,16 +90,18 @@ export default function ChartPicker() {
     <Box gapY={1} minWidth={100} maxWidth={500}>
       <Typography variant="h6">Saved Charts</Typography>
       <List style={{ overflowY: "auto", maxHeight: 300 }}>
-        {charts.map((chart, index) => (
+        {charts.map(({ id, name, location }, index) => (
           <ListItem
             button
-            key={chart.id}
+            key={id}
             onClick={() => switchChart(index)}
-            selected={currentChart.id === chart.id}
+            selected={currentChart.id === id}
           >
             <ListItemText
-              primary={chart.name || "New Chart"}
-              secondary={`${chart.date || "New Date"} in ${chart.location.name || "New Location"}`}
+              primary={name || "New Chart"}
+              secondary={
+                `${location.localDate || "New Date"} in ${location.name || "New Location"}`
+              }
             />
           </ListItem>
         ))}
