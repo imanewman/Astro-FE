@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Accordion, AccordionDetails, AccordionSummary,
   Button,
   Divider,
   Hidden,
@@ -17,6 +18,7 @@ import {
   Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
 import { useBaseContext, usePrimitive } from "@hooks";
+import { ExpandMore } from "@material-ui/icons";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -37,10 +39,17 @@ export default function ChartPicker() {
     removeCurrentChart,
   } = useBaseContext();
   const chartName = usePrimitive(currentChart, "name");
-  const chartDate = usePrimitive(currentChart.location, "localDate");
+  const localDate = usePrimitive(currentChart.location, "localDate");
+  const utcDate = usePrimitive(currentChart.location, "utcDate");
   const chartLocation = usePrimitive(currentChart, "location");
   const chartLatitude = usePrimitive(currentChart.location, "latitude");
   const chartLongitude = usePrimitive(currentChart.location, "longitude");
+  const [showDelete, setShowDelete] = React.useState(false);
+
+  const handleConfirmDelete = () => {
+    setShowDelete(false);
+    removeCurrentChart();
+  };
 
   const handleOpenCharts = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -52,7 +61,7 @@ export default function ChartPicker() {
   };
 
   const chartForm = (
-    <Box gapY={1}>
+    <Box gapY={1} maxWidth={400}>
       <Typography variant="h6">Current Chart</Typography>
       <form noValidate autoComplete="off">
         <Box gapY={1}>
@@ -62,32 +71,53 @@ export default function ChartPicker() {
             variant="filled"
             attribute={chartName}
           />
-          <DateTimeInput date={chartDate} />
-          <LocationInput location={chartLocation} />
-          <Box row gapX={1}>
-            <TextInput
-              label="Latitude"
-              variant="filled"
-              type="number"
-              attribute={chartLatitude}
-            />
-            <TextInput
-              label="Longitude"
-              variant="filled"
-              type="number"
-              attribute={chartLongitude}
-            />
-          </Box>
-          <Button onClick={removeCurrentChart}>
-            <Typography color="error">Delete Chart</Typography>
-          </Button>
+          <DateTimeInput date={localDate} label="Local Date" />
+          <LocationInput location={chartLocation} onSearchComplete={saveCharts} />
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography>Calculated Fields</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box gapY={1}>
+                <Box row gapX={1}>
+                  <TextInput
+                    label="Latitude"
+                    variant="filled"
+                    type="number"
+                    attribute={chartLatitude}
+                  />
+                  <TextInput
+                    label="Longitude"
+                    variant="filled"
+                    type="number"
+                    attribute={chartLongitude}
+                  />
+                </Box>
+                <DateTimeInput date={utcDate} label="Universal Date" />
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+          {showDelete ? (
+            <Box row gapX={1}>
+              <Button onClick={handleConfirmDelete}>
+                <Typography color="error">Confirm Delete</Typography>
+              </Button>
+              <Button onClick={() => setShowDelete(false)}>
+                <Typography>Cancel</Typography>
+              </Button>
+            </Box>
+          ) : (
+            <Button onClick={() => setShowDelete(true)}>
+              <Typography color="error">Delete Chart</Typography>
+            </Button>
+          )}
         </Box>
       </form>
     </Box>
   );
 
   const chartList = (
-    <Box gapY={1} minWidth={100} maxWidth={500}>
+    <Box gapY={1} minWidth={100} maxWidth={400}>
       <Typography variant="h6">Saved Charts</Typography>
       <List style={{ overflowY: "auto", maxHeight: 300 }}>
         {charts.map(({ id, name, location }, index) => (

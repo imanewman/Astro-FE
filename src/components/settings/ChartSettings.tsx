@@ -18,14 +18,17 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
  * @visibleName Chart Settings
  */
 export default function ChartSettings() {
+  const [selected, setSelected] = useState(increments[1]);
   const { liveChart, createChart } = useBaseContext();
   const chartLocation = usePrimitive(liveChart, "location");
-  const chartDate = usePrimitive(chartLocation.value, "localDate");
-  const [selected, setSelected] = useState(increments[1]);
-  const { incrementDate } = useDate(chartDate);
+  const localDate = usePrimitive(chartLocation.value, "localDate");
+  const utcDate = usePrimitive(chartLocation.value, "utcDate");
+  const { incrementDate } = useDate(localDate);
+  const { incrementDate: incrementUtcDate } = useDate(utcDate);
 
   const handleIncrement = (size: AmountIncrement) => {
     incrementDate(selected, size);
+    incrementUtcDate(selected, size);
   };
 
   const handleSaveChart = () => {
@@ -34,7 +37,7 @@ export default function ChartSettings() {
 
   return (
     <Box gapY={2} m={1}>
-      <DateTimeInput date={chartDate} openTo="date" />
+      <DateTimeInput date={localDate} openTo="date" />
       <LocationInput location={chartLocation} />
       <Box alignX="center" gapY={1} mx={2}>
         <ButtonGroup

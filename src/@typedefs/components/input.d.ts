@@ -9,6 +9,13 @@ export interface LocationInputProps {
    * A hook for editing a location.
    */
   location: AttributeHook<ChartLocation>;
+
+  /**
+   * Called when a location's latitude, longitude, and timezone have been looked up.
+   *
+   * @param location - The complete location object.
+   */
+  onSearchComplete?(location: ChartLocation): void;
 }
 
 /**
@@ -19,6 +26,13 @@ export interface DateTimeInputProps {
    * A hook for editing a date string.
    */
   date: AttributeHook<string>;
+
+  /**
+   * The label of this input.
+   *
+   * @default "Date"
+   */
+  label?: string;
 
   /**
    * The date view to open to.

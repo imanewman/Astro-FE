@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
  * @visibleName Location Input
  */
 export default function LocationInput(props: LocationInputProps) {
-  const { location } = props;
+  const { location, onSearchComplete } = props;
   const {
     options, place, onChange, onInputChange,
-  } = useLocation(location);
+  } = useLocation(location, onSearchComplete);
   const classes = useStyles();
 
   return (

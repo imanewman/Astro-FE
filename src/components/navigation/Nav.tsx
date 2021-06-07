@@ -41,9 +41,9 @@ export default function Nav(props: NavProps) {
         })}
       >
         <Toolbar>
-          <Tooltip title="Open drawer" enterDelay={300}>
+          <Tooltip title="Open settings" enterDelay={300}>
             <IconButton
-              aria-label="open drawer"
+              aria-label="open settings"
               onClick={handleDrawerOpen}
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
@@ -64,9 +64,9 @@ export default function Nav(props: NavProps) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <Tooltip title="Close drawer" enterDelay={300}>
+          <Tooltip title="Close settings" enterDelay={300}>
             <IconButton
-              aria-label="close drawer"
+              aria-label="close settings"
               onClick={handleDrawerClose}
             >
               {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}

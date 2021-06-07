@@ -13,7 +13,7 @@ import { DateTimeInputProps } from "@typedefs";
  * @visibleName Date Time Input
  */
 export default function DateTimeInput(props: DateTimeInputProps) {
-  const { date, openTo = "year" } = props;
+  const { date, label = "Date", openTo = "year" } = props;
   const attribute = useDate(date);
 
   return (
@@ -22,7 +22,7 @@ export default function DateTimeInput(props: DateTimeInputProps) {
       inputVariant="filled"
       placeholder="MM/DD/YYYY HH:mm"
       format={dateFormat}
-      label="Date"
+      label={label}
       value={attribute.date}
       style={{ display: "flex" }}
       views={["year", "month", "date", "hours", "minutes"]}
