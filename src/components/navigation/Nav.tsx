@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import {
   AppBar, Divider, Drawer, IconButton, Toolbar, Tooltip, useTheme,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import { NavProps } from "@typedefs";
 import { useNavStyles } from "@styles";
@@ -47,6 +47,7 @@ export default function Nav(props: NavProps) {
               onClick={handleDrawerOpen}
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
+              size="large"
             >
               <MenuIcon />
             </IconButton>
@@ -65,10 +66,7 @@ export default function Nav(props: NavProps) {
       >
         <div className={classes.drawerHeader}>
           <Tooltip title="Close settings" enterDelay={300}>
-            <IconButton
-              aria-label="close settings"
-              onClick={handleDrawerClose}
-            >
+            <IconButton aria-label="close settings" onClick={handleDrawerClose} size="large">
               {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </Tooltip>

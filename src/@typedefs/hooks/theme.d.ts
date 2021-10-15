@@ -1,4 +1,4 @@
-import { ThemeOptions } from "@material-ui/core";
+import { ThemeOptions } from "@mui/material";
 
 /**
  * All possible theme modes. In "auto" the mode is chosen by the time of day.

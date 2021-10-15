@@ -13,7 +13,7 @@ export default function useTheme(mode?: ThemeMode): ThemeHook {
 
   return {
     theme,
-    themeMode: theme.palette?.type || "light",
+    themeMode: theme.palette?.mode || "light",
     setThemeMode(type: ThemeMode) {
       setTheme(defaultTheme(type));
     },

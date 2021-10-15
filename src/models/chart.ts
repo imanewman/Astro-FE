@@ -18,7 +18,7 @@ export function createNewChart(props?: Partial<Chart>): Chart {
       localDate: "",
       utcDate: "",
     },
-    ...props || {},
+    ...(props || {}),
   };
 }
 

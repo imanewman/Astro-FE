@@ -4,10 +4,10 @@ import {
   Box, DateTimeInput, LocationInput,
 } from "@components";
 import { useBaseContext, useDate, usePrimitive } from "@hooks";
-import { Button, ButtonGroup } from "@material-ui/core";
+import { Button, ButtonGroup } from "@mui/material";
 import {
   ChevronLeft, ChevronRight, FirstPage, LastPage,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
 

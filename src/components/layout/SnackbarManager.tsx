@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { IconButton, Snackbar } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import { Close } from "@material-ui/icons";
+import { IconButton, Snackbar, Alert } from "@mui/material";
+
+import { Close } from "@mui/icons-material";
 
 import { SnackbarContext } from "@contexts";
 
@@ -41,8 +41,10 @@ export default function SnackbarManager() {
       open={open}
       autoHideDuration={3000}
       onClose={handleClose}
-      onExited={() => setMessageInfo(undefined)}
       message={messageInfo?.message}
+      TransitionProps={{
+        onExited: () => setMessageInfo(undefined),
+      }}
     >
       <Alert
         elevation={6}

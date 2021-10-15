@@ -10,15 +10,13 @@ import {
   Popover,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+} from "@mui/material";
+import { ExpandMore, KeyboardArrowDown, DonutLarge } from "@mui/icons-material";
 
 import {
   Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
 import { useBaseContext, usePrimitive } from "@hooks";
-import { ExpandMore } from "@material-ui/icons";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -153,8 +151,8 @@ export default function ChartPicker() {
         <Button
           aria-controls="chart-menu"
           aria-haspopup="true"
-          startIcon={<DonutLargeIcon />}
-          endIcon={<KeyboardArrowDownIcon />}
+          startIcon={<DonutLarge />}
+          endIcon={<KeyboardArrowDown />}
           onClick={handleOpenCharts}
         >
           {chartName.value || "New Chart"}
@@ -181,7 +179,7 @@ export default function ChartPicker() {
             {chartList}
           </Box>
         </Hidden>
-        <Hidden xsDown>
+        <Hidden smDown>
           <Box row m={2} gapX={1}>
             {chartForm}
             <Divider orientation="vertical" flexItem />

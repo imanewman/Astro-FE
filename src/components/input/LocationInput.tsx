@@ -1,11 +1,11 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
+import { makeStyles } from "@mui/styles";
 
 import { LocationInputProps } from "@typedefs";
 import { useLocation } from "@hooks";
@@ -47,7 +47,7 @@ export default function LocationInput(props: LocationInputProps) {
       renderInput={(params) => (
         <TextField {...params} label="Location" variant="filled" fullWidth />
       )}
-      renderOption={(option) => {
+      renderOption={(_, option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;
         const parts = parse(
           option.structured_formatting.main_text,
