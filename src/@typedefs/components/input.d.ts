@@ -7,14 +7,14 @@ export interface LocationInputProps {
   /**
    * A hook for editing a location.
    */
-  location: AttributeHook<ChartLocation>;
+  chart: Chart;
 
   /**
    * Called when a location's latitude, longitude, and timezone have been looked up.
    *
    * @param location - The complete location object.
    */
-  onSearchComplete?(location: ChartLocation): void;
+  onSearchComplete?(location: Chart): void;
 }
 
 /**

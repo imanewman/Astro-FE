@@ -30,6 +30,13 @@ declare interface ChartListHook {
   createChart(chart?: Chart): void;
 
   /**
+   * A callback to update the current chart
+   *
+   * @param chart - A new chart to set.
+   */
+  updateChart(chart: Chart): void;
+
+  /**
    * A callback to switch to a new chart index.
    *
    * @param index - The chart list index to switch to.

@@ -1,7 +1,24 @@
 /**
- * Represents a stored chart location in space-time.
+ * Represents a stored chart.
  */
-declare interface ChartLocation extends JsonObject {
+declare interface Chart extends JsonObject {
+  /**
+   * A unique chart id.
+   */
+  id: string;
+  /**
+   * The name of the person or event represented.
+   */
+  name: string;
+  /**
+   * TODO: The general type of event this represents.
+   */
+  type: "Natal" | "Transit" | "Event" | "Horary" | "Election";
+  /**
+   * TODO: Any tags this event is grouped by.
+   */
+  tags: string[];
+
   /**
    * The time and date of the location in local time.
    */
@@ -11,9 +28,18 @@ declare interface ChartLocation extends JsonObject {
    */
   utcDate: string;
   /**
-   * The name of the location.
+   * TODO: The the timezone this event is in.
    */
-  name: string;
+  timezone: string;
+  /**
+   * TODO: The UCT offset for this timezone.
+   */
+  utcOffset: string;
+
+  /**
+   * TODO: The name of the location.
+   */
+  location: string;
   /**
    * The latitude of the location.
    */
@@ -22,22 +48,4 @@ declare interface ChartLocation extends JsonObject {
    * The longitude of the location.
    */
   longitude: string;
-}
-
-/**
- * Represents a stored chart.
- */
-declare interface Chart extends JsonObject {
-  /**
-   * A unique chart id.
-   */
-  id: string;
-  /**
-   * The name of the chart.
-   */
-  name: string;
-  /**
-   * The location of the chart.
-   */
-  location: ChartLocation;
 }

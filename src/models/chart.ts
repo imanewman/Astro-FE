@@ -11,13 +11,15 @@ export function createNewChart(props?: Partial<Chart>): Chart {
   return {
     id: generateUniqueId(),
     name: "",
-    location: {
-      name: "",
-      latitude: "",
-      longitude: "",
-      localDate: "",
-      utcDate: "",
-    },
+    type: "Event",
+    tags: [],
+    localDate: "",
+    utcDate: "",
+    timezone: "",
+    utcOffset: "",
+    location: "",
+    latitude: "",
+    longitude: "",
     ...(props || {}),
   };
 }
@@ -32,6 +34,5 @@ export function cloneChart(chart: Chart): Chart {
     ...chart,
     id: generateUniqueId(),
     name: "",
-    location: { ...chart.location },
   };
 }

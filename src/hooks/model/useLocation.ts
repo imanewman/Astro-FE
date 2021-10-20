@@ -17,11 +17,11 @@ const autocompleteService = { current: null };
 /**
  * Finds the latitude, longitude, and timezone of a location.
  *
- * @param location - The location object to store the found values in.
+ * @param chart - The chart object to store the found values in.
  * @param name - The name of the location.
  */
-async function findLocation(location: AttributeHook<ChartLocation>, name: string): Promise<void> {
-  const { localDate } = location.value;
+async function findLocation(chart: Chart, name: string): Promise<Chart> {
+  const { localDate } = chart;
   const jsLocalDate = new Date(localDate);
   const timestamp = dateToSeconds(jsLocalDate);
   const geocode = await Geocode.fromAddress(name);
@@ -32,17 +32,22 @@ async function findLocation(location: AttributeHook<ChartLocation>, name: string
     + `location=${lat},${lng}&timestamp=${timestamp}&key=${apiKey}`,
   ) as AxiosResponse<Timezone>;
 
-  const { dstOffset, rawOffset } = timezone.data;
+  const {
+    dstOffset, rawOffset, timeZoneId,
+  } = timezone.data;
   const offsets = dstOffset * 1000 + rawOffset * 1000;
   const jsUtcDate = new Date(jsLocalDate.getTime() - offsets);
 
-  location.setValue({
-    name,
-    latitude: String(lat),
-    longitude: String(lng),
+  return {
+    ...chart,
     localDate,
     utcDate: format(jsUtcDate, dateFormat),
-  });
+    timezone: timeZoneId,
+    utcOffset: "", // TODO
+    location: name,
+    latitude: String(lat),
+    longitude: String(lng),
+  };
 }
 
 /**
@@ -84,15 +89,15 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
  * Returns a hook for storing a location object that uses the google API for autocomplete
  * suggestions, latitude and longitude, and timezone information.
  *
- * @param location - The location object to store values within.
+ * @param chart - The chart object to store values within.
  * @param onSearchComplete - A callback called once the current location's latitude, longitude,
  * and timezone have all been looked up.
  */
 export default function useLocation(
-  location: AttributeHook<ChartLocation>,
-  onSearchComplete?: (location: ChartLocation) => void,
+  chart: Chart,
+  onSearchComplete?: (location: Chart) => void,
 ): LocationHook {
-  const locationName = location.value.name;
+  const locationName = chart.location;
   const [inputValue, setInputValue] = React.useState(locationName);
   const [options, setOptions] = React.useState<PlaceType[]>([]);
   const [place, setPlace] = React.useState<PlaceType | null>(createNewPlace(locationName));
@@ -165,8 +170,8 @@ export default function useLocation(
       setPlace(newValue);
 
       if (newValue) {
-        findLocation(location, newValue.description)
-          .then(() => onSearchComplete?.(location.value));
+        findLocation(chart, newValue.description)
+          .then((newChart) => onSearchComplete?.(newChart));
       }
     },
     onInputChange(event, newInputValue) {
