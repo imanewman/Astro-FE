@@ -50,4 +50,9 @@ interface LiveChartHook {
    * The currently visible chart.
    */
   liveChart: Chart;
+
+  /**
+   * Called to pull an updated chart from the backend.
+   */
+  updateLiveChart(): void;
 }

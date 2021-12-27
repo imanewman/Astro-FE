@@ -19,7 +19,7 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
  */
 export default function ChartSettings() {
   const [selected, setSelected] = useState(increments[1]);
-  const { liveChart, createChart } = useBaseContext();
+  const { liveChart, updateLiveChart, createChart } = useBaseContext();
   const chartLocation = usePrimitive(liveChart, "location");
   const localDate = usePrimitive(chartLocation.value, "localDate");
   const utcDate = usePrimitive(chartLocation.value, "utcDate");
@@ -29,6 +29,7 @@ export default function ChartSettings() {
   const handleIncrement = (size: AmountIncrement) => {
     incrementDate(selected, size);
     incrementUtcDate(selected, size);
+    updateLiveChart();
   };
 
   const handleSaveChart = () => {

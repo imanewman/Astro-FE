@@ -34,7 +34,7 @@ export default function useDate(attribute: AttributeHook<string>): DateHook {
   }, [attribute.value]);
 
   const setDate = (newDate: Date | null) => {
-    if (newDate) {
+    if (newDate && newDate.toDateString() !== "Invalid Date") {
       attribute.setValue(format(newDate, dateFormat));
     } else {
       attribute.setValue("");

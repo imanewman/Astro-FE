@@ -7,9 +7,14 @@ import { cloneChart } from "@models";
 export default function useLiveChart(currentChart: Chart): LiveChartHook {
   const [liveChart, setChart] = React.useState(cloneChart(currentChart));
 
-  React.useLayoutEffect(() => {
-    setChart(cloneChart(currentChart));
-  }, [currentChart]);
+  const updateLiveChart = () => {
+    console.log(liveChart);
+  };
 
-  return { liveChart };
+  React.useLayoutEffect(() => {
+    updateLiveChart();
+    setChart(cloneChart(currentChart));
+  }, [currentChart.id]);
+
+  return { liveChart, updateLiveChart };
 }
