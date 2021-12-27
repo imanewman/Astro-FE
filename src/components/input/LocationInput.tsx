@@ -1,11 +1,11 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
+import { makeStyles } from "@mui/styles";
 
 import { LocationInputProps } from "@typedefs";
 import { useLocation } from "@hooks";
@@ -26,16 +26,17 @@ const useStyles = makeStyles((theme) => ({
  * @visibleName Location Input
  */
 export default function LocationInput(props: LocationInputProps) {
-  const { location, onSearchComplete } = props;
+  const { chart, onSearchComplete } = props;
   const {
     options, place, onChange, onInputChange,
-  } = useLocation(location, onSearchComplete);
+  } = useLocation(chart, onSearchComplete);
   const classes = useStyles();
 
   return (
     <Autocomplete
-      disabled={!location.value.localDate}
+      disabled={!chart.localDate}
       getOptionLabel={(option) => (typeof option === "string" ? option : option.description)}
+      isOptionEqualToValue={(option, value) => option.description === value.description}
       filterOptions={(x) => x}
       options={options.length === 0 && place ? [place] : options}
       autoComplete
@@ -47,7 +48,7 @@ export default function LocationInput(props: LocationInputProps) {
       renderInput={(params) => (
         <TextField {...params} label="Location" variant="filled" fullWidth />
       )}
-      renderOption={(option) => {
+      renderOption={(optionProps, option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;
         const parts = parse(
           option.structured_formatting.main_text,
@@ -55,21 +56,23 @@ export default function LocationInput(props: LocationInputProps) {
         );
 
         return (
-          <Grid container alignItems="center">
-            <Grid item>
-              <LocationOnIcon className={classes.icon} />
+          <li {...optionProps}>
+            <Grid container alignItems="center">
+              <Grid item>
+                <LocationOnIcon className={classes.icon} />
+              </Grid>
+              <Grid item xs>
+                {parts.map((part, index) => (
+                  <span key={String(index)} style={{ fontWeight: part.highlight ? 700 : 400 }}>
+                    {part.text}
+                  </span>
+                ))}
+                <Typography variant="body2" color="textSecondary">
+                  {option.structured_formatting.secondary_text}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              {parts.map((part, index) => (
-                <span key={String(index)} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                  {part.text}
-                </span>
-              ))}
-              <Typography variant="body2" color="textSecondary">
-                {option.structured_formatting.secondary_text}
-              </Typography>
-            </Grid>
-          </Grid>
+          </li>
         );
       }}
     />

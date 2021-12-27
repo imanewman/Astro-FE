@@ -1,6 +1,5 @@
-import { KeyboardDateTimePickerProps } from "@material-ui/pickers";
-import { TextFieldProps } from "@material-ui/core/TextField/TextField";
-
+import { TextFieldProps } from "@mui/material/TextField/TextField";
+import { KeyboardDateTimePickerProps } from "@mui/lab";
 /**
  * Props for rendering a location input field.
  */
@@ -8,14 +7,14 @@ export interface LocationInputProps {
   /**
    * A hook for editing a location.
    */
-  location: AttributeHook<ChartLocation>;
+  chart: EventModel;
 
   /**
    * Called when a location's latitude, longitude, and timezone have been looked up.
    *
    * @param location - The complete location object.
    */
-  onSearchComplete?(location: ChartLocation): void;
+  onSearchComplete?(location: EventModel): void;
 }
 
 /**

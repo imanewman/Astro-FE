@@ -8,7 +8,7 @@ import { createNewChart } from "@models";
 export default function useChartList(): ChartListHook {
   const [charts, setCharts] = useLocalStorage("charts", [createNewChart()]);
   const [currentChartIndex, setCurrentChartIndex] = React.useState(0);
-  const currentChart = charts[currentChartIndex];
+  const [currentChart, setCurrentChart] = React.useState(charts[currentChartIndex]);
 
   return {
     charts,
@@ -17,12 +17,18 @@ export default function useChartList(): ChartListHook {
     saveCharts() {
       setCharts([...charts]);
     },
-    createChart(chart?: Chart) {
+    createChart(chart: EventModel = createNewChart()) {
       setCurrentChartIndex(charts.length);
-      setCharts([...charts, chart || createNewChart()]);
+      setCharts([...charts, chart]);
+      setCurrentChart(chart);
+    },
+    updateChart(chart) {
+      charts[currentChartIndex] = chart;
+      setCurrentChart(chart);
     },
     switchChart(index) {
       setCurrentChartIndex(index);
+      setCurrentChart(charts[index]);
     },
     removeCurrentChart() {
       const remainingCharts = charts.filter(({ id }) => currentChart.id !== id);
@@ -32,11 +38,13 @@ export default function useChartList(): ChartListHook {
 
         setCharts([emptyChart]);
         setCurrentChartIndex(0);
+        setCurrentChart(emptyChart);
       } else {
         const newIndex = Math.max(0, currentChartIndex - 1);
 
         setCharts(remainingCharts);
         setCurrentChartIndex(newIndex);
+        setCurrentChart(remainingCharts[newIndex]);
       }
     },
   };

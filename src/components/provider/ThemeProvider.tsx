@@ -1,5 +1,10 @@
 import React, { PropsWithChildren } from "react";
-import { createMuiTheme, MuiThemeProvider, StylesProvider } from "@material-ui/core";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+  StyledEngineProvider,
+} from "@mui/material/styles";
+import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 
 import { useTheme } from "@hooks";
 import { ThemeContext } from "@contexts";
@@ -24,19 +29,21 @@ function Background(props: PropsWithChildren<{}>) {
  * @constructor
  * @visibleName Theme Provider
  */
-export default function ThemeProvider({ children }: PropsWithChildren<{}>) {
+export default function ThemeProvider({ children }: PropsWithChildren<{ }>) {
   const themeHook = useTheme();
-  const muiTheme = createMuiTheme(themeHook.theme);
+  const muiTheme = createTheme(themeHook.theme);
 
   return (
-    <StylesProvider injectFirst>
+    <StyledEngineProvider injectFirst>
       <MuiThemeProvider theme={muiTheme}>
-        <ThemeContext.Provider value={themeHook}>
-          <Background>
-            {children}
-          </Background>
-        </ThemeContext.Provider>
+        <EmotionThemeProvider theme={muiTheme}>
+          <ThemeContext.Provider value={themeHook}>
+            <Background>
+              {children}
+            </Background>
+          </ThemeContext.Provider>
+        </EmotionThemeProvider>
       </MuiThemeProvider>
-    </StylesProvider>
+    </StyledEngineProvider>
   );
 }

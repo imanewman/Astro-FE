@@ -7,18 +7,20 @@ import { generateUniqueId } from "@utils";
  *
  * @return The created chart.
  */
-export function createNewChart(props?: Partial<Chart>): Chart {
+export function createNewChart(props?: Partial<EventModel>): EventModel {
   return {
     id: generateUniqueId(),
     name: "",
-    location: {
-      name: "",
-      latitude: "",
-      longitude: "",
-      localDate: "",
-      utcDate: "",
-    },
-    ...props || {},
+    type: "Event",
+    tags: [],
+    localDate: "",
+    utcDate: "",
+    timezone: "",
+    utcOffset: "",
+    location: "",
+    latitude: "",
+    longitude: "",
+    ...(props || {}),
   };
 }
 
@@ -27,11 +29,10 @@ export function createNewChart(props?: Partial<Chart>): Chart {
  *
  * @param chart - The chart to clone
  */
-export function cloneChart(chart: Chart): Chart {
+export function cloneChart(chart: EventModel): EventModel {
   return {
     ...chart,
     id: generateUniqueId(),
     name: "",
-    location: { ...chart.location },
   };
 }

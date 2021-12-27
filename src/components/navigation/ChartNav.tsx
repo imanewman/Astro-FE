@@ -1,8 +1,8 @@
 import React from "react";
 
-import { IconButton, Tooltip } from "@material-ui/core";
-import Brightness7Icon from "@material-ui/icons/Brightness7";
-import Brightness4Icon from "@material-ui/icons/Brightness4";
+import { IconButton, Tooltip } from "@mui/material";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 import {
   Box, ChartPicker, ChartSettings,
@@ -31,10 +31,7 @@ export default function ChartNav() {
           <ChartPicker />
 
           <Tooltip title="Toggle dark mode" enterDelay={300}>
-            <IconButton
-              aria-label="toggle dark mode"
-              onClick={handleToggleDarkMode}
-            >
+            <IconButton aria-label="toggle dark mode" onClick={handleToggleDarkMode} size="large">
               {isLightMode ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Tooltip>

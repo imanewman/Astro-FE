@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from "react";
 
 // import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 import {
   useChartList, useLiveChart, useRouting, useSnackbar,
@@ -27,7 +27,7 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
   const liveChartHook = useLiveChart(chartListHook.currentChart);
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ThemeProvider>
         <RouteContext.Provider value={routeHook}>
           <ChartListContext.Provider value={chartListHook}>
@@ -40,6 +40,6 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
           </ChartListContext.Provider>
         </RouteContext.Provider>
       </ThemeProvider>
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 }

@@ -45,7 +45,7 @@ export default class Endpoint<SendType, ReceiveType> {
    * @return The endpoint path.
    */
   get getPath(): string {
-    let path = `${process.env.API_PATH}/${this.path}`;
+    let path = `${process.env.REACT_APP_API_URL}${this.path}`;
     const query = this.queryParameters
       && new URLSearchParams(this.queryParameters).toString();
 
@@ -66,10 +66,7 @@ export default class Endpoint<SendType, ReceiveType> {
    */
   private async request(options: RequestInit): Promise<ReceiveType> {
     const path = this.getPath;
-    const res = await fetch(
-      path,
-      options,
-    );
+    const res = await fetch(path, options);
 
     if (!res.ok) {
       throw Error(`Unable to ${options.method} ${path}: ${res.status}`);
@@ -89,7 +86,7 @@ export default class Endpoint<SendType, ReceiveType> {
   }
 
   /**
-   * Uploads data to the API.
+   * Puts data to the API.
    *
    * @param body - The data to upload.
    * @return The response data.
@@ -98,6 +95,20 @@ export default class Endpoint<SendType, ReceiveType> {
   async put(body: SendType): Promise<ReceiveType> {
     return this.request({
       method: "PUT",
+      body: JSON.stringify(body),
+    });
+  }
+
+  /**
+   * Posts data to the API.
+   *
+   * @param body - The data to upload.
+   * @return The response data.
+   * @throws Error if the response type is not ok.
+   */
+  async post(body: SendType): Promise<ReceiveType> {
+    return this.request({
+      method: "POST",
       body: JSON.stringify(body),
     });
   }

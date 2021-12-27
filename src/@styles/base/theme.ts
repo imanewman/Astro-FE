@@ -1,4 +1,4 @@
-import { ThemeOptions } from "@material-ui/core";
+import { ThemeOptions } from "@mui/material";
 import { isNightTime } from "@utils";
 import { ThemeMode } from "@typedefs";
 
@@ -12,7 +12,7 @@ export const red = "#f63d1c";
 
 export const lightTheme: ThemeOptions = {
   palette: {
-    type: "light",
+    mode: "light",
     primary: {
       main: lightPurple,
     },
@@ -30,7 +30,7 @@ export const lightTheme: ThemeOptions = {
 
 export const darkTheme: ThemeOptions = {
   palette: {
-    type: "dark",
+    mode: "dark",
     primary: {
       main: lightGreen,
     },

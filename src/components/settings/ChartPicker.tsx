@@ -10,15 +10,13 @@ import {
   Popover,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+} from "@mui/material";
+import { ExpandMore, KeyboardArrowDown, DonutLarge } from "@mui/icons-material";
 
 import {
   Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
 import { useBaseContext, usePrimitive } from "@hooks";
-import { ExpandMore } from "@material-ui/icons";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -34,16 +32,16 @@ export default function ChartPicker() {
     charts,
     currentChart,
     saveCharts,
+    updateChart,
     createChart,
     switchChart,
     removeCurrentChart,
   } = useBaseContext();
   const chartName = usePrimitive(currentChart, "name");
-  const localDate = usePrimitive(currentChart.location, "localDate");
-  const utcDate = usePrimitive(currentChart.location, "utcDate");
-  const chartLocation = usePrimitive(currentChart, "location");
-  const chartLatitude = usePrimitive(currentChart.location, "latitude");
-  const chartLongitude = usePrimitive(currentChart.location, "longitude");
+  const localDate = usePrimitive(currentChart, "localDate");
+  const utcDate = usePrimitive(currentChart, "utcDate");
+  const chartLatitude = usePrimitive(currentChart, "latitude");
+  const chartLongitude = usePrimitive(currentChart, "longitude");
   const [showDelete, setShowDelete] = React.useState(false);
 
   const handleConfirmDelete = () => {
@@ -60,6 +58,11 @@ export default function ChartPicker() {
     saveCharts();
   };
 
+  const handleSearch = (newChart: EventModel) => {
+    updateChart(newChart);
+    saveCharts();
+  };
+
   const chartForm = (
     <Box gapY={1} maxWidth={400}>
       <Typography variant="h6">Current Chart</Typography>
@@ -72,7 +75,7 @@ export default function ChartPicker() {
             attribute={chartName}
           />
           <DateTimeInput date={localDate} label="Local Date" />
-          <LocationInput location={chartLocation} onSearchComplete={saveCharts} />
+          <LocationInput chart={currentChart} onSearchComplete={handleSearch} />
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography>Calculated Fields</Typography>
@@ -120,7 +123,9 @@ export default function ChartPicker() {
     <Box gapY={1} minWidth={100} maxWidth={400}>
       <Typography variant="h6">Saved Charts</Typography>
       <List style={{ overflowY: "auto", maxHeight: 300 }}>
-        {charts.map(({ id, name, location }, index) => (
+        {charts.map(({
+          id, name, localDate: date, location,
+        }, index) => (
           <ListItem
             button
             key={id}
@@ -130,7 +135,7 @@ export default function ChartPicker() {
             <ListItemText
               primary={name || "New Chart"}
               secondary={
-                `${location.localDate || "New Date"} in ${location.name || "New Location"}`
+                `${date || "New Date"} in ${location || "New Location"}`
               }
             />
           </ListItem>
@@ -153,8 +158,8 @@ export default function ChartPicker() {
         <Button
           aria-controls="chart-menu"
           aria-haspopup="true"
-          startIcon={<DonutLargeIcon />}
-          endIcon={<KeyboardArrowDownIcon />}
+          startIcon={<DonutLarge />}
+          endIcon={<KeyboardArrowDown />}
           onClick={handleOpenCharts}
         >
           {chartName.value || "New Chart"}
@@ -181,7 +186,7 @@ export default function ChartPicker() {
             {chartList}
           </Box>
         </Hidden>
-        <Hidden xsDown>
+        <Hidden smDown>
           <Box row m={2} gapX={1}>
             {chartForm}
             <Divider orientation="vertical" flexItem />

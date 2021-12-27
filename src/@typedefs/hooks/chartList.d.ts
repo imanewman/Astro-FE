@@ -5,7 +5,7 @@ declare interface ChartListHook {
   /**
    * A list of all current charts.
    */
-  charts: Chart[];
+  charts: EventModel[];
 
   /**
    * The currently selected chart's index within the list.
@@ -15,7 +15,7 @@ declare interface ChartListHook {
   /**
    * The currently selected chart.
    */
-  currentChart: Chart;
+  currentChart: EventModel;
 
   /**
    * A callback to save the current charts in local storage.
@@ -27,7 +27,14 @@ declare interface ChartListHook {
    *
    * @param chart - A chart to create and select. If none is given, an empty chart is created.
    */
-  createChart(chart?: Chart): void;
+  createChart(chart?: EventModel): void;
+
+  /**
+   * A callback to update the current chart
+   *
+   * @param chart - A new chart to set.
+   */
+  updateChart(chart: EventModel): void;
 
   /**
    * A callback to switch to a new chart index.
@@ -49,10 +56,15 @@ interface LiveChartHook {
   /**
    * The currently visible chart.
    */
-  liveChart: Chart;
+  liveChart: EventModel;
 
   /**
    * Called to pull an updated chart from the backend.
    */
   updateLiveChart(): void;
+
+  /**
+   * The calculated chart data.
+   */
+  liveData: any;
 }

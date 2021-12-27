@@ -7,6 +7,7 @@ export default createContext<ChartListHook>({
   currentChart: createNewChart(),
   saveCharts: () => {},
   createChart: () => {},
+  updateChart: () => {},
   switchChart: () => {},
   removeCurrentChart: () => {},
 });

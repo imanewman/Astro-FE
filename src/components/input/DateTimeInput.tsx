@@ -1,7 +1,7 @@
 import React from "react";
+import { TextField } from "@mui/material";
+import { DateTimePicker } from "@mui/lab";
 
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { dateFormat } from "@utils";
 import { useDate } from "@hooks";
 import { DateTimeInputProps } from "@typedefs";
 
@@ -17,18 +17,20 @@ export default function DateTimeInput(props: DateTimeInputProps) {
   const attribute = useDate(date);
 
   return (
-    <KeyboardDateTimePicker
-      variant="inline"
-      inputVariant="filled"
-      placeholder="MM/DD/YYYY HH:mm"
-      format={dateFormat}
+    <DateTimePicker
       label={label}
       value={attribute.date}
-      style={{ display: "flex" }}
-      views={["year", "month", "date", "hours", "minutes"]}
+      views={["year", "month", "day", "hours", "minutes"]}
       openTo={openTo}
       hideTabs={false}
       onChange={attribute.setDate}
+      renderInput={(inputProps) => (
+        <TextField
+          {...inputProps}
+          variant="filled"
+          style={{ display: "flex" }}
+        />
+      )}
     />
   );
 }

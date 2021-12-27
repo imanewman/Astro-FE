@@ -1,4 +1,4 @@
-import { BoxProps } from "@material-ui/core";
+import { BoxProps } from "@mui/material";
 
 declare type Alignment = "flex-start" | "center" | "flex-end";
 

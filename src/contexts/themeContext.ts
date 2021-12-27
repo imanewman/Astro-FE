@@ -6,6 +6,6 @@ const theme = defaultTheme();
 
 export default createContext<ThemeHook>({
   theme,
-  themeMode: theme.palette?.type || "light",
+  themeMode: theme.palette?.mode || "light",
   setThemeMode: () => {},
 });

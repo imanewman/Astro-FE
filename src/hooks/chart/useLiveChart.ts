@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { cloneChart } from "@models";
+import { calculateChart } from "../../api";
 
 /**
  * Creates a hook for managing the currently visible chart.
  */
-export default function useLiveChart(currentChart: Chart): LiveChartHook {
+export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   const [liveChart, setChart] = React.useState(cloneChart(currentChart));
+  const [liveData, setData] = useState<any>();
 
+  // TODO: use react-query
   const updateLiveChart = () => {
-    console.log(liveChart);
+    calculateChart(liveChart)
+      .then((res) => setData(res))
+      .catch((err) => setData(err));
   };
 
   React.useLayoutEffect(() => {
@@ -16,5 +21,9 @@ export default function useLiveChart(currentChart: Chart): LiveChartHook {
     setChart(cloneChart(currentChart));
   }, [currentChart.id]);
 
-  return { liveChart, updateLiveChart };
+  return {
+    liveChart,
+    updateLiveChart,
+    liveData,
+  };
 }
