@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { cloneChart } from "@models";
 import { useMutation } from "react-query";
-import { calculateChart } from "../../api";
+import { calculateChart } from "@api";
 
 /**
  * Creates a hook for managing the currently visible chart.

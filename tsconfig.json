@@ -28,7 +28,8 @@
       "@hooks": ["./src/hooks"],
       "@utils": ["./src/utils"],
       "@contexts": ["./src/contexts"],
-      "@models": ["./src/models"]
+      "@models": ["./src/models"],
+      "@api": ["./src/api"]
     }
   },
   "include": [

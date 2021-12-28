@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, formatISO } from "date-fns";
 import { dateFormat } from "./globals";
 
 /**
@@ -56,6 +56,19 @@ export function stringifyDate(isoString: string): string {
   return isoString
     ? format(new Date(isoString), dateFormat)
     : "";
+}
+
+/**
+ * Converts the given date into an ISO string, with no time zone change.
+ *
+ * @param date - The date string to convert.
+ */
+export function isoDate(date: Date): string {
+  const iso = formatISO(date).split("-");
+
+  iso.pop();
+
+  return iso.join("-");
 }
 
 /**

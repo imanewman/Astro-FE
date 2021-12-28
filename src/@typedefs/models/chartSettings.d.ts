@@ -28,7 +28,7 @@ declare interface EventModel extends JsonObject {
    */
   utcDate: string;
   /**
-   * TODO: The the timezone this event is in.
+   * The the timezone this event is in.
    */
   timezone: string;
   /**
@@ -37,7 +37,7 @@ declare interface EventModel extends JsonObject {
   utcOffset: string;
 
   /**
-   * TODO: The name of the location.
+   * The name of the location.
    */
   location: string;
   /**

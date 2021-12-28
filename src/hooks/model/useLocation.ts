@@ -2,7 +2,7 @@ import Geocode from "react-geocode";
 import axios, { AxiosResponse } from "axios";
 import React from "react";
 import throttle from "lodash/throttle";
-import { dateToSeconds } from "@utils";
+import { dateToSeconds, isoDate } from "@utils";
 
 const apiKey = "AIzaSyDEwo4G5B-nYnfoMgvz5pqTUmE0s23sXAc";
 
@@ -40,9 +40,9 @@ async function findLocation(chart: EventModel, name: string): Promise<EventModel
   return {
     ...chart,
     localDate,
-    utcDate: jsUtcDate.toISOString(),
+    utcDate: isoDate(jsUtcDate),
     timezone: timeZoneId,
-    utcOffset: "", // TODO
+    utcOffset: "",
     location: name,
     latitude: String(lat),
     longitude: String(lng),
