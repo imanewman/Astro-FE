@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { cloneChart } from "@models";
+import { useMutation } from "react-query";
 import { calculateChart } from "../../api";
 
 /**
@@ -9,12 +10,13 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   const [liveChart, setChart] = React.useState(cloneChart(currentChart));
   const [liveData, setData] = useState<any>();
 
-  // TODO: use react-query
-  const updateLiveChart = () => {
-    calculateChart(liveChart)
-      .then((res) => setData(res))
-      .catch((err) => setData(err));
-  };
+  const { mutate: updateLiveChart } = useMutation(
+    () => calculateChart(liveChart),
+    {
+      onSuccess: (res) => setData(res),
+      onError: (err) => setData(err),
+    },
+  );
 
   React.useLayoutEffect(() => {
     updateLiveChart();

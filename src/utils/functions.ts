@@ -1,9 +1,9 @@
+import { format } from "date-fns";
+import { dateFormat } from "./globals";
+
 /**
  * Returns true if the local time is between 6PM and 6AM
  */
-import { parse } from "date-fns";
-import { dateFormat } from "./globals";
-
 export function isNightTime(): boolean {
   const militaryHours = new Date(Date.now()).getHours();
 
@@ -39,12 +39,23 @@ export function fillRoute(
 /**
  * Converts the given date string into a date object, or null if empty.
  *
- * @param dateString - The date string to convert.
+ * @param isoString - The ISO date string to convert.
  */
-export function parseDate(dateString: string): Date | null {
-  return dateString
-    ? parse(dateString, dateFormat, new Date())
+export function parseDate(isoString: string): Date | null {
+  return isoString
+    ? new Date(isoString)
     : null;
+}
+
+/**
+ * Converts the given date string into a date object, or null if empty.
+ *
+ * @param isoString - The ISO date string to convert.
+ */
+export function stringifyDate(isoString: string): string {
+  return isoString
+    ? format(new Date(isoString), dateFormat)
+    : "";
 }
 
 /**

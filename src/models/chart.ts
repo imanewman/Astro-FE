@@ -33,6 +33,5 @@ export function cloneChart(chart: EventModel): EventModel {
   return {
     ...chart,
     id: generateUniqueId(),
-    name: "",
   };
 }

@@ -17,6 +17,7 @@ import {
   Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
 import { useBaseContext, usePrimitive } from "@hooks";
+import { stringifyDate } from "@utils";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -135,7 +136,7 @@ export default function ChartPicker() {
             <ListItemText
               primary={name || "New Chart"}
               secondary={
-                `${date || "New Date"} in ${location || "New Location"}`
+                `${stringifyDate(date) || "New Date"} in ${location || "New Location"}`
               }
             />
           </ListItem>

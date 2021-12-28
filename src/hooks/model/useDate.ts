@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
-import { add, format } from "date-fns";
+import { add } from "date-fns";
 
-import { dateFormat, parseDate } from "@utils";
+import { parseDate } from "@utils";
 
 const incrementMap = {
   min: {
@@ -33,9 +33,10 @@ export default function useDate(attribute: AttributeHook<string>): DateHook {
     setJsDate(parseDate(attribute.value));
   }, [attribute.value]);
 
+  // TODO: fix date setting.
   const setDate = (newDate: Date | null) => {
     if (newDate && newDate.toDateString() !== "Invalid Date") {
-      attribute.setValue(format(newDate, dateFormat));
+      attribute.setValue(newDate.toISOString());
     } else {
       attribute.setValue("");
     }
