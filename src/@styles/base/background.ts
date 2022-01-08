@@ -1,12 +1,6 @@
-import { Theme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
-
-export default makeStyles((theme: Theme) => createStyles({
-  root: {
-    minHeight: "100vh",
-    backgroundColor: theme.palette.background.default,
-  },
-}),
-{ index: 1 });
+export default styled("div")(({ theme }) => ({
+  minHeight: "100vh",
+  backgroundColor: theme.palette.background.default,
+}));

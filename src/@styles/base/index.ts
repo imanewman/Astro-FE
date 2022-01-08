@@ -1,7 +1,2 @@
-import useBackgroundStyles from "./background";
-
+export { default as Background } from "./background";
 export * from "./theme";
-
-export { useBackgroundStyles };
-
-export default { useBackgroundStyles };

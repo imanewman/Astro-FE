@@ -8,19 +8,6 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 
 import { useTheme } from "@hooks";
 import { ThemeContext } from "@contexts";
-import { useBackgroundStyles } from "@styles";
-
-/**
- * Renders the app's background.
- *
- * @param props - Component Props.
- * @constructor
- */
-function Background(props: PropsWithChildren<{}>) {
-  const classes = useBackgroundStyles();
-
-  return <div className={classes.root} {...props} />;
-}
 
 /**
  * Provides the app's theme contexts.
@@ -38,9 +25,7 @@ export default function ThemeProvider({ children }: PropsWithChildren<{ }>) {
       <MuiThemeProvider theme={muiTheme}>
         <EmotionThemeProvider theme={muiTheme}>
           <ThemeContext.Provider value={themeHook}>
-            <Background>
-              {children}
-            </Background>
+            {children}
           </ThemeContext.Provider>
         </EmotionThemeProvider>
       </MuiThemeProvider>

@@ -1,6 +1,2 @@
-import useBoxStyles from "./box";
-import useNavStyles from "./navigation";
-
-export { useBoxStyles, useNavStyles };
-
-export default { useBoxStyles, useNavStyles };
+export { default as useBoxStyles } from "./box";
+export * from "./navigation";

@@ -5,16 +5,14 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/styles";
 
 import { LocationInputProps } from "@typedefs";
 import { useLocation } from "@hooks";
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
+const Icon = styled(LocationOnIcon)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  marginRight: theme.spacing(2),
 }));
 
 /**
@@ -30,7 +28,6 @@ export default function LocationInput(props: LocationInputProps) {
   const {
     options, place, onChange, onInputChange,
   } = useLocation(chart, onSearchComplete);
-  const classes = useStyles();
 
   return (
     <Autocomplete
@@ -59,7 +56,7 @@ export default function LocationInput(props: LocationInputProps) {
           <li {...optionProps}>
             <Grid container alignItems="center">
               <Grid item>
-                <LocationOnIcon className={classes.icon} />
+                <Icon />
               </Grid>
               <Grid item xs>
                 {parts.map((part, index) => (

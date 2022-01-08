@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import { IconButton, Tooltip } from "@mui/material";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
@@ -16,7 +16,7 @@ import Nav from "./Nav";
  * @constructor
  * @visibleName Chart Navigation
  */
-export default function ChartNav() {
+export default function ChartNav(props: PropsWithChildren<{}>) {
   const { themeMode, setThemeMode } = useBaseContext();
   const isLightMode = themeMode === "light";
 
@@ -40,6 +40,7 @@ export default function ChartNav() {
       sidebar={(
         <ChartSettings />
       )}
+      {...props}
     />
   );
 }
