@@ -2,6 +2,7 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Paper, Typography } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
+import ReactJson from "react-json-view";
 
 import { BaseProvider, ChartNav } from "@components";
 import { useBaseContext } from "@hooks";
@@ -22,7 +23,15 @@ function TestDisplay() {
           whiteSpace: "pre",
         }}
       >
-        {JSON.stringify(liveData, null, 2)}
+        <ReactJson
+          src={{
+            summary: liveData?.charts[0].summary,
+            ascendant: liveData?.charts[0].points.Ascendant,
+            sun: liveData?.charts[0].points.Sun,
+            moon: liveData?.charts[0].points.Moon,
+          }}
+          theme="monokai"
+        />
       </Typography>
     </Paper>
   );
