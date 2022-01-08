@@ -19,7 +19,7 @@ const autocompleteService = { current: null };
  * @param chart - The chart object to store the found values in.
  * @param name - The name of the location.
  */
-async function findLocation(chart: EventModel, name: string): Promise<EventModel> {
+async function findLocation(chart: EventModel, name: string): Promise<void> {
   const { localDate } = chart;
   const jsLocalDate = new Date(localDate);
   const timestamp = dateToSeconds(jsLocalDate);
@@ -37,16 +37,11 @@ async function findLocation(chart: EventModel, name: string): Promise<EventModel
   const offsets = dstOffset * 1000 + rawOffset * 1000;
   const jsUtcDate = new Date(jsLocalDate.getTime() - offsets);
 
-  return {
-    ...chart,
-    localDate,
-    utcDate: isoDate(jsUtcDate),
-    timezone: timeZoneId,
-    utcOffset: "",
-    location: name,
-    latitude: String(lat),
-    longitude: String(lng),
-  };
+  chart.utcDate = isoDate(jsUtcDate);
+  chart.timezone = timeZoneId;
+  chart.name = name;
+  chart.latitude = String(lat);
+  chart.longitude = String(lng);
 }
 
 /**
@@ -170,7 +165,7 @@ export default function useLocation(
 
       if (newValue) {
         findLocation(chart, newValue.description)
-          .then((newChart) => onSearchComplete?.(newChart));
+          .then(() => onSearchComplete?.(chart));
       }
     },
     onInputChange(event, newInputValue) {

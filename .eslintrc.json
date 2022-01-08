@@ -30,6 +30,7 @@
     "jsx-a11y"
   ],
   "rules": {
+    "no-param-reassign": "off",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/indent": ["error", 2],
     "indent": "off",

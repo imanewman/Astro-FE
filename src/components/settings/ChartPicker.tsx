@@ -33,11 +33,10 @@ export default function ChartPicker() {
     charts,
     currentChart,
     saveCharts,
-    updateChart,
     createChart,
     switchChart,
     removeCurrentChart,
-    reloadLiveChart,
+    resetLiveChart,
   } = useBaseContext();
   const chartName = usePrimitive(currentChart, "name");
   const localDate = usePrimitive(currentChart, "localDate");
@@ -58,11 +57,10 @@ export default function ChartPicker() {
   const handleCloseCharts = () => {
     setAnchorEl(null);
     saveCharts();
-    reloadLiveChart();
+    resetLiveChart();
   };
 
-  const handleSearch = (newChart: EventModel) => {
-    updateChart(newChart);
+  const handleSearch = () => {
     saveCharts();
   };
 

@@ -59,14 +59,14 @@ interface LiveChartHook {
   liveChart: EventModel;
 
   /**
+   * Called to reset the live chart back to its default settings.
+   */
+  resetLiveChart(): void;
+
+  /**
    * Called to pull an updated chart from the backend.
    */
   reloadLiveChart(): void;
-
-  /**
-   * Called to pull a new chart from the backend.
-   */
-  updateLiveChart(chart: EventModel): void;
 
   /**
    * The calculated chart data.
@@ -77,4 +77,9 @@ interface LiveChartHook {
    * Any errors from downloading the live chart.
    */
   liveChartError: Error | null;
+
+  /**
+   * Whether the live chart is currently loading.
+   */
+  liveChartLoading: boolean;
 }

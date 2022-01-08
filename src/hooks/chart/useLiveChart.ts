@@ -13,6 +13,7 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   const {
     mutate: updateLiveChart,
     error: liveChartError,
+    isLoading: liveChartLoading,
   } = useMutation<ChartDataModel, Error, EventModel>(
     (chart: EventModel) => {
       setChart(chart);
@@ -24,7 +25,7 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
     },
   );
 
-  React.useLayoutEffect(() => {
+  const resetLiveChart = () => {
     const newChart = cloneChart(currentChart);
 
     if (newChart.utcDate) {
@@ -33,13 +34,18 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
       setChart(newChart);
       setData(null);
     }
+  };
+
+  React.useLayoutEffect(() => {
+    resetLiveChart();
   }, [currentChart.id]);
 
   return {
     liveChart,
     liveChartError,
+    liveChartLoading,
     liveData,
-    updateLiveChart,
+    resetLiveChart,
     reloadLiveChart() {
       updateLiveChart(liveChart);
     },
