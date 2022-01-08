@@ -79,6 +79,18 @@ interface LiveChartHook {
   liveData: any;
 
   /**
+   * Whether the biwheel chart is selected.
+   */
+  isBiwheelSelected: boolean;
+
+  /**
+   * Called to set whether the base or biwheel chart is selected.
+   * - If there is currently no biwheel, the current transits will be added as one.
+   * - If the selected chart is cleared, the biwheel will be removed.
+   */
+  setSelectedSettings(selected: "base" | "biwheel" | "clear"): void;
+
+  /**
    * Called to reset the live chart back to its default settings.
    */
   resetLiveChart(): void;

@@ -6,6 +6,8 @@ export default createContext<LiveChartHook>({
   liveChartError: null,
   liveChartLoading: false,
   liveData: "",
+  isBiwheelSelected: false,
+  setSelectedSettings: () => {},
   resetLiveChart: () => {},
   reloadLiveChart: () => {},
   addBiwheel: () => {},

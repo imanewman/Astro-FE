@@ -35,3 +35,19 @@ export function cloneChart(chart: EventModel): EventModel {
     id: generateUniqueId(),
   };
 }
+
+/**
+ * Returns the current transits chart.
+ *
+ * TODO: correctly set current time and location.
+ */
+export function createCurrentTransitsChart(): EventModel {
+  return createNewChart({
+    name: "Transits",
+    localDate: new Date(Date.now()).toISOString(),
+    utcDate: new Date(Date.now()).toISOString(),
+    location: "Manhattan, NY",
+    latitude: "40.78",
+    longitude: "-73.97",
+  });
+}

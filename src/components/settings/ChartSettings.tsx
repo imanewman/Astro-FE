@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
+import { Button, ButtonGroup, Tooltip } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-import {
-  Box, DateTimeInput, LocationInput,
-} from "@components";
-import { useBaseContext, useDate, usePrimitive } from "@hooks";
-import { Button, ButtonGroup } from "@mui/material";
-import {
-  ChevronLeft, ChevronRight, FirstPage, LastPage,
-} from "@mui/icons-material";
-
-const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
+import { Box } from "@components";
+import { useBaseContext } from "@hooks";
+import EventSettings from "./EventSettings";
 
 /**
  * Renders the settings to edit the current chart view.
@@ -18,65 +15,44 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
  * @visibleName Chart Settings
  */
 export default function ChartSettings() {
-  const [selected, setSelected] = useState(increments[1]);
-  const { liveChart, reloadLiveChart, createChart } = useBaseContext();
-  const localDate = usePrimitive(liveChart, "localDate");
-  const utcDate = usePrimitive(liveChart, "utcDate");
-  const { incrementDate } = useDate(localDate);
-  const { incrementDate: incrementUtcDate } = useDate(utcDate);
+  const {
+    liveChart, liveBiwheel, isBiwheelSelected, setSelectedSettings,
+  } = useBaseContext();
 
-  const handleIncrement = (size: AmountIncrement) => {
-    incrementDate(selected, size);
-    incrementUtcDate(selected, size);
-    reloadLiveChart();
-  };
-
-  const handleSaveChart = () => {
-    createChart(liveChart);
+  const BiwheelIcon = () => {
+    if (!liveBiwheel) {
+      return <AddIcon />;
+    } if (isBiwheelSelected) {
+      return <DeleteIcon />;
+    }
+    return <EditIcon />;
   };
 
   return (
-    <Box gapY={2} m={1}>
-      <DateTimeInput date={localDate} openTo="month" />
-      <LocationInput chart={liveChart} onSearchComplete={reloadLiveChart} />
-      <Box alignX="center" gapY={1} mx={2}>
-        <ButtonGroup
-          fullWidth
-          color="primary"
-          aria-label="edit current time increment"
+    <Box gapY={2}>
+      <ButtonGroup fullWidth>
+        <Tooltip title="Edit base chart" enterDelay={300}>
+          <Button
+            variant={!isBiwheelSelected ? "contained" : "outlined"}
+            onClick={() => setSelectedSettings("base")}
+          >
+            Base
+          </Button>
+        </Tooltip>
+        <Tooltip
+          title={`${isBiwheelSelected ? "Delete" : "Edit"} biwheel chart`}
+          enterDelay={300}
         >
-          {increments.map((increment) => (
-            <Button
-              key={increment}
-              variant={selected === increment ? "contained" : "outlined"}
-              onClick={() => setSelected(increment)}
-            >
-              {increment}
-            </Button>
-          ))}
-        </ButtonGroup>
-        <ButtonGroup
-          fullWidth
-          color="primary"
-          aria-label="increment current time"
-        >
-          <Button onClick={() => handleIncrement("manyDown")}>
-            <FirstPage />
+          <Button
+            variant={isBiwheelSelected ? "contained" : "outlined"}
+            onClick={() => setSelectedSettings(isBiwheelSelected ? "clear" : "biwheel")}
+            startIcon={<BiwheelIcon />}
+          >
+            Biwheel
           </Button>
-          <Button onClick={() => handleIncrement("oneDown")}>
-            <ChevronLeft />
-          </Button>
-          <Button onClick={() => handleIncrement("oneUp")}>
-            <ChevronRight />
-          </Button>
-          <Button onClick={() => handleIncrement("manyUp")}>
-            <LastPage />
-          </Button>
-        </ButtonGroup>
-        <Button onClick={handleSaveChart}>
-          Save As New Chart
-        </Button>
-      </Box>
+        </Tooltip>
+      </ButtonGroup>
+      <EventSettings event={liveBiwheel && isBiwheelSelected ? liveBiwheel : liveChart} />
     </Box>
   );
 }
