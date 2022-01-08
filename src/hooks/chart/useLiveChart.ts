@@ -8,18 +8,15 @@ import { calculateChart } from "@api";
  */
 export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   const [liveChart, setChart] = React.useState(cloneChart(currentChart));
+  const [liveBiwheel, setBiwheel] = React.useState<EventModel | undefined>();
   const [liveData, setData] = useState<any>();
 
   const {
     mutate: updateLiveChart,
     error: liveChartError,
     isLoading: liveChartLoading,
-  } = useMutation<ChartDataModel, Error, EventModel>(
-    (chart: EventModel) => {
-      setChart(chart);
-
-      return calculateChart(chart);
-    },
+  } = useMutation<ChartDataModel, Error, EventModel[]>(
+    (events) => calculateChart(...events),
     {
       onSuccess: (res) => setData(res),
     },
@@ -28,12 +25,22 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   const resetLiveChart = () => {
     const newChart = cloneChart(currentChart);
 
+    setChart(newChart);
+
     if (newChart.utcDate) {
-      updateLiveChart(newChart);
+      updateLiveChart([newChart]);
     } else {
-      setChart(newChart);
       setData(null);
     }
+  };
+
+  const reloadLiveChart = () => {
+    updateLiveChart(liveBiwheel ? [liveChart, liveBiwheel] : [liveChart]);
+  };
+
+  const addBiwheel = (biwheel?: EventModel) => {
+    setBiwheel(biwheel);
+    updateLiveChart(biwheel ? [liveChart, biwheel] : [liveChart]);
   };
 
   React.useLayoutEffect(() => {
@@ -42,12 +49,12 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
 
   return {
     liveChart,
+    liveBiwheel,
     liveChartError,
     liveChartLoading,
     liveData,
     resetLiveChart,
-    reloadLiveChart() {
-      updateLiveChart(liveChart);
-    },
+    reloadLiveChart,
+    addBiwheel,
   };
 }

@@ -59,19 +59,9 @@ interface LiveChartHook {
   liveChart: EventModel;
 
   /**
-   * Called to reset the live chart back to its default settings.
+   * The current biwheel added to the live chart, if there is one.
    */
-  resetLiveChart(): void;
-
-  /**
-   * Called to pull an updated chart from the backend.
-   */
-  reloadLiveChart(): void;
-
-  /**
-   * The calculated chart data.
-   */
-  liveData: any;
+  liveBiwheel?: EventModel;
 
   /**
    * Any errors from downloading the live chart.
@@ -82,4 +72,24 @@ interface LiveChartHook {
    * Whether the live chart is currently loading.
    */
   liveChartLoading: boolean;
+
+  /**
+   * The calculated chart data.
+   */
+  liveData: any;
+
+  /**
+   * Called to reset the live chart back to its default settings.
+   */
+  resetLiveChart(): void;
+
+  /**
+   * Called to pull an updated chart from the backend.
+   */
+  reloadLiveChart(): void;
+
+  /**
+   * Adds a biwheel chart and requests updated chart data.
+   */
+  addBiwheel(biwheel?: EventModel): void;
 }
