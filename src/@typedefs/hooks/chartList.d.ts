@@ -61,10 +61,20 @@ interface LiveChartHook {
   /**
    * Called to pull an updated chart from the backend.
    */
-  updateLiveChart(): void;
+  reloadLiveChart(): void;
+
+  /**
+   * Called to pull a new chart from the backend.
+   */
+  updateLiveChart(chart: EventModel): void;
 
   /**
    * The calculated chart data.
    */
   liveData: any;
+
+  /**
+   * Any errors from downloading the live chart.
+   */
+  liveChartError: Error | null;
 }

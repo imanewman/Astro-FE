@@ -11,7 +11,7 @@ import { Background } from "@styles";
 const queryClient = new QueryClient();
 
 function TestDisplay() {
-  const { liveData } = useBaseContext();
+  const { liveData, liveChartError } = useBaseContext();
 
   return (
     <Paper>
@@ -23,15 +23,19 @@ function TestDisplay() {
           whiteSpace: "pre",
         }}
       >
-        <ReactJson
-          src={{
-            summary: liveData?.charts[0].summary,
-            ascendant: liveData?.charts[0].points.Ascendant,
-            sun: liveData?.charts[0].points.Sun,
-            moon: liveData?.charts[0].points.Moon,
-          }}
-          theme="monokai"
-        />
+        {liveChartError ? (
+          <Typography color="error">Error Loading CHart</Typography>
+        ) : (
+          <ReactJson
+            src={{
+              summary: liveData?.charts[0]?.summary,
+              ascendant: liveData?.charts[0]?.points.Ascendant,
+              sun: liveData?.charts[0]?.points.Sun,
+              moon: liveData?.charts[0]?.points.Moon,
+            }}
+            theme="monokai"
+          />
+        )}
       </Typography>
     </Paper>
   );

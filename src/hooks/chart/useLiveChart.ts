@@ -10,22 +10,38 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   const [liveChart, setChart] = React.useState(cloneChart(currentChart));
   const [liveData, setData] = useState<any>();
 
-  const { mutate: updateLiveChart } = useMutation(
-    () => calculateChart(liveChart),
+  const {
+    mutate: updateLiveChart,
+    error: liveChartError,
+  } = useMutation<ChartDataModel, Error, EventModel>(
+    (chart: EventModel) => {
+      setChart(chart);
+
+      return calculateChart(chart);
+    },
     {
       onSuccess: (res) => setData(res),
-      onError: (err) => setData(err),
     },
   );
 
   React.useLayoutEffect(() => {
-    updateLiveChart();
-    setChart(cloneChart(currentChart));
+    const newChart = cloneChart(currentChart);
+
+    if (newChart.utcDate) {
+      updateLiveChart(newChart);
+    } else {
+      setChart(newChart);
+      setData(null);
+    }
   }, [currentChart.id]);
 
   return {
     liveChart,
-    updateLiveChart,
+    liveChartError,
     liveData,
+    updateLiveChart,
+    reloadLiveChart() {
+      updateLiveChart(liveChart);
+    },
   };
 }

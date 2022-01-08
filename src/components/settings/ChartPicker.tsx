@@ -37,6 +37,7 @@ export default function ChartPicker() {
     createChart,
     switchChart,
     removeCurrentChart,
+    reloadLiveChart,
   } = useBaseContext();
   const chartName = usePrimitive(currentChart, "name");
   const localDate = usePrimitive(currentChart, "localDate");
@@ -57,6 +58,7 @@ export default function ChartPicker() {
   const handleCloseCharts = () => {
     setAnchorEl(null);
     saveCharts();
+    reloadLiveChart();
   };
 
   const handleSearch = (newChart: EventModel) => {
@@ -101,20 +103,25 @@ export default function ChartPicker() {
               </Box>
             </AccordionDetails>
           </Accordion>
-          {showDelete ? (
-            <Box row gapX={1}>
-              <Button onClick={handleConfirmDelete}>
-                <Typography color="error">Confirm Delete</Typography>
+          <Box row justifyContent="space-between">
+            {showDelete ? (
+              <Box row gapX={1}>
+                <Button color="error" variant="outlined" onClick={handleConfirmDelete}>
+                  Confirm Delete
+                </Button>
+                <Button onClick={() => setShowDelete(false)}>
+                  Cancel
+                </Button>
+              </Box>
+            ) : (
+              <Button color="error" onClick={() => setShowDelete(true)}>
+                Delete Chart
               </Button>
-              <Button onClick={() => setShowDelete(false)}>
-                <Typography>Cancel</Typography>
-              </Button>
-            </Box>
-          ) : (
-            <Button onClick={() => setShowDelete(true)}>
-              <Typography color="error">Delete Chart</Typography>
+            )}
+            <Button variant="contained" onClick={handleCloseCharts}>
+              View Chart
             </Button>
-          )}
+          </Box>
         </Box>
       </form>
     </Box>

@@ -19,7 +19,9 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
  */
 export default function ChartSettings() {
   const [selected, setSelected] = useState(increments[1]);
-  const { liveChart, updateLiveChart, createChart } = useBaseContext();
+  const {
+    liveChart, reloadLiveChart, updateLiveChart, createChart,
+  } = useBaseContext();
   const localDate = usePrimitive(liveChart, "localDate");
   const utcDate = usePrimitive(liveChart, "utcDate");
   const { incrementDate } = useDate(localDate);
@@ -28,7 +30,7 @@ export default function ChartSettings() {
   const handleIncrement = (size: AmountIncrement) => {
     incrementDate(selected, size);
     incrementUtcDate(selected, size);
-    updateLiveChart();
+    reloadLiveChart();
   };
 
   const handleSaveChart = () => {
@@ -38,7 +40,7 @@ export default function ChartSettings() {
   return (
     <Box gapY={2} m={1}>
       <DateTimeInput date={localDate} openTo="month" />
-      <LocationInput chart={liveChart} />
+      <LocationInput chart={liveChart} onSearchComplete={updateLiveChart} />
       <Box alignX="center" gapY={1} mx={2}>
         <ButtonGroup
           fullWidth
