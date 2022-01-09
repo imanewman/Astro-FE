@@ -22,14 +22,8 @@ export default function DateTimeInput(props: DateTimeInputProps) {
   const [error, setError] = useState(false);
 
   const handleChange = (newDate: Date | null) => {
-    const isValid = isDateValid(newDate);
-
-    if (isValid) {
-      onSubmit?.(newDate);
-    }
-
     attribute.setDate(newDate);
-    setError(!isValid);
+    setError(!isDateValid(newDate));
   };
 
   return (
@@ -46,6 +40,7 @@ export default function DateTimeInput(props: DateTimeInputProps) {
           variant="filled"
           error={error}
           style={{ display: "flex" }}
+          onBlur={() => onSubmit?.(attribute.date)}
         />
       )}
     />

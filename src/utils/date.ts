@@ -9,7 +9,7 @@ import { dateFormat } from "./globals";
  * @return Whether the date is valid.
  */
 export function isDateValid(date: Date | null): date is Date {
-  return date?.toString() !== "Invalid Date";
+  return !!date && date.toString() !== "Invalid Date";
 }
 
 /**
@@ -34,6 +34,17 @@ export function stringifyDate(isoString: string): string {
   return isoString
     ? format(new Date(isoString), dateFormat)
     : "";
+}
+
+/**
+ * Converts the given iso date and location into a formatted string.
+ *
+ * @param isoString - The ISO date string to convert.
+ * @param location - The location.
+ * @return The formatted date and location.
+ */
+export function stringifyDateAndLocation(isoString: string, location: string): string {
+  return `${stringifyDate(isoString) || "New Date"} in ${location || "New Location"}`;
 }
 
 /**
