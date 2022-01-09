@@ -30,7 +30,7 @@ export function parseDate(isoString: string): Date | null {
  * @param isoString - The ISO date string to convert.
  * @return The formatted date.
  */
-export function stringifyDate(isoString: string): string {
+export function stringifyDate(isoString: string | null): string {
   return isoString
     ? format(new Date(isoString), dateFormat)
     : "";

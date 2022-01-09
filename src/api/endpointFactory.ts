@@ -44,8 +44,8 @@ export async function findTimezone(date: Date, { lat, lng }: GeocodeLocation): P
  * @param events - The events to calculate the chart of.
  * @return The calculated chart.
  */
-export function calculateChart(...events: EventModel[]): Promise<ChartModel> {
-  return buildEndpoint<SettingsModel, ChartModel>(APIPath.chart)
+export function calculateChart(...events: EventModel[]): Promise<ChartCollectionModel> {
+  return buildEndpoint<SettingsModel, ChartCollectionModel>(APIPath.chart)
     .post({
       events: events.map((event) => ({ event })),
     });

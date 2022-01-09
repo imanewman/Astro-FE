@@ -1,4 +1,4 @@
-import { generateUniqueId } from "@utils";
+import { generateUniqueId, getISODateStringFromOffset, isoDate } from "@utils";
 
 /**
  * Creates a new event object.
@@ -47,8 +47,9 @@ export function cloneEvent(chart: EventModel): EventModel {
 export function createCurrentTransitsEvent(): EventModel {
   return createNewEvent({
     name: "Transits",
-    localDate: new Date(Date.now()).toISOString(),
-    utcDate: new Date(Date.now()).toISOString(),
+    type: "Event",
+    utcDate: getISODateStringFromOffset(new Date(), -18000000),
+    localDate: isoDate(new Date()),
     location: "Manhattan, NY",
     latitude: "40.78",
     longitude: "-73.97",

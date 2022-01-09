@@ -18,7 +18,7 @@ export default function useChartList(): ChartListHook {
     saveEvents() {
       setEvents([...events]);
     },
-    createEvent(event: EventModel = createNewEvent()) {
+    createEvent(event: EventModel = createNewEvent({ type: "Natal" })) {
       setCurrentEventIndex(events.length);
       setEvents([...events, event]);
     },

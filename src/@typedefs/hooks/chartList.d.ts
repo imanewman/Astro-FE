@@ -76,7 +76,7 @@ interface LiveChartHook {
   /**
    * The calculated chart data.
    */
-  liveData: any;
+  liveData?: ChartCollectionModel;
 
   /**
    * Whether the biwheel event is selected.

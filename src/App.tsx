@@ -7,7 +7,7 @@ import { Paper, Typography } from "@mui/material";
 
 import { Background } from "@styles";
 import { useBaseContext } from "@hooks";
-import { BaseProvider, ChartNav } from "@components";
+import { AspectTable, BaseProvider, ChartNav } from "@components";
 
 const queryClient = new QueryClient();
 
@@ -16,17 +16,25 @@ function TestDisplay() {
     themeMode, liveData, liveChartError,
   } = useBaseContext();
 
-  return (
-    <Paper style={{ marginTop: "6em" }}>
-      {liveChartError ? (
-        <Typography color="error">Error Loading CHart</Typography>
+  return liveData ? (
+    <div style={{ marginTop: "6em" }}>
+      {liveData.relationships.length === 3 ? (
+        <AspectTable collection={liveData.relationships[2]} />
       ) : (
-        <ReactJson
-          src={liveData?.charts.map((chart: any) => chart.summary)}
-          theme={themeMode === "dark" ? "monokai" : undefined}
-        />
+        <Paper>
+          {liveChartError ? (
+            <Typography color="error">Error Loading CHart</Typography>
+          ) : (
+            <ReactJson
+              src={liveData.charts.map((chart: any) => chart.summary)}
+              theme={themeMode === "dark" ? "monokai" : undefined}
+            />
+          )}
+        </Paper>
       )}
-    </Paper>
+    </div>
+  ) : (
+    <div />
   );
 }
 
