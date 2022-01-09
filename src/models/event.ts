@@ -47,10 +47,10 @@ export function cloneEvent(chart: EventModel): EventModel {
 export function createCurrentTransitsEvent(): EventModel {
   return createNewEvent({
     name: "Transits",
-    type: "Event",
+    type: "Transit",
     utcDate: getISODateStringFromOffset(new Date(), -18000000),
     localDate: isoDate(new Date()),
-    location: "Manhattan, NY",
+    location: "Manhattan, New York, NY, USA",
     latitude: "40.78",
     longitude: "-73.97",
   });

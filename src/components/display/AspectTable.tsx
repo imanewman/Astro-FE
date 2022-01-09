@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
   {
     field: "movement",
     headerName: "Movement",
-    width: 140,
+    width: 100,
   },
   {
     field: "dateExact",
@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
   {
     field: "movementPC",
     headerName: "PC Movement",
-    width: 140,
+    width: 100,
   },
   {
     field: "dateExactPC",
@@ -49,10 +49,17 @@ export default function AspectTable(props: AspectTableProps) {
   const [aspects, setAspects] = useState<JsonObject[]>([]);
 
   useEffect(() => {
+    // TODO: remove filer.
     setAspects(
       collection.relationships
-        .filter((rel) => rel.eclipticAspect.movement?.includes("Applying")
-          || rel.precessionCorrectedAspect.movement?.includes("Applying"))
+        .filter((rel) => ![
+          "Ascendant", "Descendant", "Midheaven", "Inner Heaven", "Vertex",
+        ].includes(rel.toPoint)
+          && !rel.toPoint.includes("Lot ")
+          && (rel.eclipticAspect.localDateOfExact
+            || rel.precessionCorrectedAspect.localDateOfExact)
+          && (rel.eclipticAspect.movement?.includes("Applying")
+            || rel.precessionCorrectedAspect.movement?.includes("Applying")))
         .map((rel) => ({
           id: `${rel.fromPoint}-${rel.toPoint}`,
           fromPoint: rel.fromPoint,
