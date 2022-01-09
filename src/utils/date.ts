@@ -3,6 +3,16 @@ import { format, formatISO } from "date-fns";
 import { dateFormat } from "./globals";
 
 /**
+ * Returns whether the given date is valid.
+ *
+ * @param date - The date to check.
+ * @return Whether the date is valid.
+ */
+export function isDateValid(date: Date | null): date is Date {
+  return date?.toString() !== "Invalid Date";
+}
+
+/**
  * Converts the given date string into a date object, or null if empty.
  *
  * @param isoString - The ISO date string to convert.

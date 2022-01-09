@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { add } from "date-fns";
 
-import { isoDate, parseDate } from "@utils";
+import { isDateValid, isoDate, parseDate } from "@utils";
 
 /**
  * Maps the increment counts for different time periods.
@@ -37,7 +37,7 @@ export default function useDate(attribute: AttributeHook<string>): DateHook {
   }, [attribute.value]);
 
   const setDate = (newDate: Date | null) => {
-    if (newDate && newDate.toDateString() !== "Invalid Date") {
+    if (isDateValid(newDate)) {
       attribute.setValue(isoDate(newDate));
     } else {
       attribute.setValue("");
@@ -65,5 +65,9 @@ export default function useDate(attribute: AttributeHook<string>): DateHook {
     }
   };
 
-  return { date, setDate, incrementDate };
+  return {
+    date,
+    setDate,
+    incrementDate,
+  };
 }

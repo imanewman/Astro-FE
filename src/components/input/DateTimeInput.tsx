@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { TextField } from "@mui/material";
 import { DateTimePicker } from "@mui/lab";
 
 import { DateTimeInputProps } from "@typedefs";
 import { useDate } from "@hooks";
+import { isDateValid } from "@utils";
 
 /**
  * Renders an input for date and time.
@@ -18,12 +19,17 @@ export default function DateTimeInput(props: DateTimeInputProps) {
     onSubmit, date, label = "Date", openTo = "year",
   } = props;
   const attribute = useDate(date);
+  const [error, setError] = useState(false);
 
   const handleChange = (newDate: Date | null) => {
-    if (newDate?.toString() !== "Invalid Date") {
+    const isValid = isDateValid(newDate);
+
+    if (isValid) {
       onSubmit?.(newDate);
     }
+
     attribute.setDate(newDate);
+    setError(!isValid);
   };
 
   return (
@@ -38,6 +44,7 @@ export default function DateTimeInput(props: DateTimeInputProps) {
         <TextField
           {...inputProps}
           variant="filled"
+          error={error}
           style={{ display: "flex" }}
         />
       )}
