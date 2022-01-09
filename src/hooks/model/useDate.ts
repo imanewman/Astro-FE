@@ -3,6 +3,9 @@ import { add } from "date-fns";
 
 import { isoDate, parseDate } from "@utils";
 
+/**
+ * Maps the increment counts for different time periods.
+ */
 const incrementMap = {
   min: {
     oneUp: 1, manyUp: 10, oneDown: -1, manyDown: -10,

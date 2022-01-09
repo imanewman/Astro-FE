@@ -1,3 +1,8 @@
+/**
+ * Enumerates all API endpoints.
+ */
+import axios, { AxiosRequestConfig } from "axios";
+
 export enum APIPath {
   // Collections
   signs = "/signs",
@@ -13,6 +18,7 @@ export enum APIPath {
 export default class Endpoint<SendType, ReceiveType> {
   constructor(
     private path: string,
+    private isInternalPath = true,
     private pathVariables?: Record<string, string>,
     private queryParameters?: Record<string, string>,
   ) {}
@@ -45,7 +51,9 @@ export default class Endpoint<SendType, ReceiveType> {
    * @return The endpoint path.
    */
   get getPath(): string {
-    let path = `${process.env.REACT_APP_API_URL}${this.path}`;
+    let path = this.isInternalPath
+      ? `${process.env.REACT_APP_API_URL}${this.path}`
+      : this.path;
     const query = this.queryParameters
       && new URLSearchParams(this.queryParameters).toString();
 
@@ -64,15 +72,15 @@ export default class Endpoint<SendType, ReceiveType> {
    * @return The fetched data.
    * @throws Error if the response type is not ok.
    */
-  private async request(options: RequestInit): Promise<ReceiveType> {
+  private async request(options: AxiosRequestConfig): Promise<ReceiveType> {
     const path = this.getPath;
-    const res = await fetch(path, options);
+    const res = await axios.request({ url: path, ...options });
 
-    if (!res.ok) {
+    if (res.status !== 200) {
       throw Error(`Unable to ${options.method} ${path}: ${res.status}`);
     }
 
-    return res.json();
+    return res.data;
   }
 
   /**
@@ -88,28 +96,28 @@ export default class Endpoint<SendType, ReceiveType> {
   /**
    * Puts data to the API.
    *
-   * @param body - The data to upload.
+   * @param data - The data to upload.
    * @return The response data.
    * @throws Error if the response type is not ok.
    */
-  async put(body: SendType): Promise<ReceiveType> {
+  async put(data: SendType): Promise<ReceiveType> {
     return this.request({
       method: "PUT",
-      body: JSON.stringify(body),
+      data,
     });
   }
 
   /**
    * Posts data to the API.
    *
-   * @param body - The data to upload.
+   * @param data - The data to upload.
    * @return The response data.
    * @throws Error if the response type is not ok.
    */
-  async post(body: SendType): Promise<ReceiveType> {
+  async post(data: SendType): Promise<ReceiveType> {
     return this.request({
       method: "POST",
-      body: JSON.stringify(body),
+      data,
     });
   }
 }
@@ -118,7 +126,9 @@ export default class Endpoint<SendType, ReceiveType> {
  * Builds a preset endpoint path.
  *
  * @param path - The path to create an endpoint to.
+ * @param isInternalPath - Whether this path is to the internal API
+ * @return The built endpoint.
  */
-export function buildEndpoint<S, R>(path: APIPath): Endpoint<S, R> {
-  return new Endpoint(path);
+export function buildEndpoint<S, R>(path: string, isInternalPath = true): Endpoint<S, R> {
+  return new Endpoint(path, isInternalPath);
 }

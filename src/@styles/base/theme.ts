@@ -1,6 +1,7 @@
 import { ThemeOptions } from "@mui/material";
-import { isNightTime } from "@utils";
+
 import { ThemeMode } from "@typedefs";
+import { isNightTime } from "@utils";
 
 export const defaultBorderRadius = 4;
 
@@ -49,7 +50,9 @@ export const darkTheme: ThemeOptions = {
 /**
  * Returns the theme values for the given type.
  * If no type is given, light theme will be returned.
+ *
  * @param type - The theme type to return the values for.
+ * @return The theme.
  */
 export function defaultTheme(type?: ThemeMode): ThemeOptions {
   switch (type) {

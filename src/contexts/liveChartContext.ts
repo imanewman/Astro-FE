@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { createNewChart } from "@models";
+import { createNewEvent } from "@models";
 
 export default createContext<LiveChartHook>({
-  liveChart: createNewChart(),
+  liveEvent: createNewEvent(),
   liveChartError: null,
   liveChartLoading: false,
   liveData: "",

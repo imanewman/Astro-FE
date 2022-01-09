@@ -1,12 +1,11 @@
-import Geocode from "react-geocode";
-import axios, { AxiosResponse } from "axios";
 import React from "react";
 import throttle from "lodash/throttle";
-import { dateToSeconds, isoDate } from "@utils";
 
-const apiKey = "AIzaSyDEwo4G5B-nYnfoMgvz5pqTUmE0s23sXAc";
-
-Geocode.setApiKey(apiKey);
+import {
+  geoCodeApiKey, getUTCDateAndOffset, isoDate, mountScript,
+} from "@utils";
+import { createNewPlace } from "@models";
+import { findGeocode, findTimezone } from "@api";
 
 /**
  * Stores an instance of google's autocomplete service.
@@ -16,67 +15,21 @@ const autocompleteService = { current: null };
 /**
  * Finds the latitude, longitude, and timezone of a location.
  *
- * @param chart - The chart object to store the found values in.
- * @param name - The name of the location.
+ * @param event - The chart object to store the found values in.
+ * @param locationName - The name of the location.
  */
-async function findLocation(chart: EventModel, name: string): Promise<void> {
-  const { localDate } = chart;
-  const jsLocalDate = new Date(localDate);
-  const timestamp = dateToSeconds(jsLocalDate);
-  const geocode = await Geocode.fromAddress(name);
-  const { lat, lng } = geocode.results[0].geometry.location;
+async function findLocation(event: EventModel, locationName: string): Promise<void> {
+  const jsLocalDate = new Date(event.localDate);
+  const geocode = await findGeocode(locationName);
+  const timezone = await findTimezone(jsLocalDate, geocode);
+  const [utcDate, offset] = getUTCDateAndOffset(jsLocalDate, timezone);
 
-  const timezone = await axios.get(
-    "https://maps.googleapis.com/maps/api/timezone/json?"
-    + `location=${lat},${lng}&timestamp=${timestamp}&key=${apiKey}`,
-  ) as AxiosResponse<Timezone>;
-
-  const {
-    dstOffset, rawOffset, timeZoneId,
-  } = timezone.data;
-  const offsets = dstOffset * 1000 + rawOffset * 1000;
-  const jsUtcDate = new Date(jsLocalDate.getTime() - offsets);
-
-  chart.utcDate = isoDate(jsUtcDate);
-  chart.timezone = timeZoneId;
-  chart.name = name;
-  chart.latitude = String(lat);
-  chart.longitude = String(lng);
-}
-
-/**
- * Creates a new place with the given name, if the name is non-empty.
- *
- * @param description - The place description to start with.
- */
-export function createNewPlace(description: string): PlaceType | null {
-  return description ? {
-    description,
-    structured_formatting: {
-      main_text: "",
-      secondary_text: "",
-      main_text_matched_substrings: [{ offset: 0, length: 0 }],
-    },
-  } : null;
-}
-
-/**
- * Creates a script element from the given source.
- *
- * @param src - The script source path.
- * @param position - The element position of the script.
- * @param id - The id of the script.
- */
-function loadScript(src: string, position: HTMLElement | null, id: string) {
-  if (!position) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.setAttribute("id", id);
-  script.src = src;
-  position.appendChild(script);
+  event.utcDate = isoDate(utcDate);
+  event.timezone = timezone.timeZoneId;
+  event.location = locationName;
+  event.numericOffset = offset;
+  event.latitude = String(geocode.lat);
+  event.longitude = String(geocode.lng);
 }
 
 /**
@@ -97,14 +50,11 @@ export default function useLocation(
   const [place, setPlace] = React.useState<PlaceType | null>(createNewPlace(locationName));
   const loaded = React.useRef(false);
 
-  if (typeof window !== "undefined" && !loaded.current) {
-    if (!document.querySelector("#google-maps")) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`,
-        document.querySelector("head"),
-        "google-maps",
-      );
-    }
+  if (!loaded.current) {
+    mountScript(
+      `https://maps.googleapis.com/maps/api/js?key=${geoCodeApiKey}&libraries=places`,
+      "google-maps",
+    );
 
     loaded.current = true;
   }

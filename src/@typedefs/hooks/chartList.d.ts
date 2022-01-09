@@ -3,60 +3,60 @@
  */
 declare interface ChartListHook {
   /**
-   * A list of all current charts.
+   * A list of all currently saved events.
    */
-  charts: EventModel[];
+  events: EventModel[];
 
   /**
-   * The currently selected chart's index within the list.
+   * The currently selected event's index within the list.
    */
-  currentChartIndex: number;
+  currentEventIndex: number;
 
   /**
-   * The currently selected chart.
+   * The currently selected event.
    */
-  currentChart: EventModel;
+  currentEvent: EventModel;
 
   /**
-   * A callback to save the current charts in local storage.
+   * A callback to save the current events in local storage.
    */
-  saveCharts(): void;
+  saveEvents(): void;
 
   /**
-   * A callback to create and select a new chart.
+   * A callback to create and select a new event.
    *
-   * @param chart - A chart to create and select. If none is given, an empty chart is created.
+   * @param event - An event to create and select. If none is given, an empty event is created.
    */
-  createChart(chart?: EventModel): void;
+  createEvent(event?: EventModel): void;
 
   /**
-   * A callback to update the current chart
+   * A callback to update the current event.
    *
-   * @param chart - A new chart to set.
+   * @param event - A new event to set.
    */
-  updateChart(chart: EventModel): void;
+  updateEvent(event: EventModel): void;
 
   /**
-   * A callback to switch to a new chart index.
+   * A callback to switch to a new event index.
    *
-   * @param index - The chart list index to switch to.
+   * @param index - The event list index to switch to.
    */
-  switchChart(index: number): void;
+  switchEvent(index: number): void;
 
   /**
-   * A callback to delete the current chart from the list.
+   * A callback to delete the current event from the list.
    */
-  removeCurrentChart(): void;
+  removeCurrentEvent(): void;
 }
 
 /**
- * A hook for managing the settings around the currently visible chart.
+ * A hook for managing the settings around the currently visible event chart.
  */
 interface LiveChartHook {
   /**
-   * The currently visible chart.
+   * The currently visible event.
    */
-  liveChart: EventModel;
+  liveEvent: EventModel;
 
   /**
    * The current biwheel added to the live chart, if there is one.
@@ -79,7 +79,7 @@ interface LiveChartHook {
   liveData: any;
 
   /**
-   * Whether the biwheel chart is selected.
+   * Whether the biwheel event is selected.
    */
   isBiwheelSelected: boolean;
 

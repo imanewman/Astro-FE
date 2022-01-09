@@ -24,7 +24,7 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
   const snackbarHook = useSnackbar();
   const routeHook = useRouting();
   const chartListHook = useChartList();
-  const liveChartHook = useLiveChart(chartListHook.currentChart);
+  const liveChartHook = useLiveChart(chartListHook.currentEvent);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

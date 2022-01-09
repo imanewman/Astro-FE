@@ -39,6 +39,7 @@ declare interface SnackbarHook {
 
   /**
    * Creates and enqueues a new snackbar message.
+   *
    * @param message - The message contents to present in a snackbar.
    * @param severity - The severity of the message. If not set, the
    * severity will default to the neutral "info".

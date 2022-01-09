@@ -24,6 +24,7 @@ export interface ThemeHook {
 
   /**
    * A setter for changing the current theme mode.
+   *
    * @param mode - The theme mode to switch to
    * */
   setThemeMode(mode: ThemeMode): void;

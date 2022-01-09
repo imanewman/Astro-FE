@@ -8,6 +8,7 @@ import {
   Box, DateTimeInput, LocationInput,
 } from "@components";
 import { useBaseContext, useDate, usePrimitive } from "@hooks";
+import { getISODateStringFromOffset } from "@utils";
 
 const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
 
@@ -20,7 +21,7 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
 export default function EventSettings(props: EventSettingsProps) {
   const { event } = props;
   const [selected, setSelected] = useState(increments[1]);
-  const { reloadLiveChart, createChart } = useBaseContext();
+  const { reloadLiveChart, createEvent } = useBaseContext();
   const localDate = usePrimitive(event, "localDate");
   const utcDate = usePrimitive(event, "utcDate");
   const { incrementDate } = useDate(localDate);
@@ -33,12 +34,20 @@ export default function EventSettings(props: EventSettingsProps) {
   };
 
   const handleSaveChart = () => {
-    createChart(event);
+    createEvent(event);
+  };
+
+  const handleLocalDateChange = (date: Date | null) => {
+    utcDate.setValue(
+      getISODateStringFromOffset(date, event.numericOffset),
+    );
+
+    reloadLiveChart();
   };
 
   return (
     <Box gapY={2} m={1}>
-      <DateTimeInput date={localDate} openTo="month" />
+      <DateTimeInput date={localDate} openTo="month" onSubmit={handleLocalDateChange} />
       <LocationInput chart={event} onSearchComplete={reloadLiveChart} />
       <Box alignX="center" gapY={1} mx={2}>
         <ButtonGroup

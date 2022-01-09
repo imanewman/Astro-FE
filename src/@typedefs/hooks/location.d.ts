@@ -1,4 +1,12 @@
 /**
+ * The latitude and longitude of a location.
+ */
+declare interface GeocodeLocation {
+  lat: number;
+  lng: number;
+}
+
+/**
  * Represents a place object returned from the Google API.
  */
 declare interface PlaceType {

@@ -1,13 +1,13 @@
 import { createContext } from "react";
-import { createNewChart } from "@models";
+import { createNewEvent } from "@models";
 
 export default createContext<ChartListHook>({
-  charts: [],
-  currentChartIndex: 0,
-  currentChart: createNewChart(),
-  saveCharts: () => {},
-  createChart: () => {},
-  updateChart: () => {},
-  switchChart: () => {},
-  removeCurrentChart: () => {},
+  events: [],
+  currentEventIndex: 0,
+  currentEvent: createNewEvent(),
+  saveEvents: () => {},
+  createEvent: () => {},
+  updateEvent: () => {},
+  switchEvent: () => {},
+  removeCurrentEvent: () => {},
 });

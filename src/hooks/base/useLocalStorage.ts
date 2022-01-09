@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
  *
  * @param key - The key to store the value under.
  * @param initialValue - The initial storage value.
+ * @return [0] The stored value, [1] sets the stored value.
  */
 export default function useLocalStorage<T>(
   key: string,

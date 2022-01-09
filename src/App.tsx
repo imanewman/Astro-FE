@@ -1,12 +1,13 @@
 import React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Paper, Typography } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ReactJson from "react-json-view";
 
-import { BaseProvider, ChartNav } from "@components";
-import { useBaseContext } from "@hooks";
+import CssBaseline from "@mui/material/CssBaseline";
+import { Paper, Typography } from "@mui/material";
+
 import { Background } from "@styles";
+import { useBaseContext } from "@hooks";
+import { BaseProvider, ChartNav } from "@components";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,10 @@ function TestDisplay() {
   );
 }
 
+/**
+ * Displays the main app.
+ * @constructor
+ */
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>

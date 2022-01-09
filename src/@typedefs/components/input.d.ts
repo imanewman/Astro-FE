@@ -38,7 +38,14 @@ export interface DateTimeInputProps {
    *
    * @default "year"
    */
-  openTo?: KeyboardDateTimePickerProps["openTo"]
+  openTo?: KeyboardDateTimePickerProps["openTo"];
+
+  /**
+   * Called when the date is submitted.
+   *
+   * @param date - The new date.
+   */
+  onSubmit?: (date: Date | null) => void;
 }
 
 /**

@@ -13,8 +13,17 @@ import { DateTimeInputProps } from "@typedefs";
  * @visibleName Date Time Input
  */
 export default function DateTimeInput(props: DateTimeInputProps) {
-  const { date, label = "Date", openTo = "year" } = props;
+  const {
+    onSubmit, date, label = "Date", openTo = "year",
+  } = props;
   const attribute = useDate(date);
+
+  const handleChange = (newDate: Date | null) => {
+    if (newDate?.toString() !== "Invalid Date") {
+      onSubmit?.(newDate);
+    }
+    attribute.setDate(newDate);
+  };
 
   return (
     <DateTimePicker
@@ -23,7 +32,7 @@ export default function DateTimeInput(props: DateTimeInputProps) {
       views={["year", "month", "day", "hours", "minutes"]}
       openTo={openTo}
       hideTabs={false}
-      onChange={attribute.setDate}
+      onChange={handleChange}
       renderInput={(inputProps) => (
         <TextField
           {...inputProps}

@@ -11,7 +11,7 @@ export interface HistoryState {
 }
 
 /**
- * A hook for interacting with the the website history.
+ * A hook for interacting with the website history.
  */
 export interface RouteHook {
   /**
@@ -23,6 +23,7 @@ export interface RouteHook {
 
   /**
    * A function for navigating to the given route.
+   *
    * @param route - A route string to navigate to.
    * @param pathVars - Any path variables to fill in on the given route.
    * @param queryParams - Any query params to attach to the route.

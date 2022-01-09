@@ -1,8 +1,8 @@
 import { useContext } from "react";
 
 import { RouteHook } from "@typedefs";
-import { RouteContext } from "@contexts";
 import { fillRoute } from "@utils";
+import { RouteContext } from "@contexts";
 
 /**
  * Creates a hook for interacting with the web history.
@@ -16,13 +16,13 @@ export default function useRouting(): RouteHook {
       const fullRoute = fillRoute(route, pathVars, queryParams);
 
       if (fullRoute.includes("mailto:") || fullRoute.includes("://")) {
-        // open direct links
+        // open direct links.
         window.open(fullRoute);
       } else if (fullRoute.includes(".com") || fullRoute.includes("www.")) {
-        // convert direct links so they arent relative
+        // convert direct links so they aren't relative.
         window.open(`http://${fullRoute}`);
       } else {
-        // open relative links
+        // open relative links.
         history.push(route, { from: history.location });
       }
     },

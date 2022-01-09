@@ -1,3 +1,5 @@
+declare type EventType = "Natal" | "Transit" | "Event" | "Horary" | "Election";
+
 /**
  * Represents an event's input settings.
  */
@@ -13,7 +15,7 @@ declare interface EventModel extends JsonObject {
   /**
    * TODO: The general type of event this represents.
    */
-  type: "Natal" | "Transit" | "Event" | "Horary" | "Election";
+  type: EventType;
   /**
    * TODO: Any tags this event is grouped by.
    */
@@ -28,13 +30,17 @@ declare interface EventModel extends JsonObject {
    */
   utcDate: string;
   /**
-   * The the timezone this event is in.
+   * The timezone this event is in.
    */
   timezone: string;
   /**
-   * TODO: The UCT offset for this timezone.
+   * TODO: The UCT offset name for this timezone.
    */
   utcOffset: string;
+  /**
+   * The UTC offset time for this timezone.
+   */
+  numericOffset: number;
 
   /**
    * The name of the location.

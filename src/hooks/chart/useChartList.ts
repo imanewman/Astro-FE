@@ -1,50 +1,50 @@
 import { useLocalStorage } from "@hooks";
 import React from "react";
-import { createNewChart } from "@models";
+import { createNewEvent } from "@models";
 
 /**
  * Creates a hook for managing a list of saved charts.
  */
 export default function useChartList(): ChartListHook {
-  const [charts, setCharts] = useLocalStorage("charts", [createNewChart()]);
-  const [currentChartIndex, setCurrentChartIndex] = React.useState(0);
-  const [currentChart, setCurrentChart] = React.useState(charts[currentChartIndex]);
+  const [events, setEvents] = useLocalStorage("charts", [createNewEvent()]);
+  const [currentEventIndex, setCurrentEventIndex] = React.useState(0);
+  const [currentEvent, setCurrentEvent] = React.useState(events[currentEventIndex]);
 
   return {
-    charts,
-    currentChartIndex,
-    currentChart,
-    saveCharts() {
-      setCharts([...charts]);
+    events,
+    currentEventIndex,
+    currentEvent,
+    saveEvents() {
+      setEvents([...events]);
     },
-    createChart(chart: EventModel = createNewChart()) {
-      setCurrentChartIndex(charts.length);
-      setCharts([...charts, chart]);
-      setCurrentChart(chart);
+    createEvent(event: EventModel = createNewEvent()) {
+      setCurrentEventIndex(events.length);
+      setEvents([...events, event]);
+      setCurrentEvent(event);
     },
-    updateChart(chart) {
-      charts[currentChartIndex] = chart;
-      setCurrentChart(chart);
+    updateEvent(event) {
+      events[currentEventIndex] = event;
+      setCurrentEvent(event);
     },
-    switchChart(index) {
-      setCurrentChartIndex(index);
-      setCurrentChart(charts[index]);
+    switchEvent(index) {
+      setCurrentEventIndex(index);
+      setCurrentEvent(events[index]);
     },
-    removeCurrentChart() {
-      const remainingCharts = charts.filter(({ id }) => currentChart.id !== id);
+    removeCurrentEvent() {
+      const remainingEvents = events.filter(({ id }) => currentEvent.id !== id);
 
-      if (remainingCharts.length === 0) {
-        const emptyChart = createNewChart();
+      if (remainingEvents.length === 0) {
+        const emptyEvent = createNewEvent();
 
-        setCharts([emptyChart]);
-        setCurrentChartIndex(0);
-        setCurrentChart(emptyChart);
+        setEvents([emptyEvent]);
+        setCurrentEventIndex(0);
+        setCurrentEvent(emptyEvent);
       } else {
-        const newIndex = Math.max(0, currentChartIndex - 1);
+        const newIndex = Math.max(0, currentEventIndex - 1);
 
-        setCharts(remainingCharts);
-        setCurrentChartIndex(newIndex);
-        setCurrentChart(remainingCharts[newIndex]);
+        setEvents(remainingEvents);
+        setCurrentEventIndex(newIndex);
+        setCurrentEvent(remainingEvents[newIndex]);
       }
     },
   };

@@ -17,7 +17,7 @@ import {
   Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
 import { useBaseContext, usePrimitive } from "@hooks";
-import { stringifyDate } from "@utils";
+import { getISODateStringFromOffset, stringifyDate } from "@utils";
 
 /**
  * Renders the button and menu for changing the loaded chart.
@@ -30,24 +30,24 @@ export default function ChartPicker() {
   const open = Boolean(anchorEl);
   const popoverId = open ? "chart-menu" : undefined;
   const {
-    charts,
-    currentChart,
-    saveCharts,
-    createChart,
-    switchChart,
-    removeCurrentChart,
+    events,
+    currentEvent,
+    saveEvents,
+    createEvent,
+    switchEvent,
+    removeCurrentEvent,
     resetLiveChart,
   } = useBaseContext();
-  const chartName = usePrimitive(currentChart, "name");
-  const localDate = usePrimitive(currentChart, "localDate");
-  const utcDate = usePrimitive(currentChart, "utcDate");
-  const chartLatitude = usePrimitive(currentChart, "latitude");
-  const chartLongitude = usePrimitive(currentChart, "longitude");
+  const chartName = usePrimitive(currentEvent, "name");
+  const localDate = usePrimitive(currentEvent, "localDate");
+  const utcDate = usePrimitive(currentEvent, "utcDate");
+  const chartLatitude = usePrimitive(currentEvent, "latitude");
+  const chartLongitude = usePrimitive(currentEvent, "longitude");
   const [showDelete, setShowDelete] = React.useState(false);
 
   const handleConfirmDelete = () => {
     setShowDelete(false);
-    removeCurrentChart();
+    removeCurrentEvent();
   };
 
   const handleOpenCharts = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -56,12 +56,18 @@ export default function ChartPicker() {
 
   const handleCloseCharts = () => {
     setAnchorEl(null);
-    saveCharts();
+    saveEvents();
     resetLiveChart();
   };
 
   const handleSearch = () => {
-    saveCharts();
+    saveEvents();
+  };
+
+  const handleLocalDateChange = (date: Date | null) => {
+    utcDate.setValue(
+      getISODateStringFromOffset(date, currentEvent.numericOffset),
+    );
   };
 
   const chartForm = (
@@ -75,8 +81,8 @@ export default function ChartPicker() {
             variant="filled"
             attribute={chartName}
           />
-          <DateTimeInput date={localDate} label="Local Date" />
-          <LocationInput chart={currentChart} onSearchComplete={handleSearch} />
+          <DateTimeInput date={localDate} label="Local Date" onSubmit={handleLocalDateChange} />
+          <LocationInput chart={currentEvent} onSearchComplete={handleSearch} />
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography>Calculated Fields</Typography>
@@ -129,14 +135,14 @@ export default function ChartPicker() {
     <Box gapY={1} minWidth={100} maxWidth={400}>
       <Typography variant="h6">Saved Charts</Typography>
       <List style={{ overflowY: "auto", maxHeight: 300 }}>
-        {charts.map(({
+        {events.map(({
           id, name, localDate: date, location,
         }, index) => (
           <ListItem
             button
             key={id}
-            onClick={() => switchChart(index)}
-            selected={currentChart.id === id}
+            onClick={() => switchEvent(index)}
+            selected={currentEvent.id === id}
           >
             <ListItemText
               primary={name || "New Chart"}
@@ -151,7 +157,7 @@ export default function ChartPicker() {
         fullWidth
         color="primary"
         variant="contained"
-        onClick={() => createChart()}
+        onClick={() => createEvent()}
       >
         Create New Chart
       </Button>

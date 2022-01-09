@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { cloneChart, createCurrentTransitsChart } from "@models";
+import { cloneEvent, createCurrentTransitsEvent } from "@models";
 import { useMutation } from "react-query";
 import { calculateChart } from "@api";
 
 /**
  * Creates a hook for managing the currently visible chart.
  */
-export default function useLiveChart(currentChart: EventModel): LiveChartHook {
-  const [liveChart, setChart] = React.useState(cloneChart(currentChart));
+export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
+  const [liveEvent, setEvent] = React.useState(cloneEvent(currentEvent));
   const [liveBiwheel, setBiwheel] = React.useState<EventModel | undefined>();
   const [liveData, setData] = useState<any>();
   const [isBiwheelSelected, setBiwheelSelected] = useState(false);
@@ -16,7 +16,7 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
     mutate: updateLiveChart,
     error: liveChartError,
     isLoading: liveChartLoading,
-  } = useMutation<ChartDataModel, Error, EventModel[]>(
+  } = useMutation<ChartModel, Error, EventModel[]>(
     (events) => calculateChart(...events),
     {
       onSuccess: (res) => setData(res),
@@ -24,26 +24,30 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
   );
 
   const resetLiveChart = () => {
-    const newChart = cloneChart(currentChart);
+    const eventCopy = cloneEvent(currentEvent);
 
-    setChart(newChart);
+    setEvent(eventCopy);
     setBiwheel(undefined);
     setBiwheelSelected(false);
 
-    if (newChart.utcDate) {
-      updateLiveChart([newChart]);
+    if (eventCopy.utcDate) {
+      updateLiveChart([eventCopy]);
     } else {
       setData(null);
     }
   };
 
   const reloadLiveChart = () => {
-    updateLiveChart(liveBiwheel ? [liveChart, liveBiwheel] : [liveChart]);
+    updateLiveChart(liveBiwheel
+      ? [liveEvent, liveBiwheel]
+      : [liveEvent]);
   };
 
   const addBiwheel = (biwheel?: EventModel) => {
     setBiwheel(biwheel);
-    updateLiveChart(biwheel ? [liveChart, biwheel] : [liveChart]);
+    updateLiveChart(biwheel
+      ? [liveEvent, biwheel]
+      : [liveEvent]);
   };
 
   const setSelectedSettings = (selected: "base" | "biwheel" | "clear") => {
@@ -53,11 +57,11 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
         break;
       case "biwheel":
         if (!liveBiwheel) {
-          addBiwheel(createCurrentTransitsChart());
+          addBiwheel(createCurrentTransitsEvent());
         }
         setBiwheelSelected(true);
         break;
-      default:
+      default: case "clear":
         addBiwheel();
         setBiwheelSelected(false);
     }
@@ -65,10 +69,10 @@ export default function useLiveChart(currentChart: EventModel): LiveChartHook {
 
   React.useLayoutEffect(() => {
     resetLiveChart();
-  }, [currentChart.id]);
+  }, [currentEvent.id]);
 
   return {
-    liveChart,
+    liveEvent,
     liveBiwheel,
     liveChartError,
     liveChartLoading,

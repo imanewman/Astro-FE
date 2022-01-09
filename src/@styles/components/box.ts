@@ -1,5 +1,4 @@
-import createStyles from "@mui/styles/createStyles";
-import makeStyles from "@mui/styles/makeStyles";
+import { ClassNameMap, createStyles, makeStyles } from "@mui/styles";
 
 import { InternalBoxProps } from "@typedefs";
 
@@ -7,8 +6,11 @@ import { InternalBoxProps } from "@typedefs";
  * Creates added styles for the box component.
  *
  * @param props - Box properties to determine styling.
+ * @return Styles classes.
  */
-export default function useBoxStyles(props: InternalBoxProps) {
+export default function useBoxStyles(
+  props: InternalBoxProps,
+): (props?: any) => ClassNameMap<"root"> {
   const {
     row, wrap, fullWidth, fullHeight, fitContent,
     spaceBetween, expandRow, alignX, alignY, gapY, gapX,
