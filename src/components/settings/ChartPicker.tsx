@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Accordion, AccordionDetails, AccordionSummary,
   Button,
@@ -13,11 +14,11 @@ import {
 } from "@mui/material";
 import { ExpandMore, KeyboardArrowDown, DonutLarge } from "@mui/icons-material";
 
+import { getISODateStringFromOffset, stringifyDate } from "@utils";
+import { useBaseContext, usePrimitive } from "@hooks";
 import {
   Box, DateTimeInput, LocationInput, TextInput,
 } from "@components";
-import { useBaseContext, usePrimitive } from "@hooks";
-import { getISODateStringFromOffset, stringifyDate } from "@utils";
 
 /**
  * Renders the button and menu for changing the loaded chart.

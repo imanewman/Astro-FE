@@ -4,10 +4,10 @@ import { IconButton, Tooltip } from "@mui/material";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 
+import { useBaseContext } from "@hooks";
 import {
   Box, ChartPicker, ChartSettings,
 } from "@components";
-import { useBaseContext } from "@hooks";
 import Nav from "./Nav";
 
 /**

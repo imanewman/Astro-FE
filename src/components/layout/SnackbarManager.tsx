@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { IconButton, Snackbar, Alert } from "@mui/material";
 
+import { IconButton, Snackbar, Alert } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
 import { SnackbarContext } from "@contexts";

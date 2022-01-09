@@ -1,11 +1,12 @@
 import React from "react";
+
 import { Button, ButtonGroup, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { Box } from "@components";
 import { useBaseContext } from "@hooks";
+import { Box } from "@components";
 import EventSettings from "./EventSettings";
 
 /**
