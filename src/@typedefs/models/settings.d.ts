@@ -1,4 +1,22 @@
-declare type EventType = "Natal" | "Transit" | "Event" | "Horary" | "Election";
+declare type EventType
+  = "Natal"
+  | "Transit"
+  | "Event"
+  | "Horary"
+  | "Election";
+
+declare type HouseSystem
+  = "Whole Sign"
+  | "Placidus"
+  | "Equal"
+  | "Porphyry"
+  | "Regiomontanus"
+  | "Campanus";
+
+declare type AspectSort
+  = "Point Order"
+  | "Smallest Orb"
+  | "Closest Exact";
 
 /**
  * Represents an event's input settings.
@@ -13,11 +31,11 @@ declare interface EventModel extends JsonObject {
    */
   name: string;
   /**
-   * TODO: The general type of event this represents.
+   * The general type of event this represents.
    */
   type: EventType;
   /**
-   * TODO: Any tags this event is grouped by.
+   * Any tags this event is grouped by.
    */
   tags: string[];
 
@@ -34,7 +52,7 @@ declare interface EventModel extends JsonObject {
    */
   timezone: string;
   /**
-   * TODO: The UCT offset name for this timezone.
+   * The UCT offset name for this timezone.
    */
   utcOffset: string;
   /**
@@ -60,12 +78,26 @@ declare interface EventModel extends JsonObject {
  * Represents an event and its enabled points.
  */
 declare interface EventSettingsModel extends JsonObject {
+  /**
+   * The time and place of the event.
+   */
   event: EventModel;
+  /**
+   * The house system to calculate the cusps of.
+   */
+  secondary_house_system?: HouseSystem;
+  /**
+   * The way to sort the aspects.
+   */
+  aspectSort?: AspectSort;
 }
 
 /**
  * Represents a collection of events and input settings.
  */
 declare interface SettingsModel extends JsonObject {
+  /**
+   * The events to calculated charts for.
+   */
   events: EventSettingsModel[];
 }

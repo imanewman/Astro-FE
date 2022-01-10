@@ -1,5 +1,6 @@
 import { TextFieldProps } from "@mui/material/TextField/TextField";
 import { KeyboardDateTimePickerProps } from "@mui/lab";
+import { SelectProps } from "@mui/material";
 /**
  * Props for rendering a location input field.
  */
@@ -49,11 +50,53 @@ export interface DateTimeInputProps {
 }
 
 /**
- * Props for rendering a text input
+ * Props for rendering a text input.
  */
 declare type TextInputProps = TextFieldProps & {
   /**
-   * A hook for editing a name.
+   * A hook for editing an attribute.
    */
   attribute: AttributeHook<string>;
 };
+
+/**
+ * Props for rendering a select input.
+ */
+declare type SelectInputProps = SelectProps<string> & {
+  /**
+   * The input label.
+   */
+  label: string;
+  /**
+   * The options to select from.
+   */
+  options: string[];
+  /**
+   * Whether to include an option of none.
+   *
+   * @default False
+   */
+  includeNone?: boolean;
+  /**
+   * A hook for editing an attribute.
+   */
+  attribute: AttributeHook<string>;
+};
+
+/**
+ * Props for rendering a multiselect input.
+ */
+declare interface MultiselectInputProps {
+  /**
+   * The input label.
+   */
+  label: string;
+  /**
+   * The options to select from.
+   */
+  options: string[];
+  /**
+   * A hook for editing an attribute.
+   */
+  attribute: AttributeHook<string[]>;
+}

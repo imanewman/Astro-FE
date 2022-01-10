@@ -1,7 +1,21 @@
 import LocationInput from "./LocationInput";
 import DateTimeInput from "./DateTimeInput";
 import TextInput from "./TextInput";
+import SelectInput from "./SelectInput";
+import MultiselectInput from "./MultiselectInput";
 
-export { LocationInput, DateTimeInput, TextInput };
+export {
+  TextInput,
+  SelectInput,
+  MultiselectInput,
+  LocationInput,
+  DateTimeInput,
+};
 
-export default { LocationInput, DateTimeInput, TextInput };
+export default {
+  TextInput,
+  SelectInput,
+  MultiselectInput,
+  LocationInput,
+  DateTimeInput,
+};

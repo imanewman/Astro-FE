@@ -7,10 +7,10 @@ import {
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 
-import { getISODateStringFromOffset } from "@utils";
+import { storableEventTypes, getISODateStringFromOffset } from "@utils";
 import { useBaseContext, usePrimitive } from "@hooks";
 import {
-  Box, DateTimeInput, LocationInput, TextInput,
+  Box, DateTimeInput, LocationInput, MultiselectInput, SelectInput, TextInput,
 } from "@components";
 
 /**
@@ -27,6 +27,8 @@ export default function ChartPickerForm(props: ChartPickerFormProps) {
     removeCurrentEvent,
   } = useBaseContext();
   const chartName = usePrimitive(currentEvent, "name");
+  const chartType = usePrimitive(currentEvent, "type");
+  const chartTags = usePrimitive(currentEvent, "tags");
   const localDate = usePrimitive(currentEvent, "localDate");
   const utcDate = usePrimitive(currentEvent, "utcDate");
   const chartLatitude = usePrimitive(currentEvent, "latitude");
@@ -50,15 +52,32 @@ export default function ChartPickerForm(props: ChartPickerFormProps) {
       <Typography variant="h6">Current Chart</Typography>
       <form noValidate autoComplete="off">
         <Box gapY={1}>
-          <TextInput
-            fullWidth
-            label="Name"
-            variant="filled"
-            attribute={chartName}
-            onBlur={saveEvents}
+          <Box row>
+            <TextInput
+              fullWidth
+              label="Name"
+              attribute={chartName}
+              onBlur={saveEvents}
+              style={{ marginRight: 10 }}
+            />
+            <SelectInput
+              label="Type"
+              options={storableEventTypes}
+              attribute={chartType}
+            />
+          </Box>
+          <DateTimeInput
+            label="Local Date"
+            date={localDate}
+            onSubmit={handleLocalDateChange}
           />
-          <DateTimeInput date={localDate} label="Local Date" onSubmit={handleLocalDateChange} />
           <LocationInput chart={currentEvent} onSearchComplete={saveEvents} />
+          <MultiselectInput
+            label="Tags"
+            options={[]}
+            attribute={chartTags}
+          />
+
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography>Calculated Fields</Typography>
@@ -68,21 +87,20 @@ export default function ChartPickerForm(props: ChartPickerFormProps) {
                 <Box row gapX={1}>
                   <TextInput
                     label="Latitude"
-                    variant="filled"
                     type="number"
                     attribute={chartLatitude}
                   />
                   <TextInput
                     label="Longitude"
-                    variant="filled"
                     type="number"
                     attribute={chartLongitude}
                   />
                 </Box>
-                <DateTimeInput date={utcDate} label="Universal Date" />
+                <DateTimeInput label="Universal Date" date={utcDate} />
               </Box>
             </AccordionDetails>
           </Accordion>
+
           <Box row justifyContent="space-between">
             {showDelete ? (
               <Box row gapX={1}>

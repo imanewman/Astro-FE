@@ -23,11 +23,13 @@ async function findLocation(event: EventModel, locationName: string): Promise<vo
   const geocode = await findGeocode(locationName);
   const timezone = await findTimezone(jsLocalDate, geocode);
   const [utcDate, offset] = getUTCDateAndOffset(jsLocalDate, timezone);
+  const offsetHours = offset / 1000 / 60 / 60;
 
   event.utcDate = isoDate(utcDate);
   event.timezone = timezone.timeZoneId;
   event.location = locationName;
   event.numericOffset = offset;
+  event.utcOffset = `UTC${offsetHours}.00`;
   event.latitude = String(geocode.lat);
   event.longitude = String(geocode.lng);
 }

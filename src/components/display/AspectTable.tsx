@@ -5,16 +5,16 @@ import { stringifyDate } from "@utils";
 
 const columns: GridColDef[] = [
   {
-    field: "fromPoint",
-    headerName: "Natal",
+    field: "toPoint",
+    headerName: "Transiting",
   },
   {
     field: "aspect",
     headerName: "Aspect",
   },
   {
-    field: "toPoint",
-    headerName: "Transiting",
+    field: "fromPoint",
+    headerName: "Natal",
   },
   {
     field: "movement",
