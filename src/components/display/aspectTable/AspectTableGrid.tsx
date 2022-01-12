@@ -53,14 +53,14 @@ function createColumns(
 }
 
 /**
- * Creates an array of rendered aspects in the collection.
+ * Creates an array of aspects in the collection.
  *
  * TODO: remove filer. Extract out conversion to grid data format.
  *
  * @param collection - The collection to convert.
- * @return The renderable aspects.
+ * @return The created aspects.
  */
-function createRenderedAspects(
+function createAspects(
   collection: RelationshipCollectionModel,
 ): JsonObject[] {
   return collection.relationships
@@ -110,7 +110,7 @@ export default function AspectTableGrid(props: AspectTableProps) {
   const [columns, setColumns] = useState<GridColDef[]>([]);
 
   useEffect(() => {
-    setAspects(createRenderedAspects(collection));
+    setAspects(createAspects(collection));
     setColumns(createColumns(summary.fromEvent.type, summary.toEvent.type));
   }, [collection]);
 
