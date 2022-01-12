@@ -35,7 +35,7 @@ export default function SelectInput(props: SelectInputProps) {
           </MenuItem>
         )}
         {options.map((option) => (
-          <MenuItem value={option}>
+          <MenuItem value={option} key={option}>
             {option}
           </MenuItem>
         ))}

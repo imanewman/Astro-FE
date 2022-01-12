@@ -39,27 +39,27 @@ const columns: GridColDef[] = [
 ];
 
 /**
- * Renders a component.
+ * Renders a table of aspects.
  *
  * @constructor
- * @visibleName Aspect Table
+ * @visibleName Aspect Table Grid
  */
-export default function AspectTable(props: AspectTableProps) {
+export default function AspectTableGrid(props: AspectTableProps) {
   const { collection } = props;
   const [aspects, setAspects] = useState<JsonObject[]>([]);
 
   useEffect(() => {
-    // TODO: remove filer.
+    // TODO: remove filer. Extract out conversion to grid data format.
     setAspects(
       collection.relationships
-        .filter((rel) => ![
-          "Ascendant", "Descendant", "Midheaven", "Inner Heaven", "Vertex",
-        ].includes(rel.toPoint)
-          && !rel.toPoint.includes("Lot ")
-          && (rel.eclipticAspect.localDateOfExact
-            || rel.precessionCorrectedAspect.localDateOfExact)
-          && (rel.eclipticAspect.movement?.includes("Applying")
-            || rel.precessionCorrectedAspect.movement?.includes("Applying")))
+        // .filter((rel) => ![
+        //   "Ascendant", "Descendant", "Midheaven", "Inner Heaven", "Vertex",
+        // ].includes(rel.toPoint)
+        //   && !rel.toPoint.includes("Lot ")
+        //   && (rel.eclipticAspect.localDateOfExact
+        //     || rel.precessionCorrectedAspect.localDateOfExact)
+        //   && (rel.eclipticAspect.movement?.includes("Applying")
+        //     || rel.precessionCorrectedAspect.movement?.includes("Applying")))
         .map((rel) => ({
           id: `${rel.fromPoint}-${rel.toPoint}`,
           fromPoint: rel.fromPoint,

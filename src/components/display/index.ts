@@ -1,3 +1,3 @@
-export { default as AspectTable } from "./AspectTable";
+export * from "./aspectTable";
 
 export default {};

@@ -130,7 +130,7 @@ declare interface EventSettingsModel extends JsonObject {
    * When calculating aspect between points in different enabled objects,
    * orbs and aspect types will be taken from the latter of the two points.
    */
-  enabled: EnabledPointsModel[];
+  enabled?: EnabledPointsModel[];
 }
 
 /**
