@@ -5,16 +5,39 @@ import { CircularProgress, Typography } from "@mui/material";
 import AspectTableGrid from "./AspectTableGrid";
 
 /**
- * Renders a aspect table for any loaded collections of aspects.
+ * Creates event summaries for each set of relationships.
+ *
+ * @param data - The chart data.
+ * @return The created summaries.
+ */
+function getRelationshipSummaries(
+  data: ChartCollectionModel,
+): RelationshipSummary[] {
+  return data.relationships.map(({ fromChartIndex, toChartIndex }) => {
+    const fromEvent = data.charts[fromChartIndex].event;
+    const toEvent = data.charts[toChartIndex || fromChartIndex].event;
+
+    return {
+      fromEvent,
+      toEvent,
+      name: `${fromEvent.name} & ${toEvent.name}`,
+    };
+  });
+}
+
+/**
+ * Renders an aspect table for any loaded collections of aspects.
  *
  * @constructor
  * @visibleName Aspect Table
  */
 export default function AspectTable() {
   const { liveData, liveChartError, liveChartLoading } = useBaseContext();
-  const [collectionNames, setCollectionNames] = useState<string[]>([]);
+  const [summaries, setSummaries] = useState<RelationshipSummary[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const collection = liveData?.relationships[currentIndex];
+  const summary = summaries[currentIndex];
+  const collectionNames = summaries.map(({ name }) => name);
   const collectionName = collectionNames[currentIndex] || "";
 
   const attribute = {
@@ -28,20 +51,13 @@ export default function AspectTable() {
 
   useEffect(() => {
     if (liveData) {
-      setCollectionNames(
-        liveData.relationships.map(({ fromChartIndex, toChartIndex }) => {
-          const firstChart = liveData.charts[fromChartIndex].event.name;
-          const secondChart = liveData.charts[toChartIndex || fromChartIndex].event.name;
-
-          return `${firstChart} & ${secondChart}`;
-        }),
-      );
+      setSummaries(getRelationshipSummaries(liveData));
 
       if (currentIndex > liveData.relationships.length) {
         setCurrentIndex(0);
       }
     } else {
-      setCollectionNames([]);
+      setSummaries([]);
     }
   }, [liveData]);
 
@@ -57,8 +73,8 @@ export default function AspectTable() {
           <CircularProgress style={{ marginLeft: 20 }} />
         )}
       </Box>
-      {collection && (
-        <AspectTableGrid collection={collection} />
+      {collection && summary && (
+        <AspectTableGrid collection={collection} summary={summary} />
       )}
       {liveChartError && (
         <Typography color="error">{liveChartError}</Typography>
