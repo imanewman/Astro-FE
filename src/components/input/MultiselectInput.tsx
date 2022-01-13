@@ -1,9 +1,15 @@
 import React from "react";
 
-import { Chip, TextField } from "@mui/material";
+import {
+  Checkbox, Chip, TextField, Autocomplete,
+} from "@mui/material";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 import { MultiselectInputProps } from "@typedefs";
-import { Autocomplete } from "@mui/lab";
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 /**
  * Renders an input for multiselect options, bound to the given attribute.
@@ -17,6 +23,8 @@ export default function MultiselectInput(props: MultiselectInputProps) {
     attribute,
     options,
     label,
+    limitTags,
+    ...rest
   } = props;
 
   const handleChange = (value: string | string[]) => {
@@ -27,17 +35,33 @@ export default function MultiselectInput(props: MultiselectInputProps) {
 
   return (
     <Autocomplete
+      {...rest}
       multiple
+      freeSolo
+      disableCloseOnSelect
+      limitTags={limitTags}
       options={options}
       value={attribute.value}
       onChange={(e, value) => handleChange(value)}
-      freeSolo
       renderTags={(
         value: readonly string[],
         getTagProps,
       ) => value.map((option: string, index: number) => (
-        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+        (!limitTags || index < limitTags) ? (
+          <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+        ) : null
       ))}
+      renderOption={(optionProps, option, { selected }) => (
+        <li {...optionProps}>
+          <Checkbox
+            icon={icon}
+            checkedIcon={checkedIcon}
+            style={{ marginRight: 8 }}
+            checked={selected}
+          />
+          {option}
+        </li>
+      )}
       renderInput={(params) => (
         <TextField
           {...params}

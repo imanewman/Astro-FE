@@ -1,7 +1,11 @@
-import { createNewEvent } from "@models";
 import useChartList from "./useChartList";
 import useLiveChart from "./useLiveChart";
+import useRelationships from "./useRelationships";
 
-export { useChartList, useLiveChart, createNewEvent };
+export {
+  useChartList, useLiveChart, useRelationships,
+};
 
-export default { useChartList, useLiveChart, createNewEvent };
+export default {
+  useChartList, useLiveChart, useRelationships,
+};

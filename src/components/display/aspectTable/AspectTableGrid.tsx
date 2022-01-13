@@ -57,21 +57,13 @@ function createColumns(
  *
  * TODO: remove filer. Extract out conversion to grid data format.
  *
- * @param collection - The collection to convert.
+ * @param relationships - The relationships to convert.
  * @return The created aspects.
  */
 function createAspects(
-  collection: RelationshipCollectionModel,
+  relationships: RelationshipModel[],
 ): JsonObject[] {
-  return collection.relationships
-  // .filter((rel) => ![
-  //   "Ascendant", "Descendant", "Midheaven", "Inner Heaven", "Vertex",
-  // ].includes(rel.toPoint)
-  //   && !rel.toPoint.includes("Lot ")
-  //   && (rel.eclipticAspect.localDateOfExact
-  //     || rel.precessionCorrectedAspect.localDateOfExact)
-  //   && (rel.eclipticAspect.movement?.includes("Applying")
-  //     || rel.precessionCorrectedAspect.movement?.includes("Applying")))
+  return relationships
     .map((rel) => {
       const base = {
         id: `${rel.fromPoint}-${rel.toPoint}`,
@@ -88,6 +80,7 @@ function createAspects(
         base,
         {
           ...base,
+          id: `${rel.fromPoint}-${rel.toPoint}-declination`,
           movement: rel.declinationAspect.movement,
           dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
           movementPC: "",
@@ -105,14 +98,14 @@ function createAspects(
  * @visibleName Aspect Table Grid
  */
 export default function AspectTableGrid(props: AspectTableProps) {
-  const { collection, summary } = props;
+  const { collection, visibleRelationships } = props;
   const [aspects, setAspects] = useState<JsonObject[]>([]);
   const [columns, setColumns] = useState<GridColDef[]>([]);
 
   useEffect(() => {
-    setAspects(createAspects(collection));
-    setColumns(createColumns(summary.fromEvent.type, summary.toEvent.type));
-  }, [collection]);
+    setAspects(createAspects(visibleRelationships));
+    setColumns(createColumns(collection.fromChartType, collection.toChartType));
+  }, [visibleRelationships]);
 
   return (
     <div style={{ height: 600, width: "100%" }}>

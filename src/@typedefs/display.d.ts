@@ -1,21 +1,4 @@
 /**
- * Summarizes a collection of relationships.
- */
-interface RelationshipSummary {
-  /**
-   * The starting event.
-   */
-  fromEvent: EventModel;
-  /**
-   * The ending event.
-   */
-  toEvent: EventModel;
-  /**
-   * The summary name.
-   */
-  name: string
-}
-/**
  * Props for rendering an aspect table.
  */
 declare interface AspectTableProps {
@@ -24,7 +7,17 @@ declare interface AspectTableProps {
    */
   collection: RelationshipCollectionModel;
   /**
-   * The summary of the aspects.
+   * The currently visible relationships.
    */
-  summary: RelationshipSummary
+  visibleRelationships: RelationshipModel[];
+}
+
+/**
+ * Props for rendering visible aspects and points.
+ */
+declare interface VisibleProps {
+  /**
+   * The collection of visible items.
+   */
+  attribute: AttributeHook<string[]>;
 }

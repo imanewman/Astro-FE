@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useBaseContext } from "@hooks";
-import { Box, SelectInput } from "@components";
+import React from "react";
+
 import { CircularProgress, Typography } from "@mui/material";
+
+import { useBaseContext, useRelationships } from "@hooks";
+import { Box, SelectInput } from "@components";
 import AspectTableGrid from "./AspectTableGrid";
-
-/**
- * Creates event summaries for each set of relationships.
- *
- * @param data - The chart data.
- * @return The created summaries.
- */
-function getRelationshipSummaries(
-  data: ChartCollectionModel,
-): RelationshipSummary[] {
-  return data.relationships.map(({ fromChartIndex, toChartIndex }) => {
-    const fromEvent = data.charts[fromChartIndex].event;
-    const toEvent = data.charts[toChartIndex || fromChartIndex].event;
-
-    return {
-      fromEvent,
-      toEvent,
-      name: `${fromEvent.name} & ${toEvent.name}`,
-    };
-  });
-}
+import VisiblePoints from "./VisiblePoints";
+import VisibleAspects from "./VisibleAspects";
 
 /**
  * Renders an aspect table for any loaded collections of aspects.
@@ -32,49 +15,33 @@ function getRelationshipSummaries(
  * @visibleName Aspect Table
  */
 export default function AspectTable() {
-  const { liveData, liveChartError, liveChartLoading } = useBaseContext();
-  const [summaries, setSummaries] = useState<RelationshipSummary[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const collection = liveData?.relationships[currentIndex];
-  const summary = summaries[currentIndex];
-  const collectionNames = summaries.map(({ name }) => name);
-  const collectionName = collectionNames[currentIndex] || "";
-
-  const attribute = {
-    value: collectionName,
-    setValue(name: string) {
-      const collectionIndex = collectionNames.indexOf(name);
-
-      setCurrentIndex(collectionIndex);
-    },
-  };
-
-  useEffect(() => {
-    if (liveData) {
-      setSummaries(getRelationshipSummaries(liveData));
-
-      if (currentIndex > liveData.relationships.length) {
-        setCurrentIndex(0);
-      }
-    } else {
-      setSummaries([]);
-    }
-  }, [liveData]);
+  const { liveChartError, liveChartLoading } = useBaseContext();
+  const {
+    collection, collectionNames, selectedName,
+    visiblePoints, visibleAspects,
+    visibleRelationships,
+  } = useRelationships();
 
   return (
     <Box>
-      <Box row>
+      <Box row wrap gapX={1} alignItems="center">
         <SelectInput
           label="Aspects Between"
           options={collectionNames}
-          attribute={attribute}
+          attribute={selectedName}
+          sx={{ minWidth: 120 }}
         />
+        <VisiblePoints attribute={visiblePoints} />
+        <VisibleAspects attribute={visibleAspects} />
         {liveChartLoading && (
-          <CircularProgress style={{ marginLeft: 20 }} />
+          <CircularProgress style={{ marginLeft: 10 }} />
         )}
       </Box>
-      {collection && summary && (
-        <AspectTableGrid collection={collection} summary={summary} />
+      {collection && (
+        <AspectTableGrid
+          collection={collection}
+          visibleRelationships={visibleRelationships}
+        />
       )}
       {liveChartError && (
         <Typography color="error">{liveChartError}</Typography>

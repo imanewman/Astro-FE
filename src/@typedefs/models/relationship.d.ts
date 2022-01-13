@@ -60,10 +60,21 @@ declare interface RelationshipCollectionModel extends JsonObject {
    */
   fromChartIndex: number;
   /**
-   * The index of the chart that these aspects are calculated going to.
-   * The value is null if aspects are within a single chart.
+   * The type of the chart that these aspects are calculated going from.
    */
-  toChartIndex: number | null;
+  fromChartType: string;
+  /**
+   * The index of the chart that these aspects are calculated going to.
+   */
+  toChartIndex: number;
+  /**
+   * The type of the chart that these aspects are calculated going to.
+   */
+  toChartType: string;
+  /**
+   * The name of these relationships.
+   */
+  name: string;
   /**
    * A list of relationships between every set of points in the first to the second chart.
    */

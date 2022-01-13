@@ -24,6 +24,7 @@ declare type AspectType
   | "Trine"
   | "Square"
   | "Sextile"
+  | "Quintile"
   | "Bi-Quintile"
   | "Septile"
   | "Bi-Septile"

@@ -1,6 +1,6 @@
 import { TextFieldProps } from "@mui/material/TextField/TextField";
 import { KeyboardDateTimePickerProps } from "@mui/lab";
-import { SelectProps } from "@mui/material";
+import { AutocompleteProps, SelectProps } from "@mui/material";
 /**
  * Props for rendering a location input field.
  */
@@ -86,7 +86,8 @@ declare type SelectInputProps = SelectProps<string> & {
 /**
  * Props for rendering a multiselect input.
  */
-declare interface MultiselectInputProps {
+declare interface MultiselectInputProps
+  extends Partial<AutocompleteProps<string, true, false, true>> {
   /**
    * The input label.
    */
