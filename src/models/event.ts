@@ -50,8 +50,8 @@ export function createCurrentTransitsEvent(): EventModel {
     type: "Transit",
     utcDate: getISODateStringFromOffset(new Date(), -18000000),
     localDate: isoDate(new Date()),
-    location: "Manhattan, New York, NY, USA",
-    latitude: "40.78",
-    longitude: "-73.97",
+    location: "Kirkland, WA, USA",
+    latitude: "47.67",
+    longitude: "-122.20",
   });
 }
