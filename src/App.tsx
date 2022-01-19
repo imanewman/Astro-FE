@@ -4,9 +4,26 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import { Background } from "@styles";
-import { AspectTable, BaseProvider, ChartNav } from "@components";
+import {
+  AspectTable, BaseProvider, Box, ChartNav,
+} from "@components";
+import { useBaseContext } from "@hooks";
 
 const queryClient = new QueryClient();
+
+/**
+ * Displays the app tools.
+ * @constructor
+ */
+function AppTools() {
+  const { enabledAspectTable } = useBaseContext();
+
+  return (
+    <Box>
+      {enabledAspectTable && <AspectTable />}
+    </Box>
+  );
+}
 
 /**
  * Displays the main app.
@@ -19,7 +36,7 @@ export default function App() {
       <BaseProvider>
         <Background>
           <ChartNav>
-            <AspectTable />
+            <AppTools />
           </ChartNav>
         </Background>
       </BaseProvider>

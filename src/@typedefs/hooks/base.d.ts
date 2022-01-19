@@ -6,4 +6,4 @@ import { RouteHook } from "./route";
  */
 export interface BaseHook extends
   ThemeHook, RouteHook, SnackbarHook,
-  ChartListHook, LiveChartHook {}
+  ChartListHook, LiveChartHook, ToolsHook {}

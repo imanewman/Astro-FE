@@ -4,10 +4,10 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 import {
-  useChartList, useLiveChart, useRouting, useSnackbar,
+  useChartList, useLiveChart, useRouting, useSnackbar, useTools,
 } from "@hooks";
 import {
-  RouteContext, SnackbarContext, ChartListContext, LiveChartContext,
+  RouteContext, SnackbarContext, ChartListContext, LiveChartContext, ToolsContext,
 } from "@contexts";
 import { SnackbarManager } from "@components";
 import ThemeProvider from "./ThemeProvider";
@@ -24,6 +24,7 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
   const routeHook = useRouting();
   const chartListHook = useChartList();
   const liveChartHook = useLiveChart(chartListHook.currentEvent);
+  const toolsHook = useTools();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -32,7 +33,9 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
           <ChartListContext.Provider value={chartListHook}>
             <LiveChartContext.Provider value={liveChartHook}>
               <SnackbarContext.Provider value={snackbarHook}>
-                {children}
+                <ToolsContext.Provider value={toolsHook}>
+                  {children}
+                </ToolsContext.Provider>
                 <SnackbarManager />
               </SnackbarContext.Provider>
             </LiveChartContext.Provider>

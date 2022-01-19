@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { BaseHook } from "@typedefs";
 import {
-  ChartListContext, LiveChartContext, RouteContext, SnackbarContext, ThemeContext,
+  ChartListContext, LiveChartContext, RouteContext, SnackbarContext, ThemeContext, ToolsContext,
 } from "@contexts";
 
 /**
@@ -15,5 +15,6 @@ export default function useBaseContext(): BaseHook {
     ...useContext(SnackbarContext),
     ...useContext(ChartListContext),
     ...useContext(LiveChartContext),
+    ...useContext(ToolsContext),
   };
 }

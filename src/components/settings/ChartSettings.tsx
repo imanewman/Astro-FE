@@ -1,13 +1,12 @@
 import React from "react";
 
-import { Button, ButtonGroup, Tooltip } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import { Divider } from "@mui/material";
 
 import { useBaseContext } from "@hooks";
 import { Box } from "@components";
 import EventSettings from "./EventSettings";
+import EnabledTools from "./EnabledTools";
+import BiwheelToggle from "./BiwheelToggle";
 
 /**
  * Renders the settings to edit the current chart view.
@@ -16,47 +15,19 @@ import EventSettings from "./EventSettings";
  * @visibleName Chart Settings
  */
 export default function ChartSettings() {
-  const {
-    liveEvent, liveBiwheel,
-    isBiwheelSelected, setSelectedSettings,
-  } = useBaseContext();
-
-  const BiwheelIcon = () => {
-    if (!liveBiwheel) {
-      return <AddIcon />;
-    } if (isBiwheelSelected) {
-      return <DeleteIcon />;
-    }
-    return <EditIcon />;
-  };
+  const { liveEvent, liveBiwheel, isBiwheelSelected } = useBaseContext();
 
   return (
     <Box gapY={2}>
-      <ButtonGroup fullWidth>
-        <Tooltip title="Edit base chart" enterDelay={300}>
-          <Button
-            variant={!isBiwheelSelected ? "contained" : "outlined"}
-            onClick={() => setSelectedSettings("base")}
-          >
-            Base
-          </Button>
-        </Tooltip>
-        <Tooltip
-          title={`${isBiwheelSelected ? "Delete" : "Edit"} biwheel chart`}
-          enterDelay={300}
-        >
-          <Button
-            variant={isBiwheelSelected ? "contained" : "outlined"}
-            onClick={() => setSelectedSettings(isBiwheelSelected ? "clear" : "biwheel")}
-            startIcon={<BiwheelIcon />}
-          >
-            Biwheel
-          </Button>
-        </Tooltip>
-      </ButtonGroup>
+      <BiwheelToggle />
+
       <EventSettings
         eventSettings={liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent}
       />
+
+      <Divider />
+
+      <EnabledTools />
     </Box>
   );
 }
