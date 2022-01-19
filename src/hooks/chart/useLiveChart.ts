@@ -2,6 +2,27 @@ import React, { useState } from "react";
 import { cloneEvent, createCurrentTransitsEvent } from "@models";
 import { useMutation } from "react-query";
 import { calculateChart } from "@api";
+import { defaultNatalPoints, defaultTransitPoints } from "@utils";
+
+/**
+ * TODO: delete once event settings are editable.
+ */
+function createNatalSettings(event: EventModel): EventSettingsModel {
+  return {
+    event,
+    enabled: [{ points: defaultNatalPoints }],
+  };
+}
+
+/**
+ * TODO: delete once event settings are editable.
+ */
+function createTransitSettings(event: EventModel): EventSettingsModel {
+  return {
+    event,
+    enabled: [{ points: defaultTransitPoints }],
+  };
+}
 
 /**
  * Creates a hook for managing the currently visible chart.
@@ -16,7 +37,7 @@ export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
     mutate: updateLiveChart,
     error: liveChartError,
     isLoading: liveChartLoading,
-  } = useMutation<ChartCollectionModel, Error, EventModel[]>(
+  } = useMutation<ChartCollectionModel, Error, EventSettingsModel[]>(
     (events) => calculateChart(...events),
     {
       onSuccess: (res) => setData(res),
@@ -31,7 +52,7 @@ export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
     setBiwheelSelected(false);
 
     if (eventCopy.utcDate) {
-      updateLiveChart([eventCopy]);
+      updateLiveChart([createNatalSettings(eventCopy)]);
     } else {
       setData(undefined);
     }
@@ -39,15 +60,15 @@ export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
 
   const reloadLiveChart = () => {
     updateLiveChart(liveBiwheel
-      ? [liveEvent, liveBiwheel]
-      : [liveEvent]);
+      ? [createNatalSettings(liveEvent), createTransitSettings(liveBiwheel)]
+      : [createNatalSettings(liveEvent)]);
   };
 
   const addBiwheel = (biwheel?: EventModel) => {
     setBiwheel(biwheel);
     updateLiveChart(biwheel
-      ? [liveEvent, biwheel]
-      : [liveEvent]);
+      ? [createNatalSettings(liveEvent), createTransitSettings(biwheel)]
+      : [createNatalSettings(liveEvent)]);
   };
 
   const setSelectedSettings = (selected: "base" | "biwheel" | "clear") => {

@@ -50,15 +50,15 @@ declare interface EnabledPointsModel {
   /**
    * Defines what midpoints should be enabled for calculations.
    */
-  midpoints: MidpointModel[];
+  midpoints?: MidpointModel[];
   /**
    * The orbs to use for aspect calculations.
    */
-  orbs: AspectOrbsModel;
+  orbs?: AspectOrbsModel;
   /**
    * Defines what aspects should be enabled for calculations.
    */
-  aspects: AspectType[];
+  aspects?: AspectType[];
 }
 
 /**

@@ -32,30 +32,18 @@ function createColumns(
     {
       field: "movement",
       headerName: "Movement",
-      width: 110,
+      minWidth: 150,
     },
     {
       field: "dateExact",
       headerName: "Date Exact",
-      width: 160,
-    },
-    {
-      field: "movementPC",
-      headerName: "PC Movement",
-      width: 110,
-    },
-    {
-      field: "dateExactPC",
-      headerName: "PC Date Exact",
-      width: 160,
+      flex: 1,
     },
   ];
 }
 
 /**
  * Creates an array of aspects in the collection.
- *
- * TODO: remove filer. Extract out conversion to grid data format.
  *
  * @param relationships - The relationships to convert.
  * @return The created aspects.
@@ -65,28 +53,38 @@ function createAspects(
 ): JsonObject[] {
   return relationships
     .map((rel) => {
-      const base = {
+      const formattedMovement = rel.eclipticAspect.movement || "";
+      const formattedPcMovement = rel.precessionCorrectedAspect.movement || "";
+      const movement = !formattedPcMovement || formattedMovement === formattedPcMovement
+        ? formattedMovement
+        : `${formattedMovement} [${formattedPcMovement}]`;
+
+      const formattedDate = stringifyDate(rel.eclipticAspect.localDateOfExact);
+      const formattedPcDate = stringifyDate(rel.precessionCorrectedAspect.localDateOfExact);
+      const formattedPcTime = formattedPcDate.split(" ").slice(1).join(" ");
+      const day = formattedDate.split(" ")[0].split("/")[2] || "";
+      const pcDay = formattedPcDate.split(" ")[0].split("/")[2] || "";
+      const pcExact = day === pcDay ? formattedPcTime : formattedPcDate;
+      const dateExact = pcExact ? `${formattedDate} [${pcExact}]` : formattedDate;
+
+      const aspect = {
         id: `${rel.fromPoint}-${rel.toPoint}`,
         fromPoint: rel.fromPoint,
         aspect: rel.eclipticAspect.type || rel.precessionCorrectedAspect.type,
         toPoint: rel.toPoint,
-        movement: rel.eclipticAspect.movement,
-        dateExact: stringifyDate(rel.eclipticAspect.localDateOfExact),
-        movementPC: rel.precessionCorrectedAspect.movement,
-        dateExactPC: stringifyDate(rel.precessionCorrectedAspect.localDateOfExact),
+        movement,
+        dateExact,
       };
 
-      return rel.declinationAspect.type ? [
-        base,
-        {
-          ...base,
-          id: `${rel.fromPoint}-${rel.toPoint}-declination`,
-          movement: rel.declinationAspect.movement,
-          dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
-          movementPC: "",
-          dateExactPC: "",
-        },
-      ] : [base];
+      const declinationAspect = rel.declinationAspect.type && {
+        ...aspect,
+        id: `${rel.fromPoint}-${rel.toPoint}-declination`,
+        aspect: rel.declinationAspect.type,
+        movement: rel.declinationAspect.movement,
+        dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
+      };
+
+      return declinationAspect ? [aspect, declinationAspect] : [aspect];
     })
     .reduce((acc, cur) => [...acc, ...cur], []);
 }
@@ -108,7 +106,7 @@ export default function AspectTableGrid(props: AspectTableProps) {
   }, [visibleRelationships]);
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ height: 600, width: 800 }}>
       <DataGrid
         columns={columns}
         rows={aspects}

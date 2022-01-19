@@ -46,6 +46,53 @@ export const allPoints: Point[] = [
   "Lot of Nemesis",
 ];
 
+export const defaultNatalPoints: Point[] = [
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Sun",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+  "True North Node",
+  "True South Node",
+  "Ceres",
+  "Pallas",
+  "Juno",
+  "Vesta",
+  "Chiron",
+  "Ascendant",
+  "Midheaven",
+  "Descendant",
+  "Inner Heaven",
+  "Vertex",
+  "Lot of Fortune",
+  "Lot of Spirit",
+];
+
+export const defaultTransitPoints: Point[] = [
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Sun",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+  "True North Node",
+  "True South Node",
+  "Ceres",
+  "Pallas",
+  "Juno",
+  "Vesta",
+  "Chiron",
+];
+
 export const allAspects: AspectType[] = [
   "Conjunction",
   "Opposition",
@@ -69,5 +116,10 @@ export const allAspects: AspectType[] = [
 ];
 
 export default {
-  dateFormat, storableEventTypes, points: allPoints, aspects: allAspects,
+  dateFormat,
+  storableEventTypes,
+  allPoints,
+  defaultNatalPoints,
+  defaultTransitPoints,
+  allAspects,
 };

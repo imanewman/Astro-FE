@@ -24,7 +24,7 @@ export default function AspectTable() {
 
   return (
     <Box>
-      <Box row wrap gapX={1} alignItems="center">
+      <Box row wrap gapX={1} alignItems="center" mb={1}>
         <SelectInput
           label="Aspects Between"
           options={collectionNames}

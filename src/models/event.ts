@@ -45,10 +45,13 @@ export function cloneEvent(chart: EventModel): EventModel {
  * TODO: correctly set current local time and location.
  */
 export function createCurrentTransitsEvent(): EventModel {
+  const tz: "EST" | "PST" = "PST";
+  const offset = tz === "PST" ? -8 : -5;
+
   return createNewEvent({
     name: "Transits",
     type: "Transit",
-    utcDate: getISODateStringFromOffset(new Date(), -18000000),
+    utcDate: getISODateStringFromOffset(new Date(), offset * 60 * 60 * 1000),
     localDate: isoDate(new Date()),
     location: "Kirkland, WA, USA",
     latitude: "47.67",
