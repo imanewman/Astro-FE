@@ -1,4 +1,4 @@
-declare type Primitive = null | string | number | boolean;
+declare type Primitive = null | string | number | boolean | undefined;
 
 /**
  * Defines the generic structure of JSON data from the backend

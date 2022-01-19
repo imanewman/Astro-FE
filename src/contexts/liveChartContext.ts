@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { createNewEvent } from "@models";
+import { createEventSettings } from "@models";
 
 export default createContext<LiveChartHook>({
-  liveEvent: createNewEvent(),
+  liveEvent: createEventSettings(),
   liveChartError: null,
   liveChartLoading: false,
   isBiwheelSelected: false,

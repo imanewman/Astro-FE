@@ -17,7 +17,8 @@ import EventSettings from "./EventSettings";
  */
 export default function ChartSettings() {
   const {
-    liveEvent, liveBiwheel, isBiwheelSelected, setSelectedSettings,
+    liveEvent, liveBiwheel,
+    isBiwheelSelected, setSelectedSettings,
   } = useBaseContext();
 
   const BiwheelIcon = () => {
@@ -53,7 +54,9 @@ export default function ChartSettings() {
           </Button>
         </Tooltip>
       </ButtonGroup>
-      <EventSettings event={liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent} />
+      <EventSettings
+        eventSettings={liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent}
+      />
     </Box>
   );
 }

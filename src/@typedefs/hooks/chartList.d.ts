@@ -56,12 +56,12 @@ interface LiveChartHook {
   /**
    * The currently visible event.
    */
-  liveEvent: EventModel;
+  liveEvent: EventSettingsModel;
 
   /**
    * The current biwheel added to the live chart, if there is one.
    */
-  liveBiwheel?: EventModel;
+  liveBiwheel?: EventSettingsModel;
 
   /**
    * Any errors from downloading the live chart.

@@ -20,7 +20,7 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
  * @visibleName Event Settings
  */
 export default function EventSettings(props: EventSettingsProps) {
-  const { event } = props;
+  const { eventSettings: { event } } = props;
   const [selected, setSelected] = useState(increments[1]);
   const { reloadLiveChart, createEvent } = useBaseContext();
   const localDate = usePrimitive(event, "localDate");

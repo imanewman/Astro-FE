@@ -28,7 +28,7 @@ declare interface AspectOrbsModel {
 /**
  * Represents a midpoint between points.
  */
-declare interface MidpointModel {
+declare interface MidpointModel extends JsonObject {
   /**
    * Defines the point to calculate a midpoint from.
    */
@@ -40,9 +40,9 @@ declare interface MidpointModel {
 }
 
 /**
- * Represents a midpoint between points.
+ * Represents enabled points and aspects.
  */
-declare interface EnabledPointsModel {
+declare interface EnabledPointsModel extends JsonObject {
   /**
    * Defines what points should be enabled for calculations.
    */

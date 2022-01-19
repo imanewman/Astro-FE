@@ -5,7 +5,7 @@ declare interface EventSettingsProps {
   /**
    * The event to edit settings for.
    */
-  event: EventModel;
+  eventSettings: EventSettingsModel;
 }
 
 /**

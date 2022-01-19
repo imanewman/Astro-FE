@@ -1,35 +1,18 @@
 import React, { useState } from "react";
-import { cloneEvent, createCurrentTransitsEvent } from "@models";
 import { useMutation } from "react-query";
+
+import {
+  createCurrentTransitsEvent,
+  createNatalSettings, createTransitSettings,
+} from "@models";
 import { calculateChart } from "@api";
-import { defaultNatalPoints, defaultTransitPoints } from "@utils";
-
-/**
- * TODO: delete once event settings are editable.
- */
-function createNatalSettings(event: EventModel): EventSettingsModel {
-  return {
-    event,
-    enabled: [{ points: defaultNatalPoints }],
-  };
-}
-
-/**
- * TODO: delete once event settings are editable.
- */
-function createTransitSettings(event: EventModel): EventSettingsModel {
-  return {
-    event,
-    enabled: [{ points: defaultTransitPoints }],
-  };
-}
 
 /**
  * Creates a hook for managing the currently visible chart.
  */
 export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
-  const [liveEvent, setEvent] = React.useState(cloneEvent(currentEvent));
-  const [liveBiwheel, setBiwheel] = React.useState<EventModel | undefined>();
+  const [liveEvent, setEvent] = React.useState(createNatalSettings(currentEvent, true));
+  const [liveBiwheel, setBiwheel] = React.useState<EventSettingsModel | undefined>();
   const [liveData, setData] = useState<ChartCollectionModel | undefined>();
   const [isBiwheelSelected, setBiwheelSelected] = useState(false);
 
@@ -45,14 +28,14 @@ export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
   );
 
   const resetLiveChart = () => {
-    const eventCopy = cloneEvent(currentEvent);
+    const eventSettingsCopy = createNatalSettings(currentEvent, true);
 
-    setEvent(eventCopy);
+    setEvent(eventSettingsCopy);
     setBiwheel(undefined);
     setBiwheelSelected(false);
 
-    if (eventCopy.utcDate) {
-      updateLiveChart([createNatalSettings(eventCopy)]);
+    if (eventSettingsCopy.event.utcDate) {
+      updateLiveChart([eventSettingsCopy]);
     } else {
       setData(undefined);
     }
@@ -60,15 +43,20 @@ export default function useLiveChart(currentEvent: EventModel): LiveChartHook {
 
   const reloadLiveChart = () => {
     updateLiveChart(liveBiwheel
-      ? [createNatalSettings(liveEvent), createTransitSettings(liveBiwheel)]
-      : [createNatalSettings(liveEvent)]);
+      ? [liveEvent, liveBiwheel]
+      : [liveEvent]);
   };
 
   const addBiwheel = (biwheel?: EventModel) => {
-    setBiwheel(biwheel);
-    updateLiveChart(biwheel
-      ? [createNatalSettings(liveEvent), createTransitSettings(biwheel)]
-      : [createNatalSettings(liveEvent)]);
+    if (biwheel) {
+      const biwheelSettings = createTransitSettings(biwheel);
+
+      setBiwheel(biwheelSettings);
+      updateLiveChart([liveEvent, biwheelSettings]);
+    } else {
+      setBiwheel(undefined);
+      updateLiveChart([liveEvent]);
+    }
   };
 
   const setSelectedSettings = (selected: "base" | "biwheel" | "clear") => {
