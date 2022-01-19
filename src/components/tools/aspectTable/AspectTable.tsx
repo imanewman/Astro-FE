@@ -4,9 +4,11 @@ import { CircularProgress, Typography } from "@mui/material";
 
 import { useBaseContext, useRelationships } from "@hooks";
 import { Box, SelectInput } from "@components";
+import {
+  allAspects, allPoints, aspectsByType, pointsByType,
+} from "@utils";
 import AspectTableGrid from "./AspectTableGrid";
-import VisiblePoints from "./VisiblePoints";
-import VisibleAspects from "./VisibleAspects";
+import VisibleMultiselect from "./VisibleMultiselect";
 
 /**
  * Renders an aspect table for any loaded collections of aspects.
@@ -31,8 +33,21 @@ export default function AspectTable() {
           attribute={selectedName}
           sx={{ minWidth: 120 }}
         />
-        <VisiblePoints attribute={visiblePoints} />
-        <VisibleAspects attribute={visibleAspects} />
+
+        <VisibleMultiselect
+          label="Visible Points"
+          attribute={visiblePoints}
+          options={allPoints}
+          optionsByType={pointsByType}
+        />
+
+        <VisibleMultiselect
+          label="Visible Aspects"
+          attribute={visibleAspects}
+          options={allAspects}
+          optionsByType={aspectsByType}
+        />
+
         {liveChartLoading && (
           <CircularProgress style={{ marginLeft: 10 }} />
         )}

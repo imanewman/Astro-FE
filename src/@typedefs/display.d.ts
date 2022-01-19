@@ -15,9 +15,21 @@ declare interface AspectTableProps {
 /**
  * Props for rendering visible aspects and points.
  */
-declare interface VisibleProps {
+declare interface VisibleMultiselectProps {
+  /**
+   * The input label.
+   */
+  label: string;
   /**
    * The collection of visible items.
    */
   attribute: AttributeHook<string[]>;
+  /**
+   * The possible options.
+   */
+  options: string[];
+  /**
+   * The possible grouped by type.
+   */
+  optionsByType: Record<string, string[]>;
 }

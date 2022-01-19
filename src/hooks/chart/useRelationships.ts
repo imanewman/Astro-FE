@@ -1,6 +1,7 @@
-import { useBaseContext } from "@hooks";
 import { useEffect, useState } from "react";
+
 import { allAspects, allPoints } from "@utils";
+import { useAttribute, useBaseContext } from "@hooks";
 
 /**
  * A hook for managing a selected collection of relationships.
@@ -8,21 +9,13 @@ import { allAspects, allPoints } from "@utils";
 export default function useRelationships(): RelationshipsHook {
   const { liveData } = useBaseContext();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [aspects, setAspects] = useState<string[]>([...allAspects]);
-  const [points, setPoints] = useState<string[]>([...allPoints]);
+  const visibleAspects = useAttribute<string[]>([...allAspects]);
+  const visiblePoints = useAttribute<string[]>([...allPoints]);
   const collection = liveData?.relationships[currentIndex];
   const [relationships, setRelationships] = useState(collection?.relationships || []);
   const collectionNames = liveData?.relationships.map(({ name }) => name) || [];
-
-  const visiblePoints: AttributeHook<string[]> = {
-    value: points,
-    setValue: setPoints,
-  };
-
-  const visibleAspects: AttributeHook<string[]> = {
-    value: aspects,
-    setValue: setAspects,
-  };
+  const { value: aspects } = visibleAspects;
+  const { value: points } = visiblePoints;
 
   const selectedName: AttributeHook<string> = {
     value: collectionNames[currentIndex] || "",

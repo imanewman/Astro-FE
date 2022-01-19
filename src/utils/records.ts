@@ -1,5 +1,5 @@
 export const pointsByType: Record<string, Point[]> = {
-  Visible: [
+  Inner: [
     "Moon",
     "Mercury",
     "Venus",

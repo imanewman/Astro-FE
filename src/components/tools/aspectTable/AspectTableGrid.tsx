@@ -67,7 +67,7 @@ function createAspects(
       const pcExact = day === pcDay ? formattedPcTime : formattedPcDate;
       const dateExact = pcExact ? `${formattedDate} [${pcExact}]` : formattedDate;
 
-      const aspect = {
+      const eclipticAspect = {
         id: `${rel.fromPoint}-${rel.toPoint}`,
         fromPoint: rel.fromPoint,
         aspect: rel.eclipticAspect.type || rel.precessionCorrectedAspect.type,
@@ -77,14 +77,15 @@ function createAspects(
       };
 
       const declinationAspect = rel.declinationAspect.type && {
-        ...aspect,
         id: `${rel.fromPoint}-${rel.toPoint}-declination`,
+        fromPoint: rel.fromPoint,
         aspect: rel.declinationAspect.type,
+        toPoint: rel.toPoint,
         movement: rel.declinationAspect.movement,
         dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
       };
 
-      return declinationAspect ? [aspect, declinationAspect] : [aspect];
+      return declinationAspect ? [eclipticAspect, declinationAspect] : [eclipticAspect];
     })
     .reduce((acc, cur) => [...acc, ...cur], []);
 }

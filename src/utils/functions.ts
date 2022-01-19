@@ -1,5 +1,3 @@
-import { aspectsByType, pointsByType } from "./records";
-
 /**
  * @returns True if the local time is between 6PM and 6AM.
  */
@@ -45,27 +43,15 @@ export function generateUniqueId(): string {
 }
 
 /**
- * Returns the type of this point.
+ * Returns the key that this value is found under.
  *
- * @param point - The point to search for.
- * @return The point type.
+ * @param value - The value to search for.
+ * @param collection - A collection of values grouped by type.
+ * @return The value type.
  */
-export function getPointType(point: Point | string): string {
-  const found = Object.entries(pointsByType)
-    .find(([, points]) => Array.from<string>(points).includes(point));
-
-  return found ? found[0] : "";
-}
-
-/**
- * Returns the type of this aspect.
- *
- * @param aspect - The aspect to search for.
- * @return The aspect type.
- */
-export function getAspectType(aspect: AspectType | string): string {
-  const found = Object.entries(aspectsByType)
-    .find(([, aspects]) => Array.from<string>(aspects).includes(aspect));
+export function getValueType(value: string, collection: Record<string, string[]>): string {
+  const found = Object.entries(collection)
+    .find(([, options]) => Array.from<string>(options).includes(value));
 
   return found ? found[0] : "";
 }
@@ -74,6 +60,4 @@ export default {
   isNightTime,
   fillRoute,
   generateUniqueId,
-  getPointType,
-  getAspectType,
 };
