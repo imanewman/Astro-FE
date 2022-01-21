@@ -3,12 +3,10 @@ import React from "react";
 import { CircularProgress, Typography } from "@mui/material";
 
 import { useBaseContext, useRelationships } from "@hooks";
-import { Box, SelectInput } from "@components";
 import {
-  allAspects, allPoints, aspectsByType, pointsByType,
-} from "@utils";
+  AspectMultiselectInput, Box, PointMultiselectInput, SelectInput,
+} from "@components";
 import AspectTableGrid from "./AspectTableGrid";
-import VisibleMultiselect from "./VisibleMultiselect";
 
 /**
  * Renders an aspect table for any loaded collections of aspects.
@@ -34,18 +32,14 @@ export default function AspectTable() {
           sx={{ minWidth: 120 }}
         />
 
-        <VisibleMultiselect
+        <PointMultiselectInput
           label="Visible Points"
           attribute={visiblePoints}
-          options={allPoints}
-          optionsByType={pointsByType}
         />
 
-        <VisibleMultiselect
+        <AspectMultiselectInput
           label="Visible Aspects"
           attribute={visibleAspects}
-          options={allAspects}
-          optionsByType={aspectsByType}
         />
 
         {liveChartLoading && (

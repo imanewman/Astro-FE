@@ -2,16 +2,18 @@ import React from "react";
 
 import { Button, Typography } from "@mui/material";
 
-import { getValueType } from "@utils";
+import {
+  allAspects, allPoints, aspectsByType, getValueType, pointsByType,
+} from "@utils";
 import { Box, MultiselectInput } from "@components";
 
 /**
- * Renders a selector for changing the visible points or aspects.
+ * Renders a selector for changing a list of points or aspects.
  *
  * @constructor
- * @visibleName Visible Multiselect
+ * @visibleName Grouped Multiselect
  */
-export default function VisibleMultiselect(props: VisibleMultiselectProps) {
+export default function GroupedMultiselectInput(props: GroupedMultiselectProps) {
   const {
     label, attribute, options, optionsByType,
   } = props;
@@ -43,6 +45,42 @@ export default function VisibleMultiselect(props: VisibleMultiselectProps) {
           {children}
         </Box>
       )}
+    />
+  );
+}
+
+/**
+ * Renders a multiselect for points.
+ *
+ * @param props - Component props.
+ * @constructor
+ */
+export function PointMultiselectInput(
+  props: Omit<GroupedMultiselectProps, "options" | "optionsByType">,
+) {
+  return (
+    <GroupedMultiselectInput
+      {...props}
+      options={allPoints}
+      optionsByType={pointsByType}
+    />
+  );
+}
+
+/**
+ * Renders a multiselect for aspects.
+ *
+ * @param props - Component props.
+ * @constructor
+ */
+export function AspectMultiselectInput(
+  props: Omit<GroupedMultiselectProps, "options" | "optionsByType">,
+) {
+  return (
+    <GroupedMultiselectInput
+      {...props}
+      options={allAspects}
+      optionsByType={aspectsByType}
     />
   );
 }

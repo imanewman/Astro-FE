@@ -3,19 +3,27 @@ import DateTimeInput from "./DateTimeInput";
 import TextInput from "./TextInput";
 import SelectInput from "./SelectInput";
 import MultiselectInput from "./MultiselectInput";
+import GroupedMultiselectInput,
+{ PointMultiselectInput, AspectMultiselectInput } from "./GroupedMultiselectInput";
 
 export {
   TextInput,
   SelectInput,
-  MultiselectInput,
   LocationInput,
   DateTimeInput,
+  MultiselectInput,
+  GroupedMultiselectInput,
+  PointMultiselectInput,
+  AspectMultiselectInput,
 };
 
 export default {
   TextInput,
   SelectInput,
-  MultiselectInput,
   LocationInput,
   DateTimeInput,
+  MultiselectInput,
+  GroupedMultiselectInput,
+  PointMultiselectInput,
+  AspectMultiselectInput,
 };

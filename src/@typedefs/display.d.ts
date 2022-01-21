@@ -13,9 +13,9 @@ declare interface AspectTableProps {
 }
 
 /**
- * Props for rendering visible aspects and points.
+ * Props for rendering aspects and points.
  */
-declare interface VisibleMultiselectProps {
+declare interface GroupedMultiselectProps {
   /**
    * The input label.
    */
