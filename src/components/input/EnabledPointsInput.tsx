@@ -1,16 +1,53 @@
 import React from "react";
 
-import { Box } from "@components";
-import { useArray, usePrimitive } from "@hooks";
+import {
+  Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import { EnabledPointsInputProps, EnabledPointsItemProps } from "@typedefs";
+import { useArray, useBaseContext, usePrimitive } from "@hooks";
+import { AspectMultiselectInput, Box, PointMultiselectInput } from "@components";
 
 /**
- * Props for rendering a list of enabled point sets.
+ * Renders one item in the enabled points list.
+ * @param props - Component Props.
+ * @constructor
  */
-interface EnabledPointsInputProps {
-  /**
-   * The event settings to store the enabled points in.
-   */
-  eventSettings: EventSettingsModel;
+function EnabledItem(props:EnabledPointsItemProps) {
+  const {
+    index, item, onSubmit, onRemove,
+  } = props;
+  const points = usePrimitive(item, "points");
+  const aspects = usePrimitive(item, "aspects");
+
+  return (
+    <Box key={index} gapY={1} alignX="center">
+      <Divider />
+      <PointMultiselectInput
+        fullWidth
+        label="Points"
+        attribute={points}
+        onBlur={onSubmit}
+      />
+      <AspectMultiselectInput
+        fullWidth
+        label="Aspects"
+        attribute={aspects}
+        onBlur={onSubmit}
+      />
+      <Button
+        fullWidth
+        startIcon={<DeleteIcon />}
+        onClick={onRemove}
+        color="error"
+      >
+        Remove Set
+      </Button>
+    </Box>
+  );
 }
 
 /**
@@ -22,9 +59,38 @@ interface EnabledPointsInputProps {
  */
 export default function EnabledPointsInput(props: EnabledPointsInputProps) {
   const { eventSettings } = props;
-  const enabled = useArray(usePrimitive(eventSettings, "enabled"));
+  const { reloadLiveChart } = useBaseContext();
+  const enabled = useArray(usePrimitive(eventSettings, "enabled"), true);
+
+  const handleCreate = () => {
+    enabled.addItem({ points: [] });
+  };
 
   return (
-    <Box />
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>Enabled Points</Typography>
+      </AccordionSummary>
+
+      <AccordionDetails>
+        <Box gapY={1}>
+          {enabled.value?.map((item, index) => (
+            <EnabledItem
+              index={index}
+              item={item}
+              onRemove={() => enabled.removeItem(index)}
+              onSubmit={reloadLiveChart}
+            />
+          ))}
+          <Button
+            fullWidth
+            startIcon={<AddIcon />}
+            onClick={handleCreate}
+          >
+            Create Enabled Set
+          </Button>
+        </Box>
+      </AccordionDetails>
+    </Accordion>
   );
 }

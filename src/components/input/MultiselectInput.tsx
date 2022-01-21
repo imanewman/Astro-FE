@@ -41,14 +41,19 @@ export default function MultiselectInput(props: MultiselectInputProps) {
       disableCloseOnSelect
       limitTags={limitTags}
       options={options}
-      value={attribute.value}
+      value={attribute.value || []}
       onChange={(e, value) => handleChange(value)}
       renderTags={(
         value: readonly string[],
         getTagProps,
       ) => value.map((option: string, index: number) => (
         (!limitTags || index < limitTags) ? (
-          <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+          <Chip
+            variant="outlined"
+            label={option}
+            {...getTagProps({ index })}
+            onDelete={undefined}
+          />
         ) : null
       ))}
       renderOption={(optionProps, option, { selected }) => (

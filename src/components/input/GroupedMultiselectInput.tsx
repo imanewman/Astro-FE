@@ -2,6 +2,7 @@ import React from "react";
 
 import { Button, Typography } from "@mui/material";
 
+import { GroupedMultiselectProps } from "@typedefs";
 import {
   allAspects, allPoints, aspectsByType, getValueType, pointsByType,
 } from "@utils";
@@ -15,25 +16,26 @@ import { Box, MultiselectInput } from "@components";
  */
 export default function GroupedMultiselectInput(props: GroupedMultiselectProps) {
   const {
-    label, attribute, options, optionsByType,
+    attribute,
+    optionsByType,
+    ...rest
   } = props;
 
   const handleGroupDisable = (group: string) => {
     const groupPoints: string[] = optionsByType[group];
 
     attribute.setValue(
-      attribute.value.filter((point) => !groupPoints.includes(point)),
+      (attribute.value || []).filter((point) => !groupPoints.includes(point)),
     );
   };
 
   return (
     <MultiselectInput
-      label={label}
-      options={options}
+      {...rest}
       groupBy={(option) => getValueType(option, optionsByType)}
       attribute={attribute}
       limitTags={1}
-      sx={{ width: 280 }}
+      sx={{ minWidth: 260 }}
       renderGroup={({ key, group, children }) => (
         <Box key={key}>
           <Box m={1} row spaceBetween alignY="center">

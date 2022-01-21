@@ -115,6 +115,18 @@ export const allAspects: AspectType[] = [
   "Quincunx",
 ];
 
+export const defaultAspects: AspectType[] = [
+  "Conjunction",
+  "Opposition",
+  "Trine",
+  "Square",
+  "Sextile",
+  "Parallel",
+  "Contraparallel",
+  "Octile",
+  "Sesquiquadrate",
+];
+
 export default {
   dateFormat,
   storableEventTypes,

@@ -99,5 +99,47 @@ declare interface MultiselectInputProps
   /**
    * A hook for editing an attribute.
    */
-  attribute: AttributeHook<string[]>;
+  attribute: AttributeHook<string[] | undefined>;
+}
+
+/**
+ * Props for rendering aspects and points.
+ */
+declare interface GroupedMultiselectProps extends MultiselectInputProps {
+  /**
+   * The possible grouped by type.
+   */
+  optionsByType: Record<string, string[]>;
+}
+
+/**
+ * Props for rendering a list of enabled point sets.
+ */
+interface EnabledPointsInputProps {
+  /**
+   * The event settings to store the enabled points in.
+   */
+  eventSettings: EventSettingsModel;
+}
+
+/**
+ * Props for rendering a single enabled point set.
+ */
+interface EnabledPointsItemProps {
+  /**
+   * The item index.
+   */
+  index: number;
+  /**
+   * The enabled points set
+   */
+  item: EnabledPointsModel;
+  /**
+   * Called when this item is removed.
+   */
+  onRemove(): void;
+  /**
+   * Called when the inputs are blurred.
+   */
+  onSubmit(): void;
 }

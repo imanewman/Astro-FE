@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Divider } from "@mui/material";
-
 import { useBaseContext } from "@hooks";
 import { Box } from "@components";
 import EventSettings from "./EventSettings";
@@ -18,14 +16,12 @@ export default function ChartSettings() {
   const { liveEvent, liveBiwheel, isBiwheelSelected } = useBaseContext();
 
   return (
-    <Box gapY={2}>
+    <Box gapY={2} mb={10}>
       <BiwheelToggle />
 
       <EventSettings
         eventSettings={liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent}
       />
-
-      <Divider />
 
       <EnabledTools />
     </Box>

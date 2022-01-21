@@ -1,4 +1,4 @@
-import { defaultNatalPoints, defaultTransitPoints } from "@utils";
+import { defaultAspects, defaultNatalPoints, defaultTransitPoints } from "@utils";
 import { cloneEvent, createNewEvent } from "./event";
 
 /**
@@ -21,7 +21,10 @@ export function createEventSettings(
 export function createNatalSettings(event: EventModel, doClone = false): EventSettingsModel {
   return createEventSettings(
     event,
-    [{ points: defaultNatalPoints }],
+    [{
+      points: defaultNatalPoints,
+      aspects: defaultAspects,
+    }],
     doClone,
   );
 }
@@ -32,7 +35,10 @@ export function createNatalSettings(event: EventModel, doClone = false): EventSe
 export function createTransitSettings(event: EventModel, doClone = false): EventSettingsModel {
   return createEventSettings(
     event,
-    [{ points: defaultTransitPoints }],
+    [{
+      points: defaultTransitPoints,
+      aspects: defaultAspects,
+    }],
     doClone,
   );
 }
