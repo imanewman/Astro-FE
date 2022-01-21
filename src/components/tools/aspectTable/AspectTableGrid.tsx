@@ -62,8 +62,8 @@ function createAspects(
       const formattedDate = stringifyDate(rel.eclipticAspect.localDateOfExact);
       const formattedPcDate = stringifyDate(rel.precessionCorrectedAspect.localDateOfExact);
       const formattedPcTime = formattedPcDate.split(" ").slice(1).join(" ");
-      const day = formattedDate.split(" ")[0].split("/")[2] || "";
-      const pcDay = formattedPcDate.split(" ")[0].split("/")[2] || "";
+      const day = formattedDate.split(" ")[0].split("/")[1] || "";
+      const pcDay = formattedPcDate.split(" ")[0].split("/")[1] || "";
       const pcExact = day === pcDay ? formattedPcTime : formattedPcDate;
       const dateExact = pcExact ? `${formattedDate} [${pcExact}]` : formattedDate;
 
@@ -107,7 +107,7 @@ export default function AspectTableGrid(props: AspectTableProps) {
   }, [visibleRelationships]);
 
   return (
-    <div style={{ height: 600, width: 800 }}>
+    <div style={{ height: 600, width: 820 }}>
       <DataGrid
         columns={columns}
         rows={aspects}
