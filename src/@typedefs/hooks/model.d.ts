@@ -42,3 +42,22 @@ declare interface DateHook {
    */
   incrementDate(increment: TimeIncrement, amount: AmountIncrement): void;
 }
+
+/**
+ * A hook for tracking the state of an array attribute within a model.
+ */
+declare interface ArrayHook<T> extends AttributeHook<T[] | undefined> {
+  /**
+   * A callback to add a new value to the array.
+   *
+   * @param item - The item to add.
+   */
+  addItem(item: T): void;
+
+  /**
+   * A callback to remove a value from the array.
+   *
+   * @param index - The item index to remove.
+   */
+  removeItem(index: number): void;
+}

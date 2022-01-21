@@ -3,10 +3,10 @@ import { useLayoutEffect, useState } from "react";
 /**
  * Creates a hook for persisting the state of an attribute within a model.
  *
- * @param model - The model that contains the attribute.
- * @param key - The key in the model for the attribute.
+ * @param model  - The model that contains the attribute.
+ * @param key    - The key in the model for the attribute.
  * @param doSync - If true, the hook for this value will update when
- * the attribute is updated from other sources.
+ *                 the attribute is updated from other sources.
  */
 export default function usePrimitive<M extends JsonObject, K extends keyof M>(
   model: M,
