@@ -23,7 +23,7 @@ export default function BaseProvider({ children }: PropsWithChildren<{}>) {
   const snackbarHook = useSnackbar();
   const routeHook = useRouting();
   const chartListHook = useChartList();
-  const liveChartHook = useLiveChart(chartListHook.currentEvent);
+  const liveChartHook = useLiveChart(chartListHook.currentEvent, routeHook);
   const toolsHook = useTools();
 
   return (

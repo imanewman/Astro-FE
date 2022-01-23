@@ -1,5 +1,6 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Router, Route, Switch } from "react-router-dom";
 
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -26,6 +27,29 @@ function AppTools() {
 }
 
 /**
+ * Controls app routing.
+ * @constructor
+ */
+function AppRouter() {
+  const { history } = useBaseContext();
+
+  return (
+    <Router history={history}>
+      <Switch>
+        <Route
+          path="*"
+          component={() => (
+            <ChartNav>
+              <AppTools />
+            </ChartNav>
+          )}
+        />
+      </Switch>
+    </Router>
+  );
+}
+
+/**
  * Displays the main app.
  * @constructor
  */
@@ -35,9 +59,7 @@ export default function App() {
       <CssBaseline />
       <BaseProvider>
         <Background>
-          <ChartNav>
-            <AppTools />
-          </ChartNav>
+          <AppRouter />
         </Background>
       </BaseProvider>
     </QueryClientProvider>

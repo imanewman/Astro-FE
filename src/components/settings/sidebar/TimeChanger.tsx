@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Tooltip } from "@mui/material";
 import {
   ChevronLeft, ChevronRight, FirstPage, LastPage,
 } from "@mui/icons-material";
 
 import { useBaseContext, useDate, usePrimitive } from "@hooks";
 import { Box } from "@components";
+import { incrementMap } from "../../../hooks/model/useDate";
 
 const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
+
+const icons: { size: AmountIncrement, icon: JSX.Element }[] = [
+  { size: "manyDown", icon: <FirstPage /> },
+  { size: "oneDown", icon: <ChevronLeft /> },
+  { size: "oneUp", icon: <ChevronRight /> },
+  { size: "manyUp", icon: <LastPage /> },
+];
 
 /**
  * Renders buttons for going forward and backward in time.
@@ -19,38 +27,37 @@ const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
 export default function TimeChanger(props: EventSettingsProps) {
   const { eventSettings } = props;
   const { event } = eventSettings;
-  const { reloadLiveChart, createEvent } = useBaseContext();
-  const [selected, setSelected] = useState(increments[1]);
+  const { reloadLiveChart, timeIncrement, setTimeIncrement } = useBaseContext();
   const localDate = usePrimitive(event, "localDate");
   const utcDate = usePrimitive(event, "utcDate");
   const { incrementDate } = useDate(localDate);
   const { incrementDate: incrementUtcDate } = useDate(utcDate);
 
   const handleIncrement = (size: AmountIncrement) => {
-    incrementDate(selected, size);
-    incrementUtcDate(selected, size);
+    incrementDate(timeIncrement, size);
+    incrementUtcDate(timeIncrement, size);
     reloadLiveChart();
   };
 
-  const handleSaveChart = () => {
-    createEvent(event);
-  };
+  const getTitle = (size: AmountIncrement) =>
+    `${incrementMap[timeIncrement][size]} ${timeIncrement}(s)`;
 
   return (
-    <Box alignX="center" gapY={1} mx={2}>
+    <Box alignX="center" gapY={1} mx={1}>
       <ButtonGroup
         fullWidth
         color="primary"
         aria-label="edit current time increment"
       >
         {increments.map((increment) => (
-          <Button
-            key={increment}
-            variant={selected === increment ? "contained" : "outlined"}
-            onClick={() => setSelected(increment)}
-          >
-            {increment}
-          </Button>
+          <Tooltip key={increment} title={`Increment by ${increment}`}>
+            <Button
+              variant={timeIncrement === increment ? "contained" : "outlined"}
+              onClick={() => setTimeIncrement(increment)}
+            >
+              {increment}
+            </Button>
+          </Tooltip>
         ))}
       </ButtonGroup>
 
@@ -59,23 +66,14 @@ export default function TimeChanger(props: EventSettingsProps) {
         color="primary"
         aria-label="increment current time"
       >
-        <Button onClick={() => handleIncrement("manyDown")}>
-          <FirstPage />
-        </Button>
-        <Button onClick={() => handleIncrement("oneDown")}>
-          <ChevronLeft />
-        </Button>
-        <Button onClick={() => handleIncrement("oneUp")}>
-          <ChevronRight />
-        </Button>
-        <Button onClick={() => handleIncrement("manyUp")}>
-          <LastPage />
-        </Button>
+        {icons.map(({ size, icon }) => (
+          <Tooltip key={size} title={getTitle(size)}>
+            <Button onClick={() => handleIncrement(size)}>
+              {icon}
+            </Button>
+          </Tooltip>
+        ))}
       </ButtonGroup>
-
-      <Button onClick={handleSaveChart}>
-        Save As New Chart
-      </Button>
     </Box>
   );
 }

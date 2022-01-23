@@ -12,5 +12,7 @@ history.listen(({ location }) => {
 
 export default createContext<RouteHook>({
   history,
+  query: new URLSearchParams(),
   goTo: () => {},
+  updateQuery: () => {},
 });

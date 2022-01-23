@@ -6,8 +6,10 @@ export default createContext<LiveChartHook>({
   liveChartError: null,
   liveChartLoading: false,
   isBiwheelSelected: false,
+  timeIncrement: "day",
   setSelectedSettings: () => {},
   resetLiveChart: () => {},
   reloadLiveChart: () => {},
   addBiwheel: () => {},
+  setTimeIncrement: () => {},
 });

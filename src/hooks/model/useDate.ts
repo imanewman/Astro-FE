@@ -6,18 +6,18 @@ import { isDateValid, isoDate, parseDate } from "@utils";
 /**
  * Maps the increment counts for different time periods.
  */
-const incrementMap = {
+export const incrementMap = {
   min: {
     oneUp: 1, manyUp: 10, oneDown: -1, manyDown: -10,
   },
   hour: {
-    oneUp: 1, manyUp: 12, oneDown: -1, manyDown: -12,
+    oneUp: 1, manyUp: 6, oneDown: -1, manyDown: -6,
   },
   day: {
     oneUp: 1, manyUp: 7, oneDown: -1, manyDown: -7,
   },
   mth: {
-    oneUp: 1, manyUp: 6, oneDown: -1, manyDown: -6,
+    oneUp: 1, manyUp: 3, oneDown: -1, manyDown: -3,
   },
   year: {
     oneUp: 1, manyUp: 5, oneDown: -1, manyDown: -5,

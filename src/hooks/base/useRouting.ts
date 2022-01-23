@@ -12,6 +12,7 @@ export default function useRouting(): RouteHook {
 
   return {
     history,
+    query: new URLSearchParams(history.location.search),
     goTo(route, pathVars, queryParams) {
       const fullRoute = fillRoute(route, pathVars, queryParams);
 
@@ -25,6 +26,12 @@ export default function useRouting(): RouteHook {
         // open relative links.
         history.push(route, { from: history.location });
       }
+    },
+    updateQuery(queryParams: Record<string, string>) {
+      history.push({
+        pathname: history.location.pathname,
+        search: `?${new URLSearchParams(queryParams).toString()}`,
+      });
     },
   };
 }

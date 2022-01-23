@@ -87,7 +87,7 @@ declare type SelectInputProps = SelectProps<string> & {
  * Props for rendering a multiselect input.
  */
 declare interface MultiselectInputProps
-  extends Partial<AutocompleteProps<string, true, false, true>> {
+  extends Partial<Omit<AutocompleteProps<string, true, false, true>, "renderInput">> {
   /**
    * The input label.
    */

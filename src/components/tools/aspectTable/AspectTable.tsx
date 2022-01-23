@@ -35,11 +35,13 @@ export default function AspectTable() {
         <PointMultiselectInput
           label="Visible Points"
           attribute={visiblePoints}
+          sx={{ minWidth: 260 }}
         />
 
         <AspectMultiselectInput
           label="Visible Aspects"
           attribute={visibleAspects}
+          sx={{ minWidth: 260 }}
         />
 
         {liveChartLoading && (

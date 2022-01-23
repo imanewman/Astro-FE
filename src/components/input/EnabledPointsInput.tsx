@@ -1,7 +1,7 @@
 import React from "react";
 
 import {
-  Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography,
+  Accordion, AccordionDetails, AccordionSummary, Button, Divider, IconButton, Tooltip, Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -32,20 +32,19 @@ function EnabledItem(props:EnabledPointsItemProps) {
         attribute={points}
         onBlur={onSubmit}
       />
-      <AspectMultiselectInput
-        fullWidth
-        label="Aspects"
-        attribute={aspects}
-        onBlur={onSubmit}
-      />
-      <Button
-        fullWidth
-        startIcon={<DeleteIcon />}
-        onClick={onRemove}
-        color="error"
-      >
-        Remove Set
-      </Button>
+      <Box fullWidth row alignY="center">
+        <AspectMultiselectInput
+          fullWidth
+          label="Aspects"
+          attribute={aspects}
+          onBlur={onSubmit}
+        />
+        <Tooltip title="Remove Set">
+          <IconButton color="error" onClick={onRemove}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Box>
   );
 }
@@ -66,6 +65,11 @@ export default function EnabledPointsInput(props: EnabledPointsInputProps) {
     enabled.addItem({ points: [] });
   };
 
+  const handleRemove = (index: number) => () => {
+    enabled.removeItem(index);
+    reloadLiveChart();
+  };
+
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -78,7 +82,7 @@ export default function EnabledPointsInput(props: EnabledPointsInputProps) {
             <EnabledItem
               index={index}
               item={item}
-              onRemove={() => enabled.removeItem(index)}
+              onRemove={handleRemove(index)}
               onSubmit={reloadLiveChart}
             />
           ))}
@@ -87,7 +91,7 @@ export default function EnabledPointsInput(props: EnabledPointsInputProps) {
             startIcon={<AddIcon />}
             onClick={handleCreate}
           >
-            Create Enabled Set
+            Create New Enabled Set
           </Button>
         </Box>
       </AccordionDetails>

@@ -1,5 +1,8 @@
 import React from "react";
 
+import { IconButton, Tooltip } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
+
 import { getISODateStringFromOffset } from "@utils";
 import { useBaseContext, usePrimitive } from "@hooks";
 import {
@@ -16,7 +19,7 @@ import TimeChanger from "./TimeChanger";
 export default function EventSettings(props: EventSettingsProps) {
   const { eventSettings } = props;
   const { event } = eventSettings;
-  const { reloadLiveChart } = useBaseContext();
+  const { reloadLiveChart, createEvent } = useBaseContext();
   const localDate = usePrimitive(event, "localDate");
   const utcDate = usePrimitive(event, "utcDate");
 
@@ -28,10 +31,25 @@ export default function EventSettings(props: EventSettingsProps) {
     reloadLiveChart();
   };
 
+  const handleSave = () => {
+    createEvent(event);
+  };
+
   return (
-    <Box>
-      <Box m={1} gapY={2}>
-        <DateTimeInput date={localDate} openTo="month" onSubmit={handleLocalDateChange} />
+    <Box gapY={2}>
+      <Box m={1} gapY={1}>
+        <Box row alignY="center">
+          <DateTimeInput
+            date={localDate}
+            openTo="month"
+            onSubmit={handleLocalDateChange}
+          />
+          <Tooltip title="Save New Chart">
+            <IconButton onClick={handleSave}>
+              <SaveIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
         <LocationInput chart={event} onSearchComplete={reloadLiveChart} />
 

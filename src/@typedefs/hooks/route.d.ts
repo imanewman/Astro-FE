@@ -20,6 +20,10 @@ export interface RouteHook {
    * method from the global context instead.
    */
   history: BrowserHistory<HistoryState>;
+  /**
+   * The current query parameters.
+   */
+  query: URLSearchParams;
 
   /**
    * A function for navigating to the given route.
@@ -30,7 +34,14 @@ export interface RouteHook {
    */
   goTo(
     route: string,
-    pathVars?: { [name: string]: string },
-    queryParams?: { [name: string]: string }
+    pathVars?: Record<string, string>,
+    queryParams?: Record<string, string>
   ): void;
+
+  /**
+   * Updates the given query parameter values.
+   *
+   * @param queryParams - Any query params to attach to the update.
+   */
+  updateQuery(queryParams: Record<string, string>): void;
 }

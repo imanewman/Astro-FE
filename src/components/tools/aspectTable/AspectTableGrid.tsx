@@ -36,7 +36,7 @@ function createColumns(
     },
     {
       field: "dateExact",
-      headerName: "Date Exact",
+      headerName: "Approximate Date Exact",
       flex: 1,
     },
   ];
@@ -66,26 +66,31 @@ function createAspects(
       const pcDay = formattedPcDate.split(" ")[0].split("/")[1] || "";
       const pcExact = day === pcDay ? formattedPcTime : formattedPcDate;
       const dateExact = pcExact ? `${formattedDate} [${pcExact}]` : formattedDate;
+      const aspects: JsonObject[] = [];
 
-      const eclipticAspect = {
-        id: `${rel.fromPoint}-${rel.toPoint}`,
-        fromPoint: rel.fromPoint,
-        aspect: rel.eclipticAspect.type || rel.precessionCorrectedAspect.type,
-        toPoint: rel.toPoint,
-        movement,
-        dateExact,
-      };
+      if (rel.eclipticAspect.type) {
+        aspects.push({
+          id: `${rel.fromPoint}-${rel.toPoint}`,
+          fromPoint: rel.fromPoint,
+          aspect: rel.eclipticAspect.type || rel.precessionCorrectedAspect.type,
+          toPoint: rel.toPoint,
+          movement,
+          dateExact,
+        });
+      }
 
-      const declinationAspect = rel.declinationAspect.type && {
-        id: `${rel.fromPoint}-${rel.toPoint}-declination`,
-        fromPoint: rel.fromPoint,
-        aspect: rel.declinationAspect.type,
-        toPoint: rel.toPoint,
-        movement: rel.declinationAspect.movement,
-        dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
-      };
+      if (rel.declinationAspect.type) {
+        aspects.push({
+          id: `${rel.fromPoint}-${rel.toPoint}-declination`,
+          fromPoint: rel.fromPoint,
+          aspect: rel.declinationAspect.type,
+          toPoint: rel.toPoint,
+          movement: rel.declinationAspect.movement,
+          dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
+        });
+      }
 
-      return declinationAspect ? [eclipticAspect, declinationAspect] : [eclipticAspect];
+      return aspects;
     })
     .reduce((acc, cur) => [...acc, ...cur], []);
 }

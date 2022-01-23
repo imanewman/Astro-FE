@@ -39,6 +39,7 @@ export default function MultiselectInput(props: MultiselectInputProps) {
       multiple
       freeSolo
       disableCloseOnSelect
+      clearOnBlur
       limitTags={limitTags}
       options={options}
       value={attribute.value || []}

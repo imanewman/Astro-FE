@@ -84,6 +84,11 @@ interface LiveChartHook {
   isBiwheelSelected: boolean;
 
   /**
+   * The amount to increment time by with the time changer.
+   */
+  timeIncrement: TimeIncrement;
+
+  /**
    * Called to set whether the base or biwheel chart is selected.
    * - If there is currently no biwheel, the current transits will be added as one.
    * - If the selected chart is cleared, the biwheel will be removed.
@@ -102,6 +107,15 @@ interface LiveChartHook {
 
   /**
    * Adds a biwheel chart and requests updated chart data.
+   *
+   * @param biwheel - The biwheel to add, or none to remove the biwheel.
    */
   addBiwheel(biwheel?: EventModel): void;
+
+  /**
+   * Changes the amount to increment time by.
+   *
+   * @param increment - The new increment.
+   */
+  setTimeIncrement(increment: TimeIncrement): void;
 }
