@@ -17,26 +17,19 @@ import { AspectMultiselectInput, Box, PointMultiselectInput } from "@components"
  * @constructor
  */
 function EnabledItem(props:EnabledPointsItemProps) {
-  const {
-    index, item, onSubmit, onRemove,
-  } = props;
+  const { item, onSubmit, onRemove } = props;
   const points = usePrimitive(item, "points");
   const aspects = usePrimitive(item, "aspects");
 
   return (
-    <Box key={index} gapY={1} alignX="center">
+    <Box gapY={1} alignX="center">
       <Divider />
-      <PointMultiselectInput
-        fullWidth
-        label="Points"
-        attribute={points}
-        onBlur={onSubmit}
-      />
+
       <Box fullWidth row alignY="center">
-        <AspectMultiselectInput
+        <PointMultiselectInput
           fullWidth
-          label="Aspects"
-          attribute={aspects}
+          label="Points"
+          attribute={points}
           onBlur={onSubmit}
         />
         <Tooltip title="Remove Set">
@@ -45,6 +38,13 @@ function EnabledItem(props:EnabledPointsItemProps) {
           </IconButton>
         </Tooltip>
       </Box>
+
+      <AspectMultiselectInput
+        fullWidth
+        label="Aspects"
+        attribute={aspects}
+        onBlur={onSubmit}
+      />
     </Box>
   );
 }
@@ -80,7 +80,7 @@ export default function EnabledPointsInput(props: EnabledPointsInputProps) {
         <Box gapY={1}>
           {enabled.value?.map((item, index) => (
             <EnabledItem
-              index={index}
+              key={String(index)}
               item={item}
               onRemove={handleRemove(index)}
               onSubmit={reloadLiveChart}

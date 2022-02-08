@@ -127,10 +127,6 @@ interface EnabledPointsInputProps {
  */
 interface EnabledPointsItemProps {
   /**
-   * The item index.
-   */
-  index: number;
-  /**
    * The enabled points set
    */
   item: EnabledPointsModel;

@@ -16,7 +16,7 @@ export const incrementMap = {
   day: {
     oneUp: 1, manyUp: 7, oneDown: -1, manyDown: -7,
   },
-  mth: {
+  mo: {
     oneUp: 1, manyUp: 3, oneDown: -1, manyDown: -3,
   },
   year: {
@@ -50,8 +50,8 @@ export default function useDate(attribute: AttributeHook<string>): DateHook {
         case "year":
           setDate(add(date, { years: incrementMap.year[amount] }));
           break;
-        case "mth":
-          setDate(add(date, { months: incrementMap.mth[amount] }));
+        case "mo":
+          setDate(add(date, { months: incrementMap.mo[amount] }));
           break;
         case "day":
           setDate(add(date, { days: incrementMap.day[amount] }));
