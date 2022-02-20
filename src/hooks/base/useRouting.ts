@@ -28,7 +28,7 @@ export default function useRouting(): RouteHook {
       }
     },
     updateQuery(queryParams: Record<string, string>) {
-      history.push({
+      history.replace({
         pathname: history.location.pathname,
         search: `?${new URLSearchParams(queryParams).toString()}`,
       });

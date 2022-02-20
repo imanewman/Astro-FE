@@ -34,18 +34,18 @@ function AppRouter() {
   const { history } = useBaseContext();
 
   return (
-    <Router history={history}>
-      <Switch>
-        <Route
-          path="*"
-          component={() => (
-            <ChartNav>
+    <ChartNav>
+      <Router history={history}>
+        <Switch>
+          <Route
+            path="*"
+            component={() => (
               <AppTools />
-            </ChartNav>
-          )}
-        />
-      </Switch>
-    </Router>
+            )}
+          />
+        </Switch>
+      </Router>
+    </ChartNav>
   );
 }
 

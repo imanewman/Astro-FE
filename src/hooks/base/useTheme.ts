@@ -1,7 +1,6 @@
-import { useState } from "react";
-
 import { ThemeHook, ThemeMode } from "@typedefs";
 import { defaultTheme } from "@styles";
+import { useLocalStorage } from "@hooks";
 
 /**
  * Creates a hook for managing the current theme mode and related variables.
@@ -9,7 +8,7 @@ import { defaultTheme } from "@styles";
  * @param mode - The theme mode to start on.
  */
 export default function useTheme(mode?: ThemeMode): ThemeHook {
-  const [theme, setTheme] = useState(defaultTheme(mode));
+  const [theme, setTheme] = useLocalStorage("theme", defaultTheme(mode));
 
   return {
     theme,

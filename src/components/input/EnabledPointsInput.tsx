@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Accordion, AccordionDetails, AccordionSummary, Button, Divider, IconButton, Tooltip, Typography,
@@ -26,25 +26,26 @@ function EnabledItem(props:EnabledPointsItemProps) {
       <Divider />
 
       <Box fullWidth row alignY="center">
-        <PointMultiselectInput
-          fullWidth
-          label="Points"
-          attribute={points}
-          onBlur={onSubmit}
-        />
+        <Box fullWidth gapY={1}>
+          <PointMultiselectInput
+            fullWidth
+            label="Points"
+            attribute={points}
+            onBlur={onSubmit}
+          />
+          <AspectMultiselectInput
+            fullWidth
+            label="Aspects"
+            attribute={aspects}
+            onBlur={onSubmit}
+          />
+        </Box>
         <Tooltip title="Remove Set">
           <IconButton color="error" onClick={onRemove}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       </Box>
-
-      <AspectMultiselectInput
-        fullWidth
-        label="Aspects"
-        attribute={aspects}
-        onBlur={onSubmit}
-      />
     </Box>
   );
 }
@@ -58,6 +59,7 @@ function EnabledItem(props:EnabledPointsItemProps) {
  */
 export default function EnabledPointsInput(props: EnabledPointsInputProps) {
   const { eventSettings } = props;
+  const [expanded, setExpanded] = useState(false);
   const { reloadLiveChart } = useBaseContext();
   const enabled = useArray(usePrimitive(eventSettings, "enabled"), true);
 
@@ -71,8 +73,11 @@ export default function EnabledPointsInput(props: EnabledPointsInputProps) {
   };
 
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion expanded={expanded}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        onClick={() => setExpanded(!expanded)}
+      >
         <Typography>Enabled Points</Typography>
       </AccordionSummary>
 

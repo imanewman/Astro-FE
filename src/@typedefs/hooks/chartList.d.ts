@@ -1,4 +1,18 @@
 /**
+ * Defines the display text for an event.
+ */
+declare interface EventDescriptionHook {
+  /**
+   * The event's name.
+   */
+  name: string;
+  /**
+   * The event's date and location.
+   */
+  place: string;
+}
+
+/**
  * A hook for keeping track of a list of saved charts.
  */
 declare interface ChartListHook {
