@@ -62,32 +62,6 @@ export function isoDate(date: Date): string {
 }
 
 /**
- * Converts a date object to the seconds since midnight, January 1, 1970 UTC.
- *
- * @param date - The date object to convert.
- * @return The seconds timestamp.
- */
-export function dateToSeconds(date: Date): number {
-  return date.getTime() / 1000 + date.getTimezoneOffset() * 60;
-}
-
-/**
- * Returns a new date object by determining the UTC time from the given timezone.
- *
- * @param localDate - The local date.
- * @param timezone - The local timezone.
- * @return The UTC date.
- */
-export function getUTCDateAndOffset(
-  localDate: Date,
-  { dstOffset, rawOffset }: Timezone,
-): [Date, number] {
-  const offsets = dstOffset * 1000 + rawOffset * 1000;
-
-  return [new Date(localDate.getTime() - offsets), offsets];
-}
-
-/**
  * Returns a new UTC date string for the given local date with the given time offset.
  *
  * @param localDate - The local date.
@@ -109,6 +83,4 @@ export default {
   parseDate,
   stringifyDate,
   isoDate,
-  dateToSeconds,
-  getUTCDateAndOffset,
 };
