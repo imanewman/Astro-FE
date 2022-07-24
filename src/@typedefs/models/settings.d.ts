@@ -64,4 +64,8 @@ declare interface SettingsModel extends JsonObject {
    * This flag enables the calculation the application/separation between points.
    */
   doCalculateRelationshipMovement?: boolean;
+  /*
+   * This flag will remove any point relationships with no ecliptic or declination aspects.
+   */
+  removeEmptyRelationships?: boolean;
 }

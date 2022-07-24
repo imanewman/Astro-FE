@@ -37,7 +37,7 @@ declare interface TransitSettingsModel extends JsonObject {
   /**
    * How to group these transits.
    */
-  groupBy?: TransitGroupType;
+  groupBy?: TransitGroupType[];
   /**
    * Determines whether the timing of transits should be calculated for an event.
    */
@@ -95,7 +95,7 @@ declare interface TransitGroupModel extends JsonObject {
   /**
    * How these transits are grouped.
    */
-  groupBy: TransitGroupType;
+  groupBy: TransitGroupType[];
   /**
    * The value these transits are grouped by, such as the planet.
    */

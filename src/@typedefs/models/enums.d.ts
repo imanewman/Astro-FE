@@ -1,3 +1,28 @@
+declare type Modality
+  = "Cardinal"
+  | "Fixed"
+  | "Mutable";
+
+declare type Element
+  = "Fire"
+  | "Air"
+  | "Water"
+  | "Earth";
+
+declare type ZodiacSign
+  = "Aries"
+  | "Taurus"
+  | "Gemini"
+  | "Cancer"
+  | "Leo"
+  | "Virgo"
+  | "Libra"
+  | "Scorpio"
+  | "Sagittarius"
+  | "Capricorn"
+  | "Aquarius"
+  | "Pisces";
+
 declare type EventType
   = "Natal"
   | "Transit"
@@ -72,6 +97,18 @@ declare type Point
   | "Lot of Courage"
   | "Lot of Victory"
   | "Lot of Nemesis";
+
+declare type SectPlacement
+  = "Sect Light"
+  | "Benefic By Sect"
+  | "Benefic Contrary To Sect"
+  | "Malefic By Sect"
+  | "Malefic Contrary To Sect";
+
+declare type SunCondition
+  = "Under The Beams"
+  | "Combust"
+  | "Cazimi";
 
 declare type PhaseType
   = "New"
