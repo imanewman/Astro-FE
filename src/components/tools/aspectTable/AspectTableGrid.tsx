@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { stringifyDate } from "@utils";
+import { formatAspectMovement, formatAspectOrb } from "@utils";
 
 /**
  * Creates header column definitions for the chart.
@@ -15,18 +15,13 @@ function createColumns(
 ): GridColDef[] {
   return [
     {
-      field: "toPoint",
-      headerName: toEventType,
-      minWidth: 120,
-    },
-    {
-      field: "aspect",
-      headerName: "Aspect",
-      minWidth: 120,
-    },
-    {
       field: "fromPoint",
       headerName: fromEventType,
+      minWidth: 120,
+    },
+    {
+      field: "toPoint",
+      headerName: toEventType,
       minWidth: 120,
     },
     {
@@ -35,9 +30,14 @@ function createColumns(
       minWidth: 150,
     },
     {
-      field: "dateExact",
-      headerName: "Approximate Date Exact",
-      flex: 1,
+      field: "aspect",
+      headerName: "Aspect",
+      minWidth: 120,
+    },
+    {
+      field: "orb",
+      headerName: "Orb",
+      minWidth: 160,
     },
   ];
 }
@@ -53,29 +53,16 @@ function createAspects(
 ): JsonObject[] {
   return relationships
     .map((rel) => {
-      const formattedMovement = rel.eclipticAspect.movement || "";
-      const formattedPcMovement = rel.precessionCorrectedAspect.movement || "";
-      const movement = !formattedPcMovement || formattedMovement === formattedPcMovement
-        ? formattedMovement
-        : `${formattedMovement} [${formattedPcMovement}]`;
-
-      const formattedDate = stringifyDate(rel.eclipticAspect.localDateOfExact);
-      const formattedPcDate = stringifyDate(rel.precessionCorrectedAspect.localDateOfExact);
-      const formattedPcTime = formattedPcDate.split(" ").slice(1).join(" ");
-      const day = formattedDate.split(" ")[0].split("/")[1] || "";
-      const pcDay = formattedPcDate.split(" ")[0].split("/")[1] || "";
-      const pcExact = day === pcDay ? formattedPcTime : formattedPcDate;
-      const dateExact = pcExact ? `${formattedDate} [${pcExact}]` : formattedDate;
       const aspects: JsonObject[] = [];
 
       if (rel.eclipticAspect.type) {
         aspects.push({
           id: `${rel.fromPoint}-${rel.toPoint}`,
           fromPoint: rel.fromPoint,
-          aspect: rel.eclipticAspect.type || rel.precessionCorrectedAspect.type,
           toPoint: rel.toPoint,
-          movement,
-          dateExact,
+          aspect: rel.eclipticAspect.type,
+          movement: formatAspectMovement(rel, "ecliptic"),
+          orb: formatAspectOrb(rel, "ecliptic"),
         });
       }
 
@@ -83,10 +70,10 @@ function createAspects(
         aspects.push({
           id: `${rel.fromPoint}-${rel.toPoint}-declination`,
           fromPoint: rel.fromPoint,
-          aspect: rel.declinationAspect.type,
           toPoint: rel.toPoint,
-          movement: rel.declinationAspect.movement,
-          dateExact: stringifyDate(rel.declinationAspect.localDateOfExact),
+          aspect: rel.declinationAspect.type,
+          movement: formatAspectMovement(rel, "declination"),
+          orb: formatAspectOrb(rel, "declination"),
         });
       }
 

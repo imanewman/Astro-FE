@@ -1,41 +1,67 @@
 /**
- * Represents a close aspect between points.
+ * Represents a relationship between two points.
  */
-declare interface AspectModel extends JsonObject {
-  /**
-   * The type of aspect between the two points.
-   */
-  type: string | null;
-  /**
-   * Whether the aspect is applying or separating.
-   */
-  movement: string | null;
-  /**
-   * The approximate amount of days until this aspect goes exact, if less than a week.
-   */
-  daysUntilExact: number | null;
-  /**
-   * The approximate UTC date aspect goes exact, if in less than a week.
-   */
-  utcDateOfExact: string | null;
-  /**
-   * The approximate local date aspect goes exact, if in less than a week.
-   */
-  localDateOfExact: string | null;
-}
-
-/**
- * Represents the relationships between two points.
- */
-declare interface RelationshipModel extends JsonObject {
+declare interface Point2PointModel extends JsonObject {
   /**
    * The point this relationship is from.
    */
   fromPoint: string;
   /**
+   * The sign the from point is in.
+   */
+  fromSign: string;
+  /**
+   * The type of event this aspect is from.
+   */
+  fromType: string;
+  /**
    * The point this relationship is to.
    */
   toPoint: string;
+  /**
+   * The sign the to point is in.
+   */
+  toSign: string;
+  /**
+   * The type of event this aspect is to.
+   */
+  toType: string;
+}
+
+/**
+ * Represents information about the relationship between two points.
+ */
+declare interface RelationshipModel extends Point2PointModel {
+  /**
+   * The degrees between the two points relative to their longitude along the ecliptic.
+   * This value will always be the arc from the first to the second point.
+   */
+  arcOrdered: number | null;
+  /**
+   * The arc between the two points relative to their longitude along the ecliptic.
+   * This value will always be the smaller arc between the two points.
+   */
+  arcMinimal: number | null;
+  /**
+   * The degrees between the two points relative to their declination from the equator.
+   */
+  declinationArc: number | null;
+  /**
+   * The phase of separation between these two points.
+   */
+  phase: PhaseType | null;
+  /**
+   * The point being used as the base for the phase between points.
+   */
+  phaseBasePoint: PhaseType | null;
+  /**
+   * The precession correction in degrees from the first to the second event.
+   */
+  precessionCorrection: number;
+  /**
+   * The type of aspect by sign between the points.
+   */
+  signAspect: AspectType;
   /**
    * The aspect between the two points based on ecliptic longitude.
    */

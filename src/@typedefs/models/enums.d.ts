@@ -72,3 +72,36 @@ declare type Point
   | "Lot of Courage"
   | "Lot of Victory"
   | "Lot of Nemesis";
+
+declare type PhaseType
+  = "New"
+  | "Crescent"
+  | "First Quarter"
+  | "Gibbous"
+  | "Full"
+  | "Disseminating"
+  | "Last Quarter"
+  | "Balsamic";
+
+declare type RulershipType
+  = "Traditional"
+  | "Modern"
+  | "Asteroids";
+
+declare type TransitType
+  = "Aspect"
+  | "Ingress"
+  | "Retrograde Ingress"
+  | "Station Direct"
+  | "Station Retrograde";
+
+declare type TransitCalculationType
+  = "Transit To Chart"
+  | "Transit To Transit";
+
+declare type TransitGroupType
+  = "All"
+  | "By Relationship"
+  | "By Natal Point"
+  | "By Transit Point"
+  | "By Day";
