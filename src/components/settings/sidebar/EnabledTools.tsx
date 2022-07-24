@@ -14,13 +14,13 @@ export default function EnabledTools() {
   const { enabledAspectTable, setEnabledAspectTable } = useBaseContext();
 
   return (
-    <Box m={1}>
+    <Box ml={2}>
       <FormControlLabel
         control={(
           <Switch
-            defaultChecked
-            value={enabledAspectTable}
+            checked={enabledAspectTable}
             onChange={() => setEnabledAspectTable(!enabledAspectTable)}
+            inputProps={{ "aria-label": "controlled" }}
           />
         )}
         label="Display Aspect Table"

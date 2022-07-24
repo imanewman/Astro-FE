@@ -55,7 +55,7 @@ export default function AspectTable() {
         />
       )}
       {liveChartError && (
-        <Typography color="error">{liveChartError}</Typography>
+        <Typography color="error">{String(liveChartError)}</Typography>
       )}
     </Box>
   );

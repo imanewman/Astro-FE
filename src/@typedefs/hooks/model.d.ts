@@ -15,7 +15,7 @@ declare interface AttributeHook<T> {
   setValue(newValue: T): void;
 }
 
-declare type TimeIncrement = "min" | "hour" | "day" | "mth" | "year";
+declare type TimeIncrement = "min" | "hour" | "day" | "mo" | "year";
 declare type AmountIncrement = "oneDown" | "manyDown" | "oneUp" | "manyUp";
 
 /**

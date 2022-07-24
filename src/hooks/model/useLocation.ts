@@ -2,10 +2,10 @@ import React from "react";
 import throttle from "lodash/throttle";
 
 import {
-  geoCodeApiKey, getUTCDateAndOffset, isoDate, mountScript,
+  mountScript,
 } from "@utils";
 import { createNewPlace } from "@models";
-import { findGeocode, findTimezone } from "@api";
+import { calculateTimezone } from "@api";
 
 /**
  * Stores an instance of google's autocomplete service.
@@ -19,19 +19,16 @@ const autocompleteService = { current: null };
  * @param locationName - The name of the location.
  */
 async function findLocation(event: EventModel, locationName: string): Promise<void> {
-  const jsLocalDate = new Date(event.localDate);
-  const geocode = await findGeocode(locationName);
-  const timezone = await findTimezone(jsLocalDate, geocode);
-  const [utcDate, offset] = getUTCDateAndOffset(jsLocalDate, timezone);
-  const offsetHours = offset / 1000 / 60 / 60;
+  const localDate = new Date(event.localDate);
+  const timezone = await calculateTimezone(localDate, locationName);
 
-  event.utcDate = isoDate(utcDate);
+  event.utcDate = timezone.utcDate;
   event.timezone = timezone.timeZoneId;
-  event.location = locationName;
-  event.numericOffset = offset;
-  event.utcOffset = `UTC${offsetHours}.00`;
-  event.latitude = String(geocode.lat);
-  event.longitude = String(geocode.lng);
+  event.location = timezone.locationName;
+  event.numericOffset = timezone.rawOffset + timezone.dstOffset;
+  event.utcOffset = timezone.utcOffset;
+  event.latitude = String(timezone.latitude);
+  event.longitude = String(timezone.longitude);
 }
 
 /**
@@ -51,10 +48,11 @@ export default function useLocation(
   const [options, setOptions] = React.useState<PlaceType[]>([]);
   const [place, setPlace] = React.useState<PlaceType | null>(createNewPlace(locationName));
   const loaded = React.useRef(false);
+  const key = process.env.REACT_APP_GOOGLE_API_KEY;
 
   if (!loaded.current) {
     mountScript(
-      `https://maps.googleapis.com/maps/api/js?key=${geoCodeApiKey}&libraries=places`,
+      `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`,
       "google-maps",
     );
 

@@ -1,12 +1,4 @@
 /**
- * The latitude and longitude of a location.
- */
-declare interface GeocodeLocation {
-  lat: number;
-  lng: number;
-}
-
-/**
  * Represents a place object returned from the Google API.
  */
 declare interface PlaceType {
@@ -24,13 +16,23 @@ declare interface PlaceType {
 }
 
 /**
- * Represents a timezone object returned from the Google API.
+ * Represents a timezone for a date and location.
  */
-declare interface Timezone {
+declare interface LocationTimezoneQuery {
   /**
-   * The status of whether this timezone was successfully found.
+   * The name of the location for the timezone.
    */
-  status: string;
+  locationName: string;
+  /**
+   * The local time and date to convert into UTC.
+   */
+  localDate: string;
+}
+
+/**
+ * Represents a timezone for a date and location.
+ */
+declare interface LocationTimezone extends LocationTimezoneQuery {
   /**
    * The timezone id.
    */
@@ -47,6 +49,22 @@ declare interface Timezone {
    * The offset in milliseconds for this time zone.
    */
   rawOffset: number;
+  /**
+   * The UTC offset code for this time zone.
+   */
+  utcOffset: string;
+  /**
+   * The latitude of the location.
+   */
+  latitude: number;
+  /**
+   * The longitude of the location.
+   */
+  longitude: number;
+  /**
+   * The UTC time for the local date within this timezone.
+   */
+  utcDate: string;
 }
 
 declare interface LocationHook {

@@ -9,7 +9,7 @@ import { useBaseContext, useDate, usePrimitive } from "@hooks";
 import { Box } from "@components";
 import { incrementMap } from "../../../hooks/model/useDate";
 
-const increments: TimeIncrement[] = ["min", "hour", "day", "mth", "year"];
+const increments: TimeIncrement[] = ["min", "hour", "day", "mo", "year"];
 
 const icons: { size: AmountIncrement, icon: JSX.Element }[] = [
   { size: "manyDown", icon: <FirstPage /> },

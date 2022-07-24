@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import {
   Button,
@@ -8,22 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 
-import { stringifyDateAndLocation } from "@utils";
-import { useBaseContext, usePrimitive } from "@hooks";
+import { useBaseContext, useEventDescription } from "@hooks";
 import { Box } from "@components";
 
 function EventItem(props: EventItemProps) {
   const { currentEvent } = useBaseContext();
-  const {
-    selectEvent,
-    event,
-  } = props;
-  const name = usePrimitive(event, "name");
-  const [place, setPlace] = useState(stringifyDateAndLocation(event.localDate, event.location));
-
-  useEffect(() => {
-    setPlace(stringifyDateAndLocation(event.localDate, event.location));
-  }, [event]);
+  const { selectEvent, event } = props;
+  const display = useEventDescription(event);
 
   return (
     <ListItem
@@ -31,10 +22,7 @@ function EventItem(props: EventItemProps) {
       onClick={selectEvent}
       selected={currentEvent.id === event.id}
     >
-      <ListItemText
-        primary={name.value || "New Chart"}
-        secondary={place}
-      />
+      <ListItemText primary={display.name} secondary={display.place} />
     </ListItem>
   );
 }

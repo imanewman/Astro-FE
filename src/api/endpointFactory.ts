@@ -1,41 +1,21 @@
-import Geocode from "react-geocode";
-
-import { dateToSeconds, geoCodeApiKey } from "@utils";
 import { APIPath, buildEndpoint } from "./buildEndpoint";
-
-Geocode.setApiKey(geoCodeApiKey);
-
-/**
- * Finds the latitude and longitude of the location.
- *
- * @param location - The location to find.
- * @return The latitude and longitude of the location.
- */
-export async function findGeocode(location: string): Promise<GeocodeLocation> {
-  const geocode = await Geocode.fromAddress(location);
-  const { lat, lng } = geocode.results[0].geometry.location;
-
-  return { lat, lng };
-}
 
 /**
  * Finds the timezone of the date and location.
  *
- * @param date - The date to use.
- * @param location - The location to find.
+ * @param localDate - The local date to use.
+ * @param locationName - The name location to find.
  * @return The timezone for this location on this date.
  */
-export async function findTimezone(date: Date, { lat, lng }: GeocodeLocation): Promise<Timezone> {
-  const jsDate = new Date(date);
-  const timestamp = dateToSeconds(jsDate);
-
-  return buildEndpoint<{}, Timezone>("https://maps.googleapis.com/maps/api/timezone/json", false)
-    .fillQuery({
-      location: `${lat},${lng}`,
-      timestamp: String(timestamp),
-      key: geoCodeApiKey,
-    })
-    .get();
+export async function calculateTimezone(
+  localDate: Date,
+  locationName: string,
+): Promise<LocationTimezone> {
+  return buildEndpoint<LocationTimezoneQuery, LocationTimezone>(APIPath.timezone)
+    .post({
+      locationName,
+      localDate: localDate.toISOString(),
+    });
 }
 
 /**
@@ -50,7 +30,6 @@ export function calculateChart(events: EventSettingsModel[]): Promise<ChartColle
 }
 
 export default {
-  findGeocode,
-  findTimezone,
+  calculateTimezone,
   calculateChart,
 };

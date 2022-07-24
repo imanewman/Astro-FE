@@ -1,13 +1,15 @@
 import React from "react";
 
-import { IconButton, Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import ResetIcon from "@mui/icons-material/Restore";
 
 import { getISODateStringFromOffset } from "@utils";
 import { useBaseContext, usePrimitive } from "@hooks";
 import {
   Box, DateTimeInput, LocationInput, EnabledPointsInput,
 } from "@components";
+import { createCurrentTransitsEvent } from "@models";
 import TimeChanger from "./TimeChanger";
 
 /**
@@ -19,7 +21,10 @@ import TimeChanger from "./TimeChanger";
 export default function EventSettings(props: EventSettingsProps) {
   const { eventSettings } = props;
   const { event } = eventSettings;
-  const { reloadLiveChart, createEvent } = useBaseContext();
+  const {
+    reloadLiveChart, createEvent, isBiwheelSelected,
+    addBiwheel, resetLiveChart,
+  } = useBaseContext();
   const localDate = usePrimitive(event, "localDate");
   const utcDate = usePrimitive(event, "utcDate");
 
@@ -35,21 +40,41 @@ export default function EventSettings(props: EventSettingsProps) {
     createEvent(event);
   };
 
+  const handleReset = () => {
+    if (isBiwheelSelected) {
+      addBiwheel(createCurrentTransitsEvent());
+    } else {
+      resetLiveChart();
+    }
+  };
+
   return (
     <Box gapY={2}>
       <Box m={1} gapY={1}>
         <Box row alignY="center">
-          <DateTimeInput
-            date={localDate}
-            openTo="month"
-            onSubmit={handleLocalDateChange}
-          />
           <Tooltip title="Save New Chart">
-            <IconButton onClick={handleSave}>
-              <SaveIcon />
-            </IconButton>
+            <Button fullWidth variant="text" onClick={handleSave} startIcon={<SaveIcon />}>
+              Save
+            </Button>
+          </Tooltip>
+          <Tooltip title={`Reset Date To ${isBiwheelSelected ? "Now" : "Saved Chart"}`}>
+            <Button
+              fullWidth
+              color="secondary"
+              variant="text"
+              onClick={handleReset}
+              startIcon={<ResetIcon />}
+            >
+              Reset
+            </Button>
           </Tooltip>
         </Box>
+
+        <DateTimeInput
+          date={localDate}
+          openTo="month"
+          onSubmit={handleLocalDateChange}
+        />
 
         <LocationInput chart={event} onSearchComplete={reloadLiveChart} />
 

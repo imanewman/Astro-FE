@@ -50,9 +50,13 @@ export default function useLiveChart(
   };
 
   const reloadLiveChart = () => {
-    updateLiveChart(liveBiwheel
-      ? [liveEvent, liveBiwheel]
-      : [liveEvent]);
+    if (liveBiwheel?.event.utcDate && liveEvent.event.utcDate) {
+      updateLiveChart([liveEvent, liveBiwheel]);
+    } else if (liveEvent.event.utcDate) {
+      updateLiveChart([liveEvent]);
+    } else {
+      setData(undefined);
+    }
   };
 
   const addBiwheel = (biwheel?: EventModel) => {

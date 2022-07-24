@@ -10,6 +10,7 @@ export enum APIPath {
   aspects = "/aspects",
   // Calculations
   chart = "/chart",
+  timezone = "/timezone",
 }
 
 /**
