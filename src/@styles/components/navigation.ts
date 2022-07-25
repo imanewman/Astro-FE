@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 
 import { NavAppBarProps } from "@typedefs";
 
-export const drawerWidth = 300;
+export const drawerWidth = 400;
 
 export const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;

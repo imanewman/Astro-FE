@@ -27,7 +27,7 @@ declare interface TransitSettingsModel extends JsonObject {
   /**
    * Defines what points should be enabled for transits.
    */
-  enabled: EnabledPointsModel[];
+  enabled?: EnabledPointsModel[];
   /**
    * How many times to poll before approximating transits.
    * @default 1 hour.
@@ -41,25 +41,25 @@ declare interface TransitSettingsModel extends JsonObject {
   /**
    * Determines whether the timing of transits should be calculated for an event.
    */
-  doCalculateEcliptic?: boolean;
+  calculateEcliptic?: boolean;
   /**
    * Determines whether the timing of transits, accounting for precession,
    * should be calculated for an event.
    */
-  doCalculateDeclination?: boolean;
+  calculateDeclination?: boolean;
   /**
    * Determines whether the timing of transits, accounting for precession,
    * should be calculated for an event.
    */
-  doCalculatePrecessionCorrected?: boolean;
+  calculatePrecessionCorrected?: boolean;
   /**
    * Determines whether to calculate ingresses. Only works for mundane transits.
    */
-  doCalculateIngress?: boolean;
+  calculateIngress?: boolean;
   /**
    * Determines whether to calculate stations. Only works for mundane transits.
    */
-  doCalculateStation?: boolean;
+  calculateStation?: boolean;
 }
 
 /**

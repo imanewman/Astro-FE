@@ -25,7 +25,7 @@ async function findLocation(event: EventModel, locationName: string): Promise<vo
   event.utcDate = timezone.utcDate;
   event.timezone = timezone.timeZoneId;
   event.location = timezone.locationName;
-  event.numericOffset = timezone.rawOffset + timezone.dstOffset;
+  event.numericOffset = (timezone.rawOffset + timezone.dstOffset) * 1000;
   event.utcOffset = timezone.utcOffset;
   event.latitude = String(timezone.latitude);
   event.longitude = String(timezone.longitude);

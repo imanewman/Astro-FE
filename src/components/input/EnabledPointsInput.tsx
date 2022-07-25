@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
-  Accordion, AccordionDetails, AccordionSummary, Button, Divider, IconButton, Tooltip, Typography,
+  Button, Divider, IconButton, Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { EnabledPointsInputProps, EnabledPointsItemProps } from "@typedefs";
 import { useArray, useBaseContext, usePrimitive } from "@hooks";
-import { AspectMultiselectInput, Box, PointMultiselectInput } from "@components";
+import {
+  AspectMultiselectInput, Box, PointMultiselectInput, Accordion,
+} from "@components";
 
 /**
  * Renders one item in the enabled points list.
@@ -59,7 +60,6 @@ function EnabledItem(props:EnabledPointsItemProps) {
  */
 export default function EnabledPointsInput(props: EnabledPointsInputProps) {
   const { eventSettings } = props;
-  const [expanded, setExpanded] = useState(false);
   const { reloadLiveChart } = useBaseContext();
   const enabled = useArray(usePrimitive(eventSettings, "enabled"), true);
 
@@ -73,33 +73,24 @@ export default function EnabledPointsInput(props: EnabledPointsInputProps) {
   };
 
   return (
-    <Accordion expanded={expanded}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        onClick={() => setExpanded(!expanded)}
-      >
-        <Typography>Enabled Points</Typography>
-      </AccordionSummary>
-
-      <AccordionDetails>
-        <Box gapY={1}>
-          {enabled.value?.map((item, index) => (
-            <EnabledItem
-              key={String(index)}
-              item={item}
-              onRemove={handleRemove(index)}
-              onSubmit={reloadLiveChart}
-            />
-          ))}
-          <Button
-            fullWidth
-            startIcon={<AddIcon />}
-            onClick={handleCreate}
-          >
-            Create New Enabled Set
-          </Button>
-        </Box>
-      </AccordionDetails>
+    <Accordion name="Enabled Points">
+      <Box gapY={1}>
+        {enabled.value?.map((item, index) => (
+          <EnabledItem
+            key={String(index)}
+            item={item}
+            onRemove={handleRemove(index)}
+            onSubmit={reloadLiveChart}
+          />
+        ))}
+        <Button
+          fullWidth
+          startIcon={<AddIcon />}
+          onClick={handleCreate}
+        >
+          Create New Enabled Set
+        </Button>
+      </Box>
     </Accordion>
   );
 }

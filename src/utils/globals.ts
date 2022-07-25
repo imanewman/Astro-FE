@@ -125,6 +125,19 @@ export const defaultAspects: AspectType[] = [
   "Sesquiquadrate",
 ];
 
+export const transitTypes: TransitCalculationType[] = [
+  "Transit To Chart",
+  "Transit To Transit",
+];
+
+export const transitGroupTypes: TransitGroupType[] = [
+  "All",
+  "By Relationship",
+  "By Natal Point",
+  "By Transit Point",
+  "By Day",
+];
+
 export default {
   dateFormat,
   storableEventTypes,

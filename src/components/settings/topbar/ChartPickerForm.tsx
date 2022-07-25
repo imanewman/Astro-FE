@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 
-import { storableEventTypes, getISODateStringFromOffset } from "@utils";
-import { useBaseContext, usePrimitive } from "@hooks";
+import { storableEventTypes } from "@utils";
+import { useBaseContext, useLocalDate, usePrimitive } from "@hooks";
 import {
   Box, DateTimeInput, LocationInput, MultiselectInput, SelectInput, TextInput,
 } from "@components";
@@ -29,8 +29,12 @@ export default function ChartPickerForm(props: ChartPickerFormProps) {
   const chartName = usePrimitive(currentEvent, "name");
   const chartType = usePrimitive(currentEvent, "type");
   const chartTags = usePrimitive(currentEvent, "tags");
-  const localDate = usePrimitive(currentEvent, "localDate");
-  const utcDate = usePrimitive(currentEvent, "utcDate");
+  const {
+    localDate,
+    utcDate,
+    handleLocalDateChange,
+  } = useLocalDate(currentEvent, "localDate", "utcDate", saveEvents);
+
   const chartLatitude = usePrimitive(currentEvent, "latitude");
   const chartLongitude = usePrimitive(currentEvent, "longitude");
   const [showDelete, setShowDelete] = React.useState(false);
@@ -38,13 +42,6 @@ export default function ChartPickerForm(props: ChartPickerFormProps) {
   const handleConfirmDelete = () => {
     setShowDelete(false);
     removeCurrentEvent();
-  };
-
-  const handleLocalDateChange = (date: Date | null) => {
-    utcDate.setValue(
-      getISODateStringFromOffset(date, currentEvent.numericOffset),
-    );
-    saveEvents();
   };
 
   return (

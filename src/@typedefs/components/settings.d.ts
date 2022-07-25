@@ -32,3 +32,13 @@ declare interface EventItemProps {
    */
   selectEvent(): void;
 }
+
+/**
+ * Props for rendering the settings for transits to an event.
+ */
+declare interface TransitSettingsProps {
+  /**
+   * The transit settings to edit.
+   */
+  transitSettings: TransitSettingsModel;
+}

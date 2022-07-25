@@ -16,14 +16,15 @@ import { SelectInputProps } from "@typedefs";
 export default function SelectInput(props: SelectInputProps) {
   const {
     attribute, displayEmpty,
-    options, label, ...rest
+    options, label, fullWidth, ...rest
   } = props;
 
   return (
-    <FormControl variant="filled" sx={{ minWidth: 110 }}>
+    <FormControl variant="filled" sx={{ minWidth: 110 }} fullWidth={fullWidth}>
       <InputLabel id={`select-${label}`}>{label}</InputLabel>
       <Select
         {...rest}
+        fullWidth={fullWidth}
         labelId={`select-${label}`}
         variant="filled"
         value={attribute.value}

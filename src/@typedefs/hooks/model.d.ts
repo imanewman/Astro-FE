@@ -44,6 +44,24 @@ declare interface DateHook {
 }
 
 /**
+ * A hook for synchronizing an events local and utc date fields.
+ */
+declare interface LocalDateHook {
+  /**
+   * A hook for the local date.
+   */
+  localDate: AttributeHook<string>;
+  /**
+   * A hook for the utc date.
+   */
+  utcDate: AttributeHook<string>;
+  /**
+   * Called when the local date changes to synchronize the utc date.
+   */
+  handleLocalDateChange(date: Date | null): void;
+}
+
+/**
  * A hook for tracking the state of an array attribute within a model.
  */
 declare interface ArrayHook<T> extends AttributeHook<T[] | undefined> {

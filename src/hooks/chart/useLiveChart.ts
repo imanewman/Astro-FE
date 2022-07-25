@@ -4,7 +4,7 @@ import { useMutation } from "react-query";
 import { RouteHook } from "@typedefs";
 import {
   createCurrentTransitsEvent,
-  createNatalSettings, createTransitSettings,
+  createNatalEventSettings, createTransitEventSettings,
 } from "@models";
 import { calculateChart } from "@api";
 
@@ -18,7 +18,7 @@ export default function useLiveChart(
   currentEvent: EventModel,
   routeHook: RouteHook,
 ): LiveChartHook {
-  const [liveEvent, setEvent] = React.useState(createNatalSettings(currentEvent, true));
+  const [liveEvent, setEvent] = React.useState(createNatalEventSettings(currentEvent, true));
   const [liveBiwheel, setBiwheel] = React.useState<EventSettingsModel | undefined>();
   const [liveData, setData] = useState<ChartCollectionModel | undefined>();
   const [isBiwheelSelected, setBiwheelSelected] = useState(false);
@@ -35,7 +35,7 @@ export default function useLiveChart(
   );
 
   const resetLiveChart = () => {
-    const eventSettingsCopy = createNatalSettings(currentEvent, true);
+    const eventSettingsCopy = createNatalEventSettings(currentEvent, true);
 
     setEvent(eventSettingsCopy);
     setBiwheel(undefined);
@@ -61,7 +61,7 @@ export default function useLiveChart(
 
   const addBiwheel = (biwheel?: EventModel) => {
     if (biwheel) {
-      const biwheelSettings = createTransitSettings(biwheel);
+      const biwheelSettings = createTransitEventSettings(biwheel);
 
       setBiwheel(biwheelSettings);
       updateLiveChart([liveEvent, biwheelSettings]);

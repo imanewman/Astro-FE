@@ -47,23 +47,23 @@ declare interface SettingsModel extends JsonObject {
   /**
    * This flag enables the calculation of the condition of points.
    */
-  doCalculateCondition?: boolean;
+  calculateCondition?: boolean;
   /**
    * his flag enables the calculation of the condition of sign divisions.
    */
-  doCalculateDivisions?: boolean;
+  calculateDivisions?: boolean;
   /**
    * This flag enables the calculation of relationships between points.
    */
-  doCalculateRelationships?: boolean;
+  calculateRelationships?: boolean;
   /**
    * This flag enables the calculation the phase between points.
    */
-  doCalculateRelationshipPhase?: boolean;
+  calculateRelationshipPhase?: boolean;
   /**
    * This flag enables the calculation the application/separation between points.
    */
-  doCalculateRelationshipMovement?: boolean;
+  calculateRelationshipMovement?: boolean;
   /*
    * This flag will remove any point relationships with no ecliptic or declination aspects.
    */

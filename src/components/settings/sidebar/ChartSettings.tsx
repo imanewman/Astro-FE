@@ -14,15 +14,12 @@ import BiwheelToggle from "./BiwheelToggle";
  */
 export default function ChartSettings() {
   const { liveEvent, liveBiwheel, isBiwheelSelected } = useBaseContext();
+  const eventSettings = liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent;
 
   return (
     <Box gapY={2} mb={10}>
       <BiwheelToggle />
-
-      <EventSettings
-        eventSettings={liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent}
-      />
-
+      <EventSettings eventSettings={eventSettings} />
       <EnabledTools />
     </Box>
   );
