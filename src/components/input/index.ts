@@ -6,6 +6,7 @@ import MultiselectInput from "./MultiselectInput";
 import GroupedMultiselectInput,
 { PointMultiselectInput, AspectMultiselectInput } from "./GroupedMultiselectInput";
 import EnabledPointsInput from "./EnabledPointsInput";
+import SwitchInput from "./SwitchInput";
 
 export {
   TextInput,
@@ -17,6 +18,7 @@ export {
   PointMultiselectInput,
   AspectMultiselectInput,
   EnabledPointsInput,
+  SwitchInput,
 };
 
 export default {
@@ -29,4 +31,5 @@ export default {
   PointMultiselectInput,
   AspectMultiselectInput,
   EnabledPointsInput,
+  SwitchInput,
 };

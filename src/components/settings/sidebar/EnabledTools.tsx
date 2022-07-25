@@ -1,8 +1,7 @@
 import React from "react";
-import { FormControlLabel, Switch } from "@mui/material";
 
 import { useBaseContext } from "@hooks";
-import { Box } from "@components";
+import { Accordion, Box, SwitchInput } from "@components";
 
 /**
  * Dispays buttons for enabling different tools.
@@ -11,20 +10,27 @@ import { Box } from "@components";
  * @visibleName Enabled Tools
  */
 export default function EnabledTools() {
-  const { enabledAspectTable, setEnabledAspectTable } = useBaseContext();
+  const {
+    enabledAspectTable, setEnabledAspectTable,
+    enabledTransitTable, setEnabledTransitTable,
+  } = useBaseContext();
 
   return (
-    <Box ml={2}>
-      <FormControlLabel
-        control={(
-          <Switch
-            checked={enabledAspectTable}
-            onChange={() => setEnabledAspectTable(!enabledAspectTable)}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-        )}
-        label="Display Aspect Table"
-      />
-    </Box>
+    <Accordion name="Tools" defaultExpanded>
+      <Box>
+        <SwitchInput
+          label="Display Aspect Table"
+          checked={enabledAspectTable}
+          onChange={() =>
+            setEnabledAspectTable(!enabledAspectTable)}
+        />
+        <SwitchInput
+          label="Display Transit Table"
+          checked={enabledTransitTable}
+          onChange={() =>
+            setEnabledTransitTable(!enabledTransitTable)}
+        />
+      </Box>
+    </Accordion>
   );
 }

@@ -17,7 +17,7 @@ export default function ChartSettings() {
   const eventSettings = liveBiwheel && isBiwheelSelected ? liveBiwheel : liveEvent;
 
   return (
-    <Box gapY={2} mb={10}>
+    <Box mb={10}>
       <BiwheelToggle />
       <EventSettings eventSettings={eventSettings} />
       <EnabledTools />

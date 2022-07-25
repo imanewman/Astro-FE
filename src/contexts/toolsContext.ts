@@ -1,6 +1,8 @@
 import { createContext } from "react";
 
 export default createContext<ToolsHook>({
-  enabledAspectTable: true,
+  enabledAspectTable: false,
   setEnabledAspectTable: () => {},
+  enabledTransitTable: false,
+  setEnabledTransitTable: () => {},
 });

@@ -139,3 +139,21 @@ interface EnabledPointsItemProps {
    */
   onSubmit(): void;
 }
+
+/**
+ * Props for rendering a switch.
+ */
+interface SwitchInputProps {
+  /**
+   * The switch label.
+   */
+  label: string;
+  /**
+   * Whether the switch is checked.
+   */
+  checked: boolean;
+  /**
+   * Called on change of the switch.
+   */
+  onChange: () => void;
+}

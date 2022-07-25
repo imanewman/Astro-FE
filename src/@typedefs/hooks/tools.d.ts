@@ -10,4 +10,13 @@ declare interface ToolsHook {
    * Sets whether the aspect table is enabled.
    */
   setEnabledAspectTable(enabled: boolean): void;
+
+  /**
+   * Whether the transit table is enabled.
+   */
+  enabledTransitTable: boolean;
+  /**
+   * Sets whether the transit table is enabled.
+   */
+  setEnabledTransitTable(enabled: boolean): void;
 }

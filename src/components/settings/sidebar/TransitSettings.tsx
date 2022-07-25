@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import { Button, FormControlLabel, Switch } from "@mui/material";
+import { Button } from "@mui/material";
 
 import {
-  Box, DateTimeInput, LocationInput, SelectInput, Accordion, MultiselectInput,
+  Box, DateTimeInput, LocationInput, SelectInput, Accordion, MultiselectInput, SwitchInput,
 } from "@components";
 import { useBaseContext, useLocalDate, usePrimitive } from "@hooks";
 import { createTransitSettings } from "@models";
@@ -95,15 +95,10 @@ export default function TransitSettings(props: EventSettingsProps) {
   return (
     <Accordion name="Transit Settings">
       <Box gapY={1}>
-        <FormControlLabel
-          control={(
-            <Switch
-              checked={enabled}
-              onChange={handleToggleEnable}
-              inputProps={{ "aria-label": "controlled" }}
-            />
-          )}
+        <SwitchInput
           label="Calculate Transit Timing"
+          checked={enabled}
+          onChange={handleToggleEnable}
         />
         {transits.value && <TransitInputs transitSettings={transits.value} />}
       </Box>

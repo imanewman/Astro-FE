@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { Background } from "@styles";
 import {
-  AspectTable, BaseProvider, Box, ChartNav,
+  AspectTable, BaseProvider, Box, ChartNav, TransitTable,
 } from "@components";
 import { useBaseContext } from "@hooks";
 
@@ -17,11 +17,12 @@ const queryClient = new QueryClient();
  * @constructor
  */
 function AppTools() {
-  const { enabledAspectTable } = useBaseContext();
+  const { enabledAspectTable, enabledTransitTable } = useBaseContext();
 
   return (
     <Box>
       {enabledAspectTable && <AspectTable />}
+      {enabledTransitTable && <TransitTable />}
     </Box>
   );
 }
